@@ -1,0 +1,66 @@
+@use "../variables";
+
+footer {
+  background-color: var(--color-primary);
+  color: var(--color-yellow);
+  .inner {
+    padding: var(--space-lg);
+    min-height: calc(var(--vh) * 100);
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  hr {
+    background-color: var(--color-yellow);
+    height: var(--border-width);
+    margin: 5px 0;
+  }
+  nav {
+    .label {
+      font-size: var(--text-sm);
+    }
+    .value {
+      font-weight: bold;
+    }
+  }
+  .bloc-bottom {
+    // background-color: red;
+  }
+  .logo {
+    // background-color: var(--color-yellow);
+    .lottie-player {
+      // background-color: red;
+      transform: translateX(-2.8%);
+      width: 100% !important;
+      height: 100% !important;
+      aspect-ratio: 2.85;
+      overflow: clip;
+      image {
+        filter: invert(95%) sepia(14%) saturate(1207%) hue-rotate(343deg)
+          brightness(102%) contrast(98%);
+      }
+    }
+  }
+  .copy {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: var(--border);
+    border-width: 1px;
+    padding-bottom: 5px;
+    font-size: var(--text-sm);
+    margin-bottom: 8.8%;
+  }
+
+  @media all and (max-width: variables.$md) {
+    .inner {
+      padding: var(--space-lg) var(--space-md);
+      .logo {
+        // background-color: var(--color-yellow);
+        .lottie-player {
+          width: 105.8% !important;
+        }
+      }
+    }
+  }
+}

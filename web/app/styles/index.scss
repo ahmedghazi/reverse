@@ -1,0 +1,18 @@
+@use "reset";
+@use "variables";
+// @use "vendor/flexboxgrid/flexboxgrid";
+// @import 'vendor/slickslider/slick';
+
+@use "mixins";
+@use "utils";
+
+@use "typography";
+
+@use "layout";
+
+@use "components/header";
+@use "components/logo";
+@use "components/footer";
+
+@use "templates/home";
+@use "templates/project";

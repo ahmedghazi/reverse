@@ -1,0 +1,85 @@
+"use client";
+import React, { useRef } from "react";
+import { Settings } from "../types/schema";
+import LogoReverse from "./ui/LogoReverse";
+import { PortableText } from "next-sanity";
+import portableTextComponents from "../sanity-api/portableTextComponents";
+import { _localizeField } from "../sanity-api/utils";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+type Props = {
+  settings?: Settings | null;
+};
+
+const Footer = ({ settings }: Props) => {
+  const { baseline, contacts, textExtra } = settings || {};
+  const container = useRef<HTMLDivElement | null>(null);
+  gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+  useGSAP(
+    () => {
+      const baseline = container.current?.querySelector(".baseline");
+      const nav = container.current?.querySelectorAll("#nav-secondary li");
+      const copy = container.current?.querySelector(".copy");
+      let tl = gsap.timeline({
+        ease: "power3.inOut",
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top bottom-=100",
+          end: "bottom top",
+          toggleActions: "restart none none reset",
+        },
+      });
+      tl.from(baseline!, { duration: 0.6, y: "1em", opacity: 0 })
+        .from(nav!, { duration: 0.6, y: "1em", opacity: 0, stagger: 0.2 })
+        .from(copy!, { duration: 0.6, y: "1em", opacity: 0 });
+
+      // Cleanup split text on component unmount
+      return () => {
+        // text.revert();
+        tl.revert();
+      };
+    },
+    { scope: container }
+  );
+  return (
+    <footer className='snap'>
+      <div className='inner' ref={container}>
+        <div className='bloc-top baseline md:text-lg strong'>{baseline}</div>
+        <nav id='nav-secondary' className='bloc-center'>
+          <ul className='grid grid-cols-2  md:grid-cols-4 gap-md'>
+            {contacts?.map((item) => (
+              <li key={item._key}>
+                <h5 className='label'>{item.key}</h5>
+                <hr />
+                <div className='value '>
+                  <PortableText
+                    value={_localizeField(item.val)}
+                    components={portableTextComponents}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className='bloc-bottom signature'>
+          <div className='md:grid md:grid-cols-2 gap-md items-baseline-'>
+            <div className=''>
+              <LogoReverse />
+            </div>
+            <div className=' flex flex-col justify-end '>
+              <div className='copy'>
+                {textExtra && <div>{textExtra}</div>}
+                <div>Paris France © {new Date().getFullYear()}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

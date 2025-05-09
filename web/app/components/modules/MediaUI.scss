@@ -1,0 +1,8 @@
+.module--mediaUI {
+  // padding: 2rem 0;
+  img {
+    width: calc(var(--vw) * 100) !important;
+    height: calc(var(--vh) * 100) !important;
+    object-fit: cover;
+  }
+}

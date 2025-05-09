@@ -1,0 +1,107 @@
+@use "../../styles/variables";
+
+.module--keypoints {
+  &.has-child-inview .item.amorce {
+    color: var(--color);
+  }
+  .spacer {
+    height: var(--header-height);
+  }
+  .item {
+    font-size: var(--text-xl);
+    font-weight: bold;
+    min-height: calc(var(--vh) * 100);
+    transition: color 0.3s ease;
+    // scroll-snap-align: start;
+    &.amorce {
+      z-index: 4;
+      min-height: calc(var(--vh) * 80);
+      position: sticky;
+      top: 0;
+      .body {
+        padding: var(--space-md) var(--space-lg);
+        padding-top: var(--padding-top);
+      }
+    }
+
+    &.is-inview {
+      background-color: var(--color);
+      color: var(--color);
+      .text,
+      img {
+        opacity: 1;
+      }
+    }
+    &.keypoint {
+      // border-top: var(--border-width) solid var(--color);
+      // margin-bottom: var(--header-height);
+      // background-color: gray;
+      .inner {
+        min-height: calc(var(--vh) * 100);
+
+        .body {
+          padding: 0 var(--space-lg) var(--padding-top);
+          // position: sticky;
+          top: calc(var(--padding-top) + var(--text-xl) * 1.2);
+        }
+      }
+    }
+
+    p {
+      font-size: var(--text-md);
+    }
+  }
+
+  img {
+    position: absolute;
+    inset: var(--border-width);
+    width: calc(100% - var(--border-width) * 2);
+    height: calc(100% - var(--border-width) * 2);
+    object-fit: cover;
+    // height: 100%;
+    border-radius: var(--border-radius);
+    filter: brightness(40%) grayscale(100%);
+    mix-blend-mode: hard-light;
+    // display: none;
+  }
+  img,
+  .text {
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  .text {
+    max-width: 36rem;
+  }
+
+  @media all and (max-width: variables.$md) {
+    .item {
+      font-size: var(--text-lg--mobile);
+      &.amorce .inner,
+      &.keypoint .inner {
+        .body {
+          padding-left: calc(var(--space-md) + var(--space-sm));
+          padding-right: calc(var(--space-md) + var(--space-sm));
+        }
+      }
+      &.keypoint .inner {
+        img {
+          inset: 2px;
+          width: calc(100% - 2px * 2);
+          height: calc(100% - 2px * 2);
+        }
+        .body {
+          top: calc(var(--padding-top) + var(--text-lg--mobile) * 1.2);
+          .title {
+            text-align: left;
+          }
+        }
+      }
+      img {
+        inset: var(--space-sm);
+        opacity: 0;
+        width: calc(100% - var(--space-md));
+        height: calc(100% - var(--space-md));
+      }
+    }
+  }
+}

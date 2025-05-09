@@ -1,0 +1,39 @@
+@use "../variables";
+
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding: var(--space-lg);
+  z-index: 50;
+  transition: transform 0.2s var(--cubic), opacity 0.2s var(--cubic);
+  &.is-bottom {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  color: var(--color);
+  .lottie-player svg {
+    image {
+      will-change: transform;
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transform: translate3d(0, 0, 0);
+      -moz-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      filter: var(--filterColor);
+      -webkit-filter: var(--filterColor);
+    }
+  }
+
+  // image {
+  //   filter: invert(95%) sepia(14%) saturate(1207%) hue-rotate(343deg)
+  //     brightness(102%) contrast(98%);
+  // }
+  // color: white;
+  // mix-blend-mode: difference;
+  @media all and (max-width: variables.$md) {
+    padding: var(--space-md);
+    min-height: 100px;
+  }
+}

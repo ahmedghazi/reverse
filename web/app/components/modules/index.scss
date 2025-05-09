@@ -1,0 +1,42 @@
+@use "../../styles/variables";
+// @import "../../styles/mixins";
+.modules {
+  section.module {
+    // scroll-snap-align: start;
+    // &--text-ui {
+    //   padding: var(--padding-top) var(--space-lg);
+    //   min-height: calc(var(--vh) * 100);
+    //   &.text-indentedAndAnimated {
+    //     p {
+    //       font-size: var(--text-xl);
+    //       line-height: 1;
+    //       font-weight: bold;
+    //       margin-bottom: 0;
+    //       hyphens: auto;
+    //       word-break: break-word;
+    //     }
+    //     @for $i from 0 through 5 {
+    //       p:nth-child(#{$i}) {
+    //         padding-left: calc(2em * #{$i - 1});
+    //       }
+    //     }
+
+    //     .line {
+    //       overflow: clip;
+    //     }
+    //     @media all and (max-width: var(--screen-md)) {
+    //       padding: var(--header-height) var(--space-md);
+    //       p {
+    //         font-size: var(--text-lg--mobile);
+    //         text-align: left;
+    //       }
+    //       @for $i from 0 through 5 {
+    //         p:nth-child(#{$i}) {
+    //           padding-left: calc(1em * #{$i - 1});
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+  }
+}

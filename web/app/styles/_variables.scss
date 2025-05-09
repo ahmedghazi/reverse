@@ -1,0 +1,70 @@
+/* BASE VARIABLES
+ *******************/
+:root {
+  --app-height: 100vh;
+  --header-height: 43.5px;
+  --color-bg: #fff;
+  --color-primary: #000;
+  --color-secondary: #aaaaaa;
+  --color-hover: #333;
+  --color-accent: #6a2f72;
+  --color-red: red;
+  --color-yellow: #fcec96;
+  --color-orange: #fbbb81;
+  --color-blue: #acecff;
+  --font-primary: "Nunito Sans", "Helvetica Neue", "HelveticaNeueRoman",
+    "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
+    "Helvetica", "Arial", sans-serif;
+  // --font-primary-b: "Nunito", "Helvetica Neue", "HelveticaNeueRoman",
+  //   "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
+  //   "Helvetica", "Arial", sans-serif;
+  // --font-secondary: "Helvetica Neue", "HelveticaNeueRoman",
+  //   "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
+  //   "Helvetica", "Arial", sans-serif;
+
+  --space-sm: 0.469rem; //7.5
+  --space-md: 0.938rem; //15
+  --space-lg: 1.875rem; //30
+  --space-xl: 2.988rem; //60
+  --space-xxl: 6.25rem; //100
+
+  --text-sm: 0.694rem; //11px
+  --text-md: 1rem; //16px
+  --text-lg: 1.725rem; // 27.6px
+  // --text-xl: 2.988rem; // 47.8px
+  --text-xl: 2.88rem; // 46.1px
+  --text-xl: 2.876vw; // 41.4px
+
+  --text-md--mobile: 1rem; // 27.6px
+  --text-lg--mobile: 1.4rem; // 27.6px
+
+  /*
+  xs: 8pt 10px
+  md: 12pt 16px
+  lg: 18pt 24px
+  xl: 30pt 40px
+  */
+
+  // --cubic: cubic-bezier(0.53, 0, 0.36, 1);
+  --cubic: cubic-bezier(0.775, 0, 0.17, 1.005);
+
+  // --text-xl: clamp(26px, 5.21vw, 75px);
+
+  --border-width: 2px;
+  --border: var(--border-width) solid;
+  --border-width-lg: 2px;
+  --border-lg: var(--border-width-lg) solid;
+  --border-radius: 7px;
+
+  --gutter: 9px;
+  --padding-top: calc(var(--header-height) + var(--space-lg));
+
+  --screen-sm: 768px;
+  --screen-md: 1080px;
+  --screen-lg: 1441px;
+}
+
+/* Breakpoints */
+$sm: 768px;
+$md: 1080px;
+$lg: 1441px;
