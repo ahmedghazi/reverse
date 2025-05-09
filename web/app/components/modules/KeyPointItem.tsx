@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
 import Image from "next/image";
 import { getCssFilterByHex } from "@/app/lib/utils";
+import portableTextComponents from "@/app/sanity-api/portableTextComponents";
 
 type KeyPointProps = {
   input: KeyPoint;
@@ -63,7 +64,10 @@ const KeyPointItem = ({ input }: KeyPointProps) => {
             </div>
             <div className='col-span-6'>
               <div className='text'>
-                <PortableText value={_localizeField(description)} />
+                <PortableText
+                  value={_localizeField(description)}
+                  components={portableTextComponents}
+                />
               </div>
             </div>
           </div>

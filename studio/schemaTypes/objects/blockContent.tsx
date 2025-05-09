@@ -112,6 +112,18 @@ export default defineType({
                 name: 'href',
                 type: 'string',
               },
+              {
+                title: 'look',
+                name: 'look',
+                type: 'string',
+                initialValue: 'default',
+                options: {
+                  list: [
+                    {title: 'Default', value: 'default'},
+                    {title: 'CTA', value: 'cta'},
+                  ],
+                },
+              },
             ],
           },
         ],

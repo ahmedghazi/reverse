@@ -31,8 +31,8 @@ const FaviconLetter = ({ letter = "E" }: Props) => {
     let dataURI = `data:image/svg+xml,`;
     dataURI += encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-        <circle cx="16" cy="16" r="16" fill="white"/>
-        <text transform="translate(7.88 23.61)" font-size="22.83" fill="white" font-family="sans-serif">${letter}</text>
+        <circle cx="16" cy="16" r="16" fill="#fcec96"/>
+        <text transform="translate(7.88 23.61)" font-size="22.83" fill="black" font-family="sans-serif">${letter}</text>
       </svg>`);
 
     return dataURI;

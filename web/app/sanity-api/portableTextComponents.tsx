@@ -3,6 +3,7 @@ import { PortableTextComponents } from "@portabletext/react";
 // import Image from "next/image";
 import Link from "next/link";
 import { _linkResolver } from "./utils";
+import clsx from "clsx";
 // import Figure from "../components/ui/Figure";
 // import clsx from "clsx";
 // import { VideoWrapper } from "../components/ui/player";
@@ -64,11 +65,31 @@ const portableTextComponents: PortableTextComponents = {
     },
 
     linkExternal: ({ children, value }) => {
-      const { href } = value;
+      const { href, look } = value;
 
       return (
-        <a href={href} rel={"noreferrer noopener"} target='_blank'>
-          <span>{children}</span>
+        <a
+          href={href}
+          rel={"noreferrer noopener"}
+          target='_blank'
+          className={clsx("link-external", look === "cta" ? "cta" : "")}>
+          <div className='flex items-baseline gap-05e'>
+            <span>{children}</span>
+            <svg
+              version='1.1'
+              id='Calque_1'
+              xmlns='http://www.w3.org/2000/svg'
+              x='0px'
+              y='0px'
+              width='0.5em'
+              height='0.5em'
+              viewBox='0 0 10 10'>
+              <path
+                fill='var(--color)'
+                d='M7.5,1.4L0,8.9L1.1,10l7.5-7.5l0,5.4l1.4,0L10,0L2.1,0l0,1.4L7.5,1.4z'
+              />
+            </svg>
+          </div>
         </a>
       );
     },

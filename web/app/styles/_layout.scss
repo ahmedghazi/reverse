@@ -18,6 +18,7 @@ body {
 
   &::before {
     content: "Loading...";
+    pointer-events: none;
     font-family: var(--font-primary);
     font-weight: 600;
     position: fixed;

@@ -2,7 +2,7 @@ import {type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {Iframe} from 'sanity-plugin-iframe-pane'
 import {type SanityDocument} from 'sanity'
 
-const remoteURL = 'https://www.reverse.paris/'
+const remoteURL = 'https://reverse-seven.vercel.app/'
 const localURL = 'http://localhost:3000/'
 const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
 

@@ -82,10 +82,16 @@ a[aria-current="page"] {
   font-weight: bold;
   display: inline-block;
   transition: all 0.2s ease-in-out;
+  svg path {
+    transition: all 0.2s ease-in-out;
+  }
   &:hover {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
     color: white;
+    svg path {
+      fill: white;
+    }
   }
   &--sm {
     padding: 0.5em 1em;

@@ -10,7 +10,7 @@ import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
 import {linkResolver} from './src/linkResolverPreview'
 
 const devOnlyPlugins = [getStartedPlugin()]
-const remoteURL = 'https://www.reverse.paris'
+const remoteURL = 'https://reverse-seven.vercel.app'
 const localURL = 'http://localhost:3000'
 const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
 
