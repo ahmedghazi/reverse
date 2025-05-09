@@ -13,7 +13,7 @@ export default defineField({
     defineField({
       name: 'item',
       type: 'array',
-      of: [{type: 'image'}, {type: 'embed'}],
+      of: [{type: 'figure'}, {type: 'embed'}],
     }),
   ],
   preview: {

@@ -379,6 +379,47 @@ export type Embed = {
   iframe?: string;
 };
 
+export type Figure = {
+  _type: "figure";
+  /**
+   * Image — `image`
+   *
+   * jpg, 1400px de large, 72dpi
+   */
+  image?: {
+    _type: "image";
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+
+    /**
+     * Alt Description — `string`
+     *
+     *
+     */
+    alt?: string;
+  };
+
+  /**
+   * Image Mobile — `image`
+   *
+   * jpg, 1400px de large, 72dpi
+   */
+  imageMobile?: {
+    _type: "image";
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+
+    /**
+     * Alt Description — `string`
+     *
+     *
+     */
+    alt?: string;
+  };
+};
+
 export type ImagesUI = {
   _type: "imagesUI";
   /**
@@ -501,15 +542,7 @@ export type MediaUI = {
    *
    *
    */
-  item?: Array<
-    | SanityKeyed<{
-        _type: "image";
-        asset: SanityReference<SanityImageAsset>;
-        crop?: SanityImageCrop;
-        hotspot?: SanityImageHotspot;
-      }>
-    | SanityKeyed<Embed>
-  >;
+  item?: Array<SanityKeyed<Figure> | SanityKeyed<Embed>>;
 };
 
 export type Documents = Settings | Landing | Home | PageModulaire;

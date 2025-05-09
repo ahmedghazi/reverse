@@ -17,8 +17,8 @@ const ModuleMediaUI = ({ input }: Props) => {
 
   const renderMedia = (media: MediaItem) => {
     switch (media?._type) {
-      case "image":
-        return <Figure asset={media.asset} width={2000} />;
+      case "figure":
+        return <Figure asset={media.image?.asset} width={2000} />;
       case "embed":
         return media.url ? (
           <VideoWrapper url={media.url as string} autoplay />

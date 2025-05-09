@@ -28,7 +28,7 @@ export default defineField({
       title: 'Image',
       description: 'jpg, 1400px de large, 72dpi',
       options: {
-        hotspot: true,
+        // hotspot: true,
       },
       fields: [
         // {name: 'title', title: 'Title', type: 'string'},
@@ -37,9 +37,23 @@ export default defineField({
       ],
     }),
     defineField({
-      name: 'caption',
-      title: 'Caption',
-      type: 'string',
+      name: 'imageMobile',
+      type: 'image',
+      title: 'Image Mobile',
+      description: 'jpg, 1400px de large, 72dpi',
+      options: {
+        // hotspot: true,
+      },
+      fields: [
+        // {name: 'title', title: 'Title', type: 'string'},
+        {name: 'alt', title: 'Alt Description', type: 'string'},
+        // {name: 'attribution', title: 'Attribution', type: 'string'}
+      ],
     }),
+    // defineField({
+    //   name: 'caption',
+    //   title: 'Caption',
+    //   type: 'string',
+    // }),
   ],
 })

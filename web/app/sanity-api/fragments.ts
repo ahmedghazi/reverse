@@ -104,6 +104,13 @@ export const mediaUI = `
         ...,
         asset->
       },
+			_type == 'figure' => {
+        ...,
+        image{
+					...,
+					asset->
+				}
+      },
       _type == 'embed' => {
         ...,
         url

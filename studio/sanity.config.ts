@@ -16,7 +16,7 @@ const previewURL = window.location.hostname === 'localhost' ? localURL : remoteU
 
 export default defineConfig({
   name: 'default',
-  title: 'Reverse LP',
+  title: 'Reverse Website',
 
   projectId: 'gk4akhok',
   dataset: 'production',

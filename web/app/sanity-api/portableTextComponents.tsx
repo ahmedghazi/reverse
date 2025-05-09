@@ -73,7 +73,7 @@ const portableTextComponents: PortableTextComponents = {
           rel={"noreferrer noopener"}
           target='_blank'
           className={clsx("link-external", look === "cta" ? "cta" : "")}>
-          <div className='flex items-baseline gap-05e'>
+          <span className='flex items-baseline gap-05e'>
             <span>{children}</span>
             <svg
               version='1.1'
@@ -89,7 +89,7 @@ const portableTextComponents: PortableTextComponents = {
                 d='M7.5,1.4L0,8.9L1.1,10l7.5-7.5l0,5.4l1.4,0L10,0L2.1,0l0,1.4L7.5,1.4z'
               />
             </svg>
-          </div>
+          </span>
         </a>
       );
     },

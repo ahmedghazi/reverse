@@ -1,8 +1,5 @@
 import home from './singletons/home'
 import pageModulaire from './documents/pageModulaire'
-// import project from './documents/project'
-// import tag from './documents/tag'
-// import infos from './singletons/infos'
 import settings from './singletons/settings'
 
 import localeString from './locale/localeString'
@@ -15,6 +12,7 @@ import linkInternal from './objects/linkInternal'
 import seo from './objects/seo'
 import keyVal from './objects/keyVal'
 import embed from './objects/embed'
+import figure from './objects/figure'
 
 import imagesUI from './objects/modules/imagesUI'
 import textUI from './objects/modules/textUI'
@@ -36,6 +34,7 @@ export const schemaTypes = [
   seo,
   keyVal,
   embed,
+  figure,
 
   imagesUI,
   textUI,
