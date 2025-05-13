@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { usePathname } from "next/navigation";
 import { publish, subscribe, unsubscribe } from "pubsub-js";
+import useDeviceDetect from "../hooks/useDeviceDetect";
 // import { getSettings } from "../utils/sanity-queries";
 
 const PageContext = createContext({});
@@ -26,6 +27,7 @@ export const PageContextProvider = (props: PageContextProps) => {
   const settings = {
     pathname,
   };
+  const { browser } = useDeviceDetect();
 
   useEffect(() => {
     _format();
@@ -43,6 +45,10 @@ export const PageContextProvider = (props: PageContextProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (browser) document.documentElement.classList.add(`is-${browser}`);
+  }, [browser]);
+
   const _format = () => {
     // const wh = window.innerHeight;
 
@@ -50,7 +56,6 @@ export const PageContextProvider = (props: PageContextProps) => {
     document.documentElement.style.setProperty("--vh", `${vh}px`);
     let vw = window.innerWidth * 0.01;
     document.documentElement.style.setProperty("--vw", `${vw}px`);
-    // document.documentElement.style.setProperty("--app-height", wh + "px");
 
     const header = document.querySelector("header");
     let headerBounding = { height: 50 };

@@ -42,6 +42,16 @@ footer {
       }
     }
   }
+  #nav-tertiary {
+    border-bottom: var(--border);
+    border-width: 1px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    ul {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
   .copy {
     display: flex;
     justify-content: space-between;

@@ -73,6 +73,13 @@ export interface Settings extends SanityDocument {
   contacts?: Array<SanityKeyed<KeyVal>>;
 
   /**
+   * Naviguation Tertiary — `array`
+   *
+   * Mentions légales, etc,
+   */
+  navTertiary?: Array<SanityKeyed<LinkInternal> | SanityKeyed<LinkExternal>>;
+
+  /**
    * textExtra — `string`
    *
    * Visible en après le logo "Reverse is part of xxx"

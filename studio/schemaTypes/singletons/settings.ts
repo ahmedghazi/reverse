@@ -91,6 +91,23 @@ export default defineType({
       group: 'footer',
     }),
     defineField({
+      name: 'navTertiary',
+      title: 'Naviguation Tertiary',
+      description: 'Mentions légales, etc,',
+      type: 'array',
+      of: [
+        {
+          type: 'linkInternal',
+        },
+        {
+          type: 'linkExternal',
+        },
+      ],
+      group: 'footer',
+      // hidden: true,
+    }),
+
+    defineField({
       name: 'textExtra',
       type: 'string',
       description: 'Visible en après le logo "Reverse is part of xxx"',

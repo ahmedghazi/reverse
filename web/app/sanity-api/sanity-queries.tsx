@@ -1,6 +1,6 @@
 import { groq } from "next-sanity";
 import { sanityFetch } from "./sanity.client";
-import { Home, Landing, Settings } from "../types/schema";
+import { Home, Landing, PageModulaire, Settings } from "../types/schema";
 import { modules, seo } from "./fragments";
 // import { revalidatePath } from "next/cache";
 
@@ -10,7 +10,7 @@ import { modules, seo } from "./fragments";
 export const settingsQuery = groq`*[_type == "settings"][0]{
   ...,
 
-  navPrimary[]{
+  navTertiary[]{
     ...,
     _type == 'linkInternal' => {
       ...,
@@ -19,18 +19,7 @@ export const settingsQuery = groq`*[_type == "settings"][0]{
         slug,
       },
     },
-
-  },
-  navSecondary[]{
-    ...,
-    _type == 'linkInternal' => {
-      ...,
-      link->{
-        _type,
-        slug,
-      },
-    },
-  },
+  }
 
 }`;
 
@@ -69,45 +58,41 @@ export async function getLanding(): Promise<Landing> {
 //  * Home
 //  */
 
-export const homeQuery = groq`*[_type == "home"][0]{
-  ...,
-  seo{
-    ${seo}
-  },
-
-}`;
-
-export async function getHome(): Promise<Home> {
-  return sanityFetch({
-    query: homeQuery,
-    tags: ["home"],
-  });
-}
-
-// /*****************************************************************************************************
-//  * PAGE MODULAIRE
-//  */
-// export const pageModulaireQuery = groq`*[_type == "pageModulaire" && slug.current == $slug][0]{
+// export const homeQuery = groq`*[_type == "home"][0]{
 //   ...,
 //   seo{
 //     ${seo}
 //   },
-//   modules[]{
-//     ${modules}
-//   }
+
 // }`;
 
-// export async function getPageModulaire(slug: string): Promise<PageModulaire> {
-//   // revalidatePath(slug);
-//   // console.log(slug);
-//   // console.log(pageModulaireQuery);
+// export async function getHome(): Promise<Home> {
 //   return sanityFetch({
-//     query: pageModulaireQuery,
-//     tags: ["pageModulaire"],
-//     qParams: { slug: slug },
+//     query: homeQuery,
+//     tags: ["home"],
 //   });
-//   // return cachedClient(pageModulaireQuery, { slug: slug });
 // }
+
+/*****************************************************************************************************
+ * PAGE MODULAIRE
+ */
+export const pageModulaireQuery = groq`*[_type == "pageModulaire" && slug.current == $slug][0]{
+  ...,
+  seo{
+    ${seo}
+  },
+  modules[]{
+    ${modules}
+  }
+}`;
+
+export async function getPageModulaire(slug: string): Promise<PageModulaire> {
+  return sanityFetch({
+    query: pageModulaireQuery,
+    tags: ["pageModulaire"],
+    qParams: { slug: slug },
+  });
+}
 
 // /*****************************************************************************************************
 //  * LOCATION

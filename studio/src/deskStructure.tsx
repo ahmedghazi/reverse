@@ -55,10 +55,10 @@ export const structure = (S) =>
 
       S.divider(),
 
-      // S.listItem()
-      //   .title('Pages')
-      //   .schemaType('pageModulaire')
-      //   .child(S.documentTypeList('pageModulaire')),
+      S.listItem()
+        .title('Pages')
+        .schemaType('pageModulaire')
+        .child(S.documentTypeList('pageModulaire')),
 
       // S.divider(),
 
