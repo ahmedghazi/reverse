@@ -58,6 +58,9 @@
     inset: var(--border-width);
     width: calc(100% - var(--border-width) * 2);
     height: calc(100% - var(--border-width) * 2);
+    inset: var(--space-md);
+    width: calc(100% - var(--space-md) * 2);
+    height: calc(100% - var(--space-md) * 2);
     object-fit: cover;
     // height: 100%;
     border-radius: var(--border-radius);

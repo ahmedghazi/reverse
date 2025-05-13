@@ -120,6 +120,10 @@ p,
   a {
     font-family: var(--font-primary);
   }
+  em {
+    text-decoration: none;
+    font-style: normal;
+  }
 }
 .ellipsis {
   overflow: hidden;

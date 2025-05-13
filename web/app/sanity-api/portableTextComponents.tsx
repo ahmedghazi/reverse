@@ -94,12 +94,10 @@ const portableTextComponents: PortableTextComponents = {
       );
     },
     u: ({ children }) => <span className='word underline'>{children}</span>,
-    underline: ({ children }) => (
-      <span className='word underline'>{children}</span>
-    ),
-    highlight: ({ children }) => (
-      <span className='word bg-yellow'>{children}</span>
-    ),
+    // underline: ({ children }) => (
+    //   <span className='word underline'>{children}</span>
+    // ),
+    highlight: ({ children }) => <em className='bg-yellow'>{children}</em>,
     align_left: ({ children }) => (
       <span className='text-left block'>{children}</span>
     ),

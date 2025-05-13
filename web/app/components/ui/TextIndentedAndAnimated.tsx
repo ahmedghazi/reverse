@@ -23,8 +23,9 @@ const TextIndentedAndAnimated = ({ text }: Props) => {
       if (!texts) return;
 
       const text = new SplitType(texts, {
-        types: "lines,words,chars",
-        tagName: "span",
+        // types: "lines,words,chars",
+        types: "lines,words",
+        // tagName: "span",
       });
 
       gsap.from(text.words, {
