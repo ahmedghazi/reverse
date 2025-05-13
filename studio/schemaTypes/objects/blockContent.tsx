@@ -3,6 +3,7 @@ import {defineType, defineArrayMember} from 'sanity'
 import {LinkIcon} from '@sanity/icons'
 import {FiExternalLink} from 'react-icons/fi'
 import linkInternalTypes from '../misc/linkInternalTypes'
+import {Card, Text} from '@sanity/ui'
 /**
  * This is the schema definition for the rich text fields used for
  * for this blog studio. When you import it in schemas.js it can be
@@ -13,9 +14,9 @@ import linkInternalTypes from '../misc/linkInternalTypes'
  *    type: 'blockContent'
  *  }
  */
-const TextL = (props: any): JSX.Element => (
-  <p style={{fontSize: '2rem', marginTop: 0}}> {props.children} </p>
-)
+// const TextL = (props: any): JSX.Element => (
+//   <p style={{fontSize: '2rem', marginTop: 0}}> {props.children} </p>
+// )
 // const TextIndent = (props: any): JSX.Element => (
 //   <div className="indent">
 //     <p style={{paddingLeft: '1rem', marginTop: 0}}> {props.children} </p>
@@ -55,13 +56,13 @@ export default defineType({
         {
           title: 'Texte L',
           value: 'text-lg',
-          component: TextL,
+          // component: TextL,
+          component: (props) => (
+            <Card marginBottom={2}>
+              <Text size={5}>{props.children}</Text>
+            </Card>
+          ),
         },
-        // {
-        //   title: "Texte indenté",
-        //   value: "text-index",
-        //   component: TextIndent,
-        // },
       ],
       lists: [{title: 'Bullet', value: 'bullet'}],
       // Marks let you mark up inline text in the block editor.
@@ -71,12 +72,22 @@ export default defineType({
         decorators: [
           {title: 'Strong', value: 'strong'},
           {title: 'Emphasis', value: 'em'},
-          // {
-          //   title: "Underline",
-          //   value: "u",
-          //   icon: () => "u",
-          //   component: Underline,
-          // },
+          {
+            title: 'Underline',
+            value: 'u',
+            icon: () => 'u',
+            component: (props) => (
+              <span style={{textDecoration: 'underline'}}>{props.children}</span>
+            ),
+          },
+          {
+            title: 'Highlight',
+            value: 'highlight',
+            icon: () => 'h',
+            component: (props) => (
+              <span style={{backgroundColor: '#fcec96', color: '#000'}}>{props.children}</span>
+            ),
+          },
           // {
           //   title: "Outline",
           //   value: "outline",
@@ -133,10 +144,10 @@ export default defineType({
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
 
-    defineArrayMember({
-      type: 'image',
-      options: {hotspot: true},
-    }),
+    // defineArrayMember({
+    //   type: 'image',
+    //   options: {hotspot: true},
+    // }),
 
     // defineArrayMember({
     //   type: "embed",

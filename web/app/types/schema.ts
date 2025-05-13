@@ -152,10 +152,7 @@ export interface Landing extends SanityDocument {
    * Zone de contenu Modulaire (images, textes, embed)
    */
   modules?: Array<
-    | SanityKeyed<ImagesUI>
-    | SanityKeyed<TextUI>
-    | SanityKeyed<KeyPointsUI>
-    | SanityKeyed<MediaUI>
+    SanityKeyed<MediaUI> | SanityKeyed<TextUI> | SanityKeyed<KeyPointsUI>
   >;
 }
 
@@ -231,10 +228,7 @@ export interface PageModulaire extends SanityDocument {
    * Zone de contenu Modulaire (images, textes, embed)
    */
   modules?: Array<
-    | SanityKeyed<ImagesUI>
-    | SanityKeyed<TextUI>
-    | SanityKeyed<KeyPointsUI>
-    | SanityKeyed<MediaUI>
+    SanityKeyed<MediaUI> | SanityKeyed<TextUI> | SanityKeyed<KeyPointsUI>
   >;
 }
 
@@ -272,15 +266,7 @@ export type LocaleBlockContent = {
   en?: BlockContent;
 };
 
-export type BlockContent = Array<
-  | SanityKeyed<SanityBlock>
-  | SanityKeyed<{
-      _type: "image";
-      asset: SanityReference<SanityImageAsset>;
-      crop?: SanityImageCrop;
-      hotspot?: SanityImageHotspot;
-    }>
->;
+export type BlockContent = Array<SanityKeyed<SanityBlock>>;
 
 export type LinkExternal = {
   _type: "linkExternal";
@@ -509,23 +495,11 @@ export type KeyPoint = {
   description?: LocaleBlockContent;
 
   /**
-   * Image — `image`
+   * Image — `figure`
    *
    *
    */
-  image?: {
-    _type: "image";
-    asset: SanityReference<SanityImageAsset>;
-    crop?: SanityImageCrop;
-    hotspot?: SanityImageHotspot;
-
-    /**
-     * Alternative text — `string`
-     *
-     * Important for SEO and accessibility.
-     */
-    alt?: string;
-  };
+  image?: Figure;
 };
 
 export type MediaUI = {

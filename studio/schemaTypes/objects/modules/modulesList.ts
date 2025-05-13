@@ -1,7 +1,7 @@
 export default [
   // {type: 'moduleImage'},
-  {type: 'imagesUI'},
+  // {type: 'imagesUI'},
+  {type: 'mediaUI'},
   {type: 'textUI'},
   {type: 'keyPointsUI'},
-  {type: 'mediaUI'},
 ]

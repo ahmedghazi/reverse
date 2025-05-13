@@ -12,7 +12,6 @@ body {
   scroll-snap-type: y mandatory;
 }
 body {
-  // @include mixins.debugFiletY(69px);
   background-color: var(--color-bg);
   color: var(--color-primary);
 
@@ -55,6 +54,7 @@ body {
 }
 
 #page {
+  // @include mixins.debugFiletY(69px);
 }
 main {
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;

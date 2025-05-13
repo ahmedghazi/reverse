@@ -32,7 +32,8 @@ const TextIndentedAndAnimated = ({ text }: Props) => {
         opacity: 0,
         duration: 1,
         ease: "power3.inOut",
-        stagger: 0.1 / 4,
+        // stagger: 0.1 / 1,
+        stagger: 0.1 / 2,
         scrollTrigger: {
           trigger: container.current,
           start: "top-=100 bottom-=100", // Triggers when element is 100px from bottom of viewport

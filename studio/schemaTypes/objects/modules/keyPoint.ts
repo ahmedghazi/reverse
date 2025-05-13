@@ -1,17 +1,18 @@
 import {defineField, defineType} from 'sanity'
-
+import {Bs123} from 'react-icons/bs'
 export default defineType({
   name: 'keyPoint',
   title: 'Key Point',
   type: 'object',
+  icon: Bs123,
   fields: [
-    {
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'localeString',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'color',
       title: 'Color',
       type: 'string',
@@ -23,34 +24,34 @@ export default defineType({
           {title: 'Black', value: '#000'},
         ],
       },
-    },
-    {
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'localeBlockContent',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-      fields: [
-        {
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-          description: 'Important for SEO and accessibility.',
-        },
-      ],
-    },
+      type: 'figure',
+      // options: {
+      //   hotspot: true,
+      // },
+      // fields: [
+      //   defineField({
+      //     name: 'alt',
+      //     type: 'string',
+      //     title: 'Alternative text',
+      //     description: 'Important for SEO and accessibility.',
+      //   }),
+      // ],
+    }),
   ],
   preview: {
     select: {
       title: 'title.fr',
-      media: 'image',
+      media: 'image.image',
       subtitle: 'description.fr',
     },
     prepare(selection) {

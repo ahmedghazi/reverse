@@ -2,13 +2,13 @@
 
 .logo {
   display: flex;
-  // align-items: center;
+  align-items: end;
   justify-content: start;
   gap: 1em;
   &:hover {
     .baseline {
       opacity: 1;
-      transform: translateX(0) translateY(0.07em);
+      transform: translateX(0) translateY(-0.75em);
     }
   }
   .baseline {
@@ -16,13 +16,11 @@
     // font-size: var(--text-xl);
     // font-size: 2.988rem;
     font-size: 2.588rem;
+    font-size: var(--text-md);
     // white-space: nowrap;
     font-weight: 550;
-    transform: translateX(-0.5em) translateY(0.07em);
-    // position: absolute;
-    // color: red;
-    // left: 0.2em;
-    // opacity: 0.7;
+    transform: translateX(-0.5em) translateY(-0.75em);
+
     opacity: 0;
     // max-width: 20em;
     line-height: 1;

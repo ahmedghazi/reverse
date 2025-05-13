@@ -88,7 +88,13 @@ export const keyPointsUI = `
       title,
       description,
       image{
-        asset->
+				image{
+					asset->
+				},
+				imageMobile{
+					...,
+					asset->
+				}
       }
     }
   }
@@ -107,6 +113,10 @@ export const mediaUI = `
 			_type == 'figure' => {
         ...,
         image{
+					...,
+					asset->
+				},
+				imageMobile{
 					...,
 					asset->
 				}

@@ -6,11 +6,16 @@
   &.text-indentedAndAnimated {
     p {
       font-size: var(--text-xl);
-      line-height: 1;
+      line-height: 1.1;
       font-weight: bold;
       margin-bottom: 0;
       hyphens: auto;
       word-break: break-word;
+      &:first-of-type {
+        // text-decoration: underline;
+        // text-decoration-color: yellow;
+        margin-bottom: 1em;
+      }
     }
     @for $i from 0 through 5 {
       p:nth-child(#{$i}) {

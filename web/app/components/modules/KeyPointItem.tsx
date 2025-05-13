@@ -9,6 +9,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { getCssFilterByHex } from "@/app/lib/utils";
 import portableTextComponents from "@/app/sanity-api/portableTextComponents";
+import useDeviceDetect from "@/app/hooks/useDeviceDetect";
 
 type KeyPointProps = {
   input: KeyPoint;
@@ -22,6 +23,7 @@ const KeyPointItem = ({ input }: KeyPointProps) => {
     trackVisibility: true,
     delay: 100,
   });
+  const { isMobile } = useDeviceDetect();
 
   useEffect(() => {
     const parent = entry?.target.parentElement?.parentElement as HTMLElement;
@@ -47,12 +49,14 @@ const KeyPointItem = ({ input }: KeyPointProps) => {
       className={clsx("item keypoint snap", { "is-inview": inView })}
       style={style}>
       <div className='inner' ref={ref}>
-        {image && (
+        {image && image.image && image.imageMobile && (
           <Image
-            src={image.asset.url}
+            src={
+              isMobile ? image.imageMobile?.asset.url : image.image.asset.url
+            }
             width={1854}
             height={1022}
-            alt={title?.fr || ""}
+            alt={image.image.alt || ""}
             sizes='100vw'
           />
         )}
