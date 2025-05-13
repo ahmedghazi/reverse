@@ -11,6 +11,7 @@ type Props = {
 
 const Header = ({ settings }: Props) => {
   const { scrollDirection, isBottom } = useScroll();
+  console.log({ scrollDirection });
   return (
     <header className={`is-${scrollDirection} ${isBottom ? "is-bottom" : ""}`}>
       <div className='flex justify-between'>

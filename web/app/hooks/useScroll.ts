@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 export function useScroll() {
@@ -23,6 +24,7 @@ export function useScroll() {
   // let _prevScrollTop = 0
   const lastScrollTopRef = useRef<number>(0);
   const lastScrollTop: number = lastScrollTopRef.current;
+  const pathname = usePathname();
 
   const listener = (e: Event) => {
     setBodyOffset(
@@ -49,6 +51,14 @@ export function useScroll() {
       window.removeEventListener("scroll", listener);
     };
   });
+
+  useEffect(() => {
+    console.log("pathname", pathname);
+    setTimeout(() => {
+      setIsBottom(false);
+      setScrollDirection("down");
+    }, 500);
+  }, [pathname]);
 
   return {
     scrollY,

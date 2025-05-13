@@ -15,7 +15,7 @@ type Props = {
 };
 
 const Footer = ({ settings }: Props) => {
-  console.log(settings);
+  // console.log(settings);
   const { baseline, contacts, textExtra, navTertiary } = settings || {};
   const container = useRef<HTMLDivElement | null>(null);
   gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -23,7 +23,10 @@ const Footer = ({ settings }: Props) => {
   useGSAP(
     () => {
       const baseline = container.current?.querySelector(".baseline");
-      const nav = container.current?.querySelectorAll("#nav-secondary li");
+      const navSecondary =
+        container.current?.querySelectorAll("#nav-secondary li");
+      const navTertiary =
+        container.current?.querySelectorAll("#nav-tertiary li");
       const copy = container.current?.querySelector(".copy");
       let tl = gsap.timeline({
         ease: "power3.inOut",
@@ -35,7 +38,18 @@ const Footer = ({ settings }: Props) => {
         },
       });
       tl.from(baseline!, { duration: 0.6, y: "1em", opacity: 0 })
-        .from(nav!, { duration: 0.6, y: "1em", opacity: 0, stagger: 0.2 })
+        .from(navSecondary!, {
+          duration: 0.6,
+          y: "1em",
+          opacity: 0,
+          stagger: 0.2,
+        })
+        .from(navTertiary!, {
+          duration: 0.6,
+          y: "1em",
+          opacity: 0,
+          stagger: 0.2,
+        })
         .from(copy!, { duration: 0.6, y: "1em", opacity: 0 });
 
       // Cleanup split text on component unmount
@@ -84,7 +98,12 @@ const Footer = ({ settings }: Props) => {
                           </Link>
                         )}
                         {item._type === "linkExternal" && (
-                          <a href={item.link || "#"}>{item.label}</a>
+                          <a
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            href={item.link || "#"}>
+                            {item.label}
+                          </a>
                         )}
                       </li>
                     ))}
