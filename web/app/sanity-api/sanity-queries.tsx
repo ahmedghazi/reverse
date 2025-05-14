@@ -87,6 +87,7 @@ export const pageModulaireQuery = groq`*[_type == "pageModulaire" && slug.curren
 }`;
 
 export async function getPageModulaire(slug: string): Promise<PageModulaire> {
+  console.log("----------- getPageModulaire slug", slug);
   return sanityFetch({
     query: pageModulaireQuery,
     tags: ["pageModulaire"],

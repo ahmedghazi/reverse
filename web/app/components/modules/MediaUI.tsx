@@ -39,7 +39,7 @@ const ModuleMediaUI = ({ input }: Props) => {
   if (items.length > 1) {
     // Slider for multiple items
     return (
-      <section className='module module--mediaUI '>
+      <section className='module module--mediaUI snap'>
         <Slider settingsOverride={{ autoplay: true }}>
           {items.map((media, i: number) => (
             <div className='media-item' key={i}>

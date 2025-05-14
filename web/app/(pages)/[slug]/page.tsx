@@ -5,6 +5,7 @@ import {
   pageModulaireQuery,
 } from "@/app/sanity-api/sanity-queries";
 import { getClient } from "@/app/sanity-api/sanity.client";
+import { _localizeField } from "@/app/sanity-api/utils";
 import { PageModulaire } from "@/app/types/schema";
 import { Metadata, NextPage } from "next";
 import { draftMode } from "next/headers";
@@ -29,11 +30,12 @@ export async function generateMetadata({
   };
 }
 
-const FilmsPage: NextPage<PageProps> = async (props) => {
-  const params = await props.params;
+const FilmsPage: NextPage<PageProps> = async ({ params }) => {
+  // const params = await props.params;
   const { slug } = await params;
   const { isEnabled } = await draftMode();
   // const { isEnabled } = await draftMode();
+  console.log(slug);
   let data: PageModulaire;
   if (isEnabled) {
     data = await getClient({ token: process.env.SANITY_API_READ_TOKEN }).fetch(
@@ -49,6 +51,7 @@ const FilmsPage: NextPage<PageProps> = async (props) => {
       className='template template--page-modulaire'
       data-template='page-modulaire'>
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      <h1>{_localizeField(data.title)}</h1>
       {data.modules && <Modules input={data.modules} />}
     </div>
   );
