@@ -75,10 +75,16 @@
   }
   .text {
     max-width: 36rem;
-    a:hover {
-      // background-color: white;
-      // color: var(--color);
-      // border-color: var(--color);
+    a {
+      transition: all 0.2s;
+      &:hover {
+        background-color: var(--color);
+        border-color: var(--color);
+        color: black;
+        path {
+          fill: black;
+        }
+      }
     }
   }
 
