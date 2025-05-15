@@ -19,7 +19,7 @@
     }
     @for $i from 0 through 5 {
       p:nth-child(#{$i}) {
-        padding-left: calc(2em * #{$i - 1});
+        // padding-left: calc(2em * #{$i - 1});
       }
     }
 
@@ -35,7 +35,7 @@
       }
       @for $i from 0 through 5 {
         p:nth-child(#{$i}) {
-          padding-left: calc(1em * #{$i - 1});
+          // padding-left: calc(1em * #{$i - 1});
         }
       }
     }
