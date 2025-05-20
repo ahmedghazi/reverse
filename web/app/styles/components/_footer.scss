@@ -36,10 +36,10 @@ footer {
       height: 100% !important;
       aspect-ratio: 2.85;
       overflow: clip;
-      image {
-        filter: invert(95%) sepia(14%) saturate(1207%) hue-rotate(343deg)
-          brightness(102%) contrast(98%);
-      }
+      // image {
+      //   filter: invert(95%) sepia(14%) saturate(1207%) hue-rotate(343deg)
+      //     brightness(102%) contrast(98%);
+      // }
     }
   }
   #nav-tertiary {

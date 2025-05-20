@@ -83,7 +83,7 @@ const Footer = ({ settings }: Props) => {
         <div className='bloc-bottom signature text-sm'>
           <div className='md:grid md:grid-cols-2 gap-md items-baseline-'>
             <div className=''>
-              <LogoReverse />
+              <LogoReverse isYellow={true} />
             </div>
             <div className=' flex flex-col justify-end '>
               {/* <pre>{JSON.stringify(navTertiary, null, 2)}</pre> */}
