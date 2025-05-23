@@ -39,7 +39,7 @@ const ModuleMediaUI = ({ input }: Props) => {
   if (items.length > 1) {
     return (
       <section className='module module--mediaUI snap'>
-        <Slider settingsOverride={{ autoplay: true }}>
+        <Slider settingsOverride={{ autoplay: false }}>
           {items.map((media, i: number) => (
             <div className='media-item' key={i}>
               {renderMedia(media)}

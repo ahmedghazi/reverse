@@ -16,8 +16,9 @@ const Header = ({ settings }: Props) => {
   return (
     <header
       className={clsx(
-        scrollY > 100 ? `is-${scrollDirection}` : "",
-        isBottom ? "is-bottom" : ""
+        scrollY > 1 && "is-below"
+        // scrollY > 100 ? `is-${scrollDirection}` : "",
+        // isBottom ? "is-bottom" : ""
       )}>
       <div className='flex justify-between'>
         <div className='site-name'>

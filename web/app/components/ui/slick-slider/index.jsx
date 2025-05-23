@@ -42,8 +42,8 @@ const Slider = ({ children, settingsOverride }) => {
     slidesToScroll: 1,
     cssEase: "cubic-bezier(0.53, 0, 0.36, 1)",
     beforeChange: _sliderBeforeChange,
-    prevArrow: <SliderCursorPrevNextText label='prev' left='0%' />,
-    nextArrow: <SliderCursorPrevNextText label='next' left='50%' />,
+    prevArrow: <SliderCursorPrevNextText label='←' left='0%' />,
+    nextArrow: <SliderCursorPrevNextText label='→' left='50%' />,
   };
   const settings = {
     ...settingsDefault,

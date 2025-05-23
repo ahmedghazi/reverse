@@ -20,6 +20,12 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
 
   // Gestion de la direction du défilement
   useEffect(() => {
+    if (!isYellow) return;
+    if (isBottom) {
+      setDirection(1);
+    } else {
+      setDirection(-1);
+    }
     // if (scrollDirection === "down" || isBottom) {
     //   setDirection(1);
     // } else if (scrollDirection === "up") {
