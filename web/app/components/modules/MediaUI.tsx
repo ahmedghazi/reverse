@@ -40,7 +40,7 @@ const ModuleMediaUI = ({ input }: Props) => {
     // Slider for multiple items
     return (
       <section className='module module--mediaUI snap'>
-        <Slider settingsOverride={{ autoplay: false }}>
+        <Slider settingsOverride={{ autoplay: true }}>
           {items.map((media, i: number) => (
             <div className='media-item' key={i}>
               {renderMedia(media)}
