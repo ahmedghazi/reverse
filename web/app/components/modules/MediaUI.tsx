@@ -37,7 +37,6 @@ const ModuleMediaUI = ({ input }: Props) => {
   };
 
   if (items.length > 1) {
-    // Slider for multiple items
     return (
       <section className='module module--mediaUI snap'>
         <Slider settingsOverride={{ autoplay: true }}>
@@ -51,7 +50,6 @@ const ModuleMediaUI = ({ input }: Props) => {
     );
   }
 
-  // Single item (image or embed)
   const media = items[0];
   return (
     <section className='module module--mediaUI snap'>
