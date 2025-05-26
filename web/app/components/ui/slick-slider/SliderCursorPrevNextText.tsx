@@ -78,7 +78,7 @@ const SliderCursorPrevNextText = (props: any) => {
   };
 
   const _update = (e: any) => {
-    if (isMobile) return;
+    if (isMobile || window.innerWidth < 1080) return;
     // const { offsetX, offsetY } = e;
     if (!refLabel.current) return;
     const { width, height } = refLabel.current.getBoundingClientRect();

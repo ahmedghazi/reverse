@@ -8,7 +8,7 @@ const IcoPrev = (props: Props) => {
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 32 32'
       id='custCursors'
-      fill-rule='evenodd'>
+      fillRule='evenodd'>
       <path
         id='p_prev'
         className='cls-1'
