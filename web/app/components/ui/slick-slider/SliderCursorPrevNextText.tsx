@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 // import PubSub from "pubsub-js";
 import styled from "styled-components";
+import IcoNext from "./IcoNext";
+import IcoPrev from "./IcoPrev";
+import useDeviceDetect from "@/app/hooks/useDeviceDetect";
 
 interface ContainerProps {
   left: Boolean;
@@ -42,6 +45,7 @@ const SliderCursorPrevNextText = (props: any) => {
   const { label, left, className, style, onClick } = props;
   const refContainer = useRef<HTMLDivElement>(null);
   const refLabel = useRef<HTMLDivElement>(null);
+  const { isMobile } = useDeviceDetect();
   const [positions, setPositions] = useState({
     transform: "translate(-100vw, -100vh)",
   });
@@ -60,6 +64,10 @@ const SliderCursorPrevNextText = (props: any) => {
     };
   }, []);
 
+  useEffect(() => {
+    setPositions({ transform: `translate(${-50}%, ${-50}%)` });
+  }, [isMobile]);
+
   const _onEnter = () => {
     if (refContainer.current)
       refContainer.current.addEventListener("mousemove", _update);
@@ -70,6 +78,7 @@ const SliderCursorPrevNextText = (props: any) => {
   };
 
   const _update = (e: any) => {
+    if (isMobile) return;
     // const { offsetX, offsetY } = e;
     if (!refLabel.current) return;
     const { width, height } = refLabel.current.getBoundingClientRect();
@@ -88,7 +97,9 @@ const SliderCursorPrevNextText = (props: any) => {
       // left={left}
       ref={refContainer}>
       <div className='label' style={positions} ref={refLabel}>
-        {label}
+        {/* {label} */}
+        {label === "prev" && <IcoPrev />}
+        {label === "next" && <IcoNext />}
         {/* {label === "prev" && <i className='icon-chevron-w  font-black'></i>}
         {label === "next" && <i className='icon-chevron-e  font-black'></i>} */}
       </div>

@@ -159,15 +159,14 @@
   z-index: 49;
   text-indent: unset;
   cursor: none;
-  color: white;
-  mix-blend-mode: difference;
+  // color: white;
+  // mix-blend-mode: difference;
   font-size: 4em;
+
   &.slider-next {
     right: 0;
   }
-  @media all and (max-width: 1080px) {
-    opacity: 0;
-  }
+
   &:hover .label {
     opacity: 1;
   }
@@ -182,5 +181,31 @@
     transform-origin: center center;
     text-align: center;
     font-weight: bold;
+  }
+  svg {
+    width: 2rem;
+    height: 2rem;
+    path {
+      fill: none;
+      stroke: black;
+      stroke-width: 2px;
+    }
+  }
+  @media all and (max-width: 1080px) {
+    // opacity: 0;
+    // width: 50%;
+    display: block !important;
+
+    .label {
+      top: 50%;
+      transform: translate(0%, -50%) !important;
+      opacity: 1;
+    }
+    &.slick-prev .label {
+      left: var(--space-md);
+    }
+    &.slick-next .label {
+      right: var(--space-md);
+    }
   }
 }
