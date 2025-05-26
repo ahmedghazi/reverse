@@ -65,7 +65,7 @@ const SliderCursorPrevNextText = (props: any) => {
   }, []);
 
   useEffect(() => {
-    setPositions({ transform: `translate(${-50}%, ${-50}%)` });
+    setPositions({ transform: `translate(${0}%, ${-50}%)` });
   }, [isMobile]);
 
   const _onEnter = () => {
