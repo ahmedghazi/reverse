@@ -5,7 +5,7 @@ import {
   type ClientConfig,
   type QueryParams,
 } from "@sanity/client";
-import { projectId, dataset, apiVersion, token } from "./sanity.api";
+import { projectId, dataset, apiVersion, token, studioUrl } from "./sanity.api";
 // import { draftMode } from "next/headers";
 
 const config: ClientConfig = {
@@ -40,10 +40,10 @@ export function getClient(preview?: { token?: string }): SanityClient {
       useCdn: false,
       ignoreBrowserTokenWarning: true,
       perspective: "previewDrafts",
-      // stega: {
-      //   enabled: true,
-      //   studioUrl: "https://backoffice--combo-factory.sanity.studio/",
-      // },
+      stega: {
+        enabled: true,
+        studioUrl: studioUrl,
+      },
     });
   }
   return client;

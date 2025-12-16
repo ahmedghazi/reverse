@@ -1,7 +1,10 @@
 export default [
-  // {type: 'moduleImage'},
-  // {type: 'imagesUI'},
+  // { type: 'mediaUI' },
+  // { type: 'mediaUI' },
+  // { type: 'mediaUI' },
   {type: 'mediaUI'},
   {type: 'textUI'},
   {type: 'keyPointsUI'},
+  // {type: 'articlesUI'},
+  {type: 'sliderArticlesUI'},
 ]

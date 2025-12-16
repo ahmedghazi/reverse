@@ -1,0 +1,42 @@
+.card--article {
+  &:hover {
+    img {
+      transform: scale(1.05);
+    }
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  figure {
+    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    img {
+      transition: transform 0.3s ease;
+
+      aspect-ratio: 16 / 9 !important;
+      object-fit: cover !important;
+      width: 100%;
+      height: 100% !important;
+    }
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    .card--header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-weight: bold;
+      h3 {
+        flex: 2;
+        font-size: var(--text-md-alt);
+        font-weight: bold;
+      }
+    }
+  }
+}

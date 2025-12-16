@@ -1,9 +1,11 @@
+import {FaList} from 'react-icons/fa'
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'keyPointsUI',
   title: 'Key Points',
   type: 'object',
+  icon: FaList,
   fields: [
     defineField({
       name: 'title',

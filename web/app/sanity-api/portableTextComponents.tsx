@@ -4,6 +4,9 @@ import { PortableTextComponents } from "@portabletext/react";
 import Link from "next/link";
 import { _linkResolver } from "./utils";
 import clsx from "clsx";
+import Figure from "../components/ui/Figure";
+import Embed from "../components/ui/Embed";
+// import Embed from "../components/ui/Embed";
 // import Figure from "../components/ui/Figure";
 // import clsx from "clsx";
 // import { VideoWrapper } from "../components/ui/player";
@@ -47,6 +50,12 @@ const portableTextComponents: PortableTextComponents = {
     // ),
   },
   types: {
+    image: ({ value }) => {
+      return <Figure asset={value.asset} />;
+    },
+    embed: ({ value }) => {
+      return <Embed input={value} />;
+    },
     // image: ({ value }) => {
     //   return <Figure asset={value.asset} />;
     // },

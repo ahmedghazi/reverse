@@ -1,12 +1,21 @@
 "use client";
 import React from "react";
 import { SanityKeyed } from "sanity-codegen";
-import { TextUI, ImagesUI, MediaUI, KeyPointsUI } from "../../types/schema";
+import {
+  TextUI,
+  ImagesUI,
+  MediaUI,
+  KeyPointsUI,
+  ArticlesUI,
+  SliderArticlesUI,
+} from "../../types/schema";
 import ModuleTextUI from "./TextUI";
 import ModuleImagesUI from "./ImagesUI";
 import ModuleKeyPointsUI from "./KeyPointsUI";
 import ModuleMediaUI from "./MediaUI";
+// import ModuleArticlesUI from "./SliderArticlesUI";
 import "./index.scss";
+import ModuleSliderArticlesUI from "./SliderArticlesUI";
 
 type Props = {
   input: Array<
@@ -14,6 +23,7 @@ type Props = {
     | SanityKeyed<ImagesUI>
     | SanityKeyed<KeyPointsUI>
     | SanityKeyed<MediaUI>
+    | SanityKeyed<SliderArticlesUI>
   >;
 };
 
@@ -27,7 +37,9 @@ const Modules = ({ input }: Props) => {
           | SanityKeyed<ImagesUI>
           | SanityKeyed<KeyPointsUI>
           | SanityKeyed<MediaUI>
+          | SanityKeyed<SliderArticlesUI>
       ) => {
+        console.log("Module type:", module._type);
         switch (module._type) {
           case "textUI":
             return <ModuleTextUI key={module._key} input={module} />;
@@ -37,6 +49,11 @@ const Modules = ({ input }: Props) => {
             return <ModuleKeyPointsUI key={module._key} input={module} />;
           case "mediaUI":
             return <ModuleMediaUI key={module._key} input={module} />;
+          // case "articlesUI":
+          //   return <ModuleArticlesUI key={module._key} input={module} />;
+          case "sliderArticlesUI":
+            return <ModuleSliderArticlesUI key={module._key} input={module} />;
+
           default:
             return null;
         }

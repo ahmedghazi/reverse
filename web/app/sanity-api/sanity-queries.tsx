@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 import { sanityFetch } from "./sanity.client";
-import { Home, Landing, PageModulaire, Settings } from "../types/schema";
-import { modules, seo } from "./fragments";
+import { Article, Landing, PageModulaire, Settings } from "../types/schema";
+import { articleCard, blockContent, modules, seo } from "./fragments";
 // import { revalidatePath } from "next/cache";
 
 /*****************************************************************************************************
@@ -37,7 +37,7 @@ export async function getSettings(): Promise<Settings> {
 //  * landing
 //  */
 
-export const landingQuery = groq`*[_type == "landing"][0]{
+export const LANDING_QUERY = groq`*[_type == "landing"][0]{
   ...,
   seo{
     ${seo}
@@ -49,7 +49,7 @@ export const landingQuery = groq`*[_type == "landing"][0]{
 
 export async function getLanding(): Promise<Landing> {
   return sanityFetch({
-    query: landingQuery,
+    query: LANDING_QUERY,
     tags: ["landing"],
   });
 }
@@ -76,7 +76,7 @@ export async function getLanding(): Promise<Landing> {
 /*****************************************************************************************************
  * PAGE MODULAIRE
  */
-export const pageModulaireQuery = groq`*[_type == "pageModulaire" && slug.current == $slug][0]{
+export const PAGE_MODULAIRE_QUERY = groq`*[_type == "pageModulaire" && slug.current == $slug][0]{
   ...,
   seo{
     ${seo}
@@ -89,8 +89,35 @@ export const pageModulaireQuery = groq`*[_type == "pageModulaire" && slug.curren
 export async function getPageModulaire(slug: string): Promise<PageModulaire> {
   console.log("----------- getPageModulaire slug", slug);
   return sanityFetch({
-    query: pageModulaireQuery,
+    query: PAGE_MODULAIRE_QUERY,
     tags: ["pageModulaire"],
+    qParams: { slug: slug },
+  });
+}
+
+/*****************************************************************************************************
+ * NEWS
+ */
+export const ARTICLE_QUERY = groq`*[_type == "article" && slug.current == $slug][0]{
+  ...,
+  seo{
+    ${seo}
+  },
+  imageCover{
+    asset->
+  },
+  text{
+    ${blockContent}
+  },
+  related[]->{
+    ${articleCard}
+  }
+}`;
+
+export async function getArticle(slug: string): Promise<Article> {
+  return sanityFetch({
+    query: ARTICLE_QUERY,
+    tags: ["article"],
     qParams: { slug: slug },
   });
 }

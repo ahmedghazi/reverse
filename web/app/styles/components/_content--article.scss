@@ -1,0 +1,71 @@
+@use "../variables";
+
+.content--article {
+  padding-top: var(--header-height);
+
+  .back {
+    font-weight: bold;
+    font-size: var(--text-lg);
+
+    a {
+      transform: translateY(0.5em);
+      position: sticky;
+      z-index: 10;
+      top: var(--header-height);
+      display: block;
+    }
+  }
+  .header {
+    margin-bottom: var(--space-lg);
+    font-weight: bold;
+    font-size: var(--text-lg);
+    h1 {
+      font-size: var(--text-xl);
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+    time {
+      font-size: var(--text-md);
+      font-weight: normal;
+      color: var(--color-secondary);
+    }
+    .tag {
+      text-align: right;
+    }
+  }
+  .bodyCopy {
+    margin-bottom: var(--space-lg);
+    .text {
+      font-size: var(--text-md);
+      line-height: 1.6;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      display: grid;
+      column-gap: var(--space-md);
+      p {
+        grid-column: 2 / span 6;
+      }
+      figure,
+      .embed {
+        grid-column: 1 / span 8;
+      }
+    }
+  }
+
+  @media all and (max-width: variables.$md) {
+    .back {
+      a {
+        transform: translateY(0);
+      }
+    }
+    .header {
+      h1 {
+        font-size: var(--text-lg);
+      }
+    }
+    .bodyCopy {
+      .text {
+        display: block;
+      }
+    }
+  }
+}

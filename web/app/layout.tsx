@@ -38,7 +38,6 @@ export default async function RootLayout({
               <Header settings={settings} />
               <main>{children}</main>
               <Footer settings={settings} />
-              {/* <Splash /> */}
               {isEnabled && (
                 <VisualEditing
                   zIndex={1000} // Optional

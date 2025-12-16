@@ -1,1 +1,1 @@
-export default [{type: 'pageModulaire'}, {type: 'home'}, {type: 'landing'}]
+export default [{type: 'pageModulaire'}, {type: 'landing'}]

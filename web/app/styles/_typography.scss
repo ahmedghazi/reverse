@@ -125,6 +125,13 @@ p,
     font-style: normal;
   }
 }
+.text {
+  figure,
+  p,
+  .embed {
+    margin-bottom: 1em;
+  }
+}
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;

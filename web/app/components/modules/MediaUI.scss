@@ -5,4 +5,8 @@
     height: calc(var(--vh) * 100) !important;
     object-fit: cover;
   }
+  iframe {
+    width: calc(var(--vw) * 100) !important;
+    height: calc(var(--vh) * 100) !important;
+  }
 }

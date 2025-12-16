@@ -1,7 +1,12 @@
 // import React from "react";
 import locales from "../config/i18n";
 import UseLocaleContext from "../context/LocaleContext";
-import { Landing, LocaleBlockContent, LocaleString } from "../types/schema";
+import {
+  BlockContent,
+  Landing,
+  LocaleBlockContent,
+  LocaleString,
+} from "../types/schema";
 
 export const _linkResolver = (node: Landing | any) => {
   // console.log(node);
@@ -13,8 +18,8 @@ export const _linkResolver = (node: Landing | any) => {
     //   return `/location/${node.slug?.current}`;
     // case "event":
     //   return `/event/${node.slug?.current}`;
-    // case "savoirFaire":
-    //   return `/savoir-faire/${node.slug?.current}`;
+    case "article":
+      return `/news/${node.slug?.current}`;
 
     default:
       return `/${node.slug?.current}`;
@@ -37,6 +42,30 @@ export const _localizeField = (
   return field && field[locale] ? field[locale] : field["fr"];
 };
 
+const _getFirstSentence = (blockContent: BlockContent) => {
+  if (!blockContent || !blockContent.length) return "";
+
+  const firstTextBlock = blockContent.find(
+    (block) => (block as any)._type === "block"
+  ) as any;
+
+  if (
+    !firstTextBlock ||
+    !firstTextBlock.children ||
+    !firstTextBlock.children.length
+  )
+    return "";
+
+  const fullText = firstTextBlock.children
+    .map((child: { text?: string }) => child.text || "")
+    .join(" ")
+    .trim();
+
+  if (!fullText) return "";
+
+  const match = fullText.match(/[^.!?]+[.!?]/);
+  return (match ? match[0] : fullText).trim();
+};
 // export const _preloadImages = (urls: Array<string | any>) => {
 //   urls.forEach((url) => {
 //     const img = new Image();

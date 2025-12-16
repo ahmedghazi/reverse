@@ -57,6 +57,7 @@ export function useScroll() {
     setTimeout(() => {
       setIsBottom(false);
       setScrollDirection("down");
+      setScrollY(0);
     }, 500);
   }, [pathname]);
 

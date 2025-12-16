@@ -1,10 +1,12 @@
-import home from './singletons/home'
+// import home from './singletons/home'
+import landing from './singletons/landing'
 import pageModulaire from './documents/pageModulaire'
+import article from './documents/article'
+
 import settings from './singletons/settings'
 
 import localeString from './locale/localeString'
 import localeBlockContent from './locale/localeBlockContent'
-import landing from './singletons/landing'
 
 import blockContent from './objects/blockContent'
 import linkExternal from './objects/linkExternal'
@@ -19,12 +21,16 @@ import textUI from './objects/modules/textUI'
 import keyPointsUI from './objects/modules/keyPointsUI'
 import keyPoint from './objects/modules/keyPoint'
 import mediaUI from './objects/modules/mediaUI'
+import articlesUI from './objects/modules/articlesUI'
+import sliderArticlesUI from './objects/modules/sliderArticlesUI'
 
 export const schemaTypes = [
   settings,
   landing,
-  home,
+  // home,
   pageModulaire,
+  article,
+
   localeString,
   localeBlockContent,
 
@@ -41,5 +47,7 @@ export const schemaTypes = [
   keyPointsUI,
   keyPoint,
   mediaUI,
+  articlesUI,
+  sliderArticlesUI,
 ]
 export default schemaTypes

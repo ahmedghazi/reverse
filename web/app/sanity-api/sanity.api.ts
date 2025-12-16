@@ -23,3 +23,7 @@ export const previewSecretId: `${string}.${string}` = "preview.secret";
 export const token = process.env.SANITY_API_READ_TOKEN!;
 
 export const hookSecret: string = process.env.NEXT_PUBLIC_SANITY_HOOK_SECRET!;
+
+export const studioUrl: string =
+  process.env.NEXT_PUBLIC_SANITY_STUDIO_URL! ||
+  "https://backoffice--reverse.sanity.studio/";

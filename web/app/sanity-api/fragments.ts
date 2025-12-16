@@ -29,7 +29,7 @@ export const blockContent = `
 
 			},
 		},
-		_type == 'icon' => {
+		_type == 'image' => {
 			...,
 			image{
 				asset->
@@ -47,7 +47,7 @@ export const blockContent = `
 			},
 
 		},
-		_type == 'icon' => {
+		_type == 'image' => {
 			...,
 			image{
 				asset->
@@ -56,6 +56,16 @@ export const blockContent = `
 	}
 `;
 
+export const articleCard = `
+	_type,
+	slug,
+	title,
+	tag,
+	chapo,
+	imageCover{
+		asset->
+	}
+`;
 export const textUI = `
 	_type == 'textUI' => {
 		...,
@@ -129,10 +139,21 @@ export const mediaUI = `
   }
 `;
 
+export const sliderArticlesUI = `
+  _type == 'sliderArticlesUI' => {
+    ...,
+    title,
+    items[]-> {
+      ${articleCard}
+    }
+  }
+`;
+
 export const modules = `
 	...,
 	${textUI},
 	${imagesUI},
 	${keyPointsUI},
-	${mediaUI}
+	${mediaUI},
+	${sliderArticlesUI}
 `;

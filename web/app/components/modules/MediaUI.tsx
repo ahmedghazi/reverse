@@ -30,7 +30,10 @@ const ModuleMediaUI = ({ input }: Props) => {
       case "embed":
         return media.url ? (
           <VideoWrapper url={media.url as string} autoplay />
+        ) : media.iframe ? (
+          <div dangerouslySetInnerHTML={{ __html: media.iframe }} />
         ) : null;
+
       default:
         return null;
     }

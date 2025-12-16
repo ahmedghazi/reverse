@@ -1,8 +1,9 @@
+import ContentPageModulaire from "@/app/components/ContentPageModulaire";
 import Modules from "@/app/components/modules";
 import website from "@/app/config/website";
 import {
   getPageModulaire,
-  pageModulaireQuery,
+  PAGE_MODULAIRE_QUERY,
 } from "@/app/sanity-api/sanity-queries";
 import { getClient } from "@/app/sanity-api/sanity.client";
 import { _localizeField } from "@/app/sanity-api/utils";
@@ -35,11 +36,11 @@ const FilmsPage: NextPage<PageProps> = async ({ params }) => {
   const { slug } = await params;
   const { isEnabled } = await draftMode();
   // const { isEnabled } = await draftMode();
-  console.log(slug);
   let data: PageModulaire;
   if (isEnabled) {
     data = await getClient({ token: process.env.SANITY_API_READ_TOKEN }).fetch(
-      pageModulaireQuery
+      PAGE_MODULAIRE_QUERY,
+      { slug: slug }
     );
   } else {
     data = (await getPageModulaire(slug)) as PageModulaire;
@@ -51,8 +52,9 @@ const FilmsPage: NextPage<PageProps> = async ({ params }) => {
       className='template template--page-modulaire'
       data-template='page-modulaire'>
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      <h1>{_localizeField(data.title)}</h1>
-      {data.modules && <Modules input={data.modules} />}
+      {/* <h1>{_localizeField(data.title)}</h1> */}
+      {/* {data.modules && <Modules input={data.modules} />} */}
+      {data && <ContentPageModulaire input={data} />}
     </div>
   );
 };

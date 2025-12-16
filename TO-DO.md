@@ -1,0 +1,1 @@
+- add env var NEXT_PUBLIC_SANITY_STUDIO_URL

@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Settings } from "../types/schema";
 import LogoReverse from "./ui/LogoReverse";
 import { useScroll } from "../hooks/useScroll";
 import { _localizeField } from "../sanity-api/utils";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
 type Props = {
   settings?: Settings | null;
@@ -12,11 +13,21 @@ type Props = {
 
 const Header = ({ settings }: Props) => {
   const { scrollY, scrollDirection, isBottom } = useScroll();
-  console.log({ scrollDirection });
+  // const [headerClass, setHeaderClass] = useState<string>("");
+  // const pathname = usePathname();
+  // useEffect(() => {
+  //   setHeaderClass("");
+
+  //   if (scrollY > 10) {
+  //     setHeaderClass("is-below");
+  //   }
+  // }, [pathname, scrollY]);
+  console.log({ scrollDirection, scrollY });
   return (
     <header
       className={clsx(
-        scrollY > 1 && "is-below"
+        scrollY > 10 && "is-below"
+        // headerClass
         // scrollY > 100 ? `is-${scrollDirection}` : "",
         // isBottom ? "is-bottom" : ""
       )}>

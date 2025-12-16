@@ -17,10 +17,11 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
   }
 
   return ![
-    'home',
+    // 'home',
     'landing',
-    'media.tag',
     'pageModulaire',
+    'article',
+    'media.tag',
     'lieu',
     'studio',
     'tag',
@@ -59,6 +60,9 @@ export const structure = (S) =>
         .title('Pages')
         .schemaType('pageModulaire')
         .child(S.documentTypeList('pageModulaire')),
+      S.divider(),
+
+      S.listItem().title('Articles').schemaType('article').child(S.documentTypeList('article')),
 
       // S.divider(),
 

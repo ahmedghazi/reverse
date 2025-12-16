@@ -30,7 +30,7 @@ export default defineField({
       return {
         title: title,
         subtitle: 'Media UI',
-        media: item[0] && item[0]._type === 'figure' ? item[0].image : item[0].url,
+        media: item[0] && item[0]._type === 'figure' ? item[0].image : 'Embed',
       }
     },
   },

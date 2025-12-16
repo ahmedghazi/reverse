@@ -28,14 +28,8 @@ header {
     }
   }
 
-  // image {
-  //   filter: invert(95%) sepia(14%) saturate(1207%) hue-rotate(343deg)
-  //     brightness(102%) contrast(98%);
-  // }
-  // color: white;
-  // mix-blend-mode: difference;
   @media all and (max-width: variables.$md) {
     padding: var(--space-md);
-    min-height: 100px;
+    // min-height: 100px;
   }
 }

@@ -13,6 +13,11 @@
 @use "components/header";
 @use "components/logo";
 @use "components/footer";
+@use "components/content--page-modulaire";
+@use "components/content--article";
+@use "components/slider-articles";
+@use "components/card--article";
+@use "components/ui/react-slick";
 
 @use "templates/home";
 @use "templates/project";

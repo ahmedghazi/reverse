@@ -150,38 +150,11 @@ export interface Landing extends SanityDocument {
    * Zone de contenu Modulaire (images, textes, embed)
    */
   modules?: Array<
-    SanityKeyed<MediaUI> | SanityKeyed<TextUI> | SanityKeyed<KeyPointsUI>
+    | SanityKeyed<MediaUI>
+    | SanityKeyed<TextUI>
+    | SanityKeyed<KeyPointsUI>
+    | SanityKeyed<SliderArticlesUI>
   >;
-}
-
-/**
- * Home
- *
- *
- */
-export interface Home extends SanityDocument {
-  _type: "home";
-
-  /**
-   * seo — `seo`
-   *
-   *
-   */
-  seo?: Seo;
-
-  /**
-   * Titre — `localeString`
-   *
-   *
-   */
-  title?: LocaleString;
-
-  /**
-   * Slug — `slug`
-   *
-   * URL basée sur le titre (sans espace ni caractère autre que a-z-0-9
-   */
-  slug?: { _type: "slug"; current: string };
 }
 
 /**
@@ -226,8 +199,81 @@ export interface PageModulaire extends SanityDocument {
    * Zone de contenu Modulaire (images, textes, embed)
    */
   modules?: Array<
-    SanityKeyed<MediaUI> | SanityKeyed<TextUI> | SanityKeyed<KeyPointsUI>
+    | SanityKeyed<MediaUI>
+    | SanityKeyed<TextUI>
+    | SanityKeyed<KeyPointsUI>
+    | SanityKeyed<SliderArticlesUI>
   >;
+}
+
+/**
+ * Article
+ *
+ *
+ */
+export interface Article extends SanityDocument {
+  _type: "article";
+
+  /**
+   * seo — `seo`
+   *
+   *
+   */
+  seo?: Seo;
+
+  /**
+   * Titre — `localeString`
+   *
+   *
+   */
+  title?: LocaleString;
+
+  /**
+   * Slug — `slug`
+   *
+   * URL basée sur le titre (sans espace ni caractère autre que a-z-0-9
+   */
+  slug?: { _type: "slug"; current: string };
+
+  /**
+   * Tag — `string`
+   *
+   *
+   */
+  tag?: string;
+
+  /**
+   * Image clef — `image`
+   *
+   * Visible on liste pages, project cards (largeur 1400px)
+   */
+  imageCover?: {
+    _type: "image";
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+  };
+
+  /**
+   * Chapo — `localeString`
+   *
+   *
+   */
+  chapo?: LocaleString;
+
+  /**
+   * Texte — `localeBlockContent`
+   *
+   *
+   */
+  text?: LocaleBlockContent;
+
+  /**
+   * Article liés — `array`
+   *
+   *
+   */
+  related?: Array<SanityKeyedReference<Article>>;
 }
 
 export type LocaleString = {
@@ -264,7 +310,16 @@ export type LocaleBlockContent = {
   en?: BlockContent;
 };
 
-export type BlockContent = Array<SanityKeyed<SanityBlock>>;
+export type BlockContent = Array<
+  | SanityKeyed<SanityBlock>
+  | SanityKeyed<{
+      _type: "image";
+      asset: SanityReference<SanityImageAsset>;
+      crop?: SanityImageCrop;
+      hotspot?: SanityImageHotspot;
+    }>
+  | SanityKeyed<Embed>
+>;
 
 export type LinkExternal = {
   _type: "linkExternal";
@@ -297,7 +352,7 @@ export type LinkInternal = {
    *
    *
    */
-  link?: SanityReference<PageModulaire | Home | Landing>;
+  link?: SanityReference<PageModulaire | Landing>;
 };
 
 export type Seo = {
@@ -351,14 +406,14 @@ export type Embed = {
   /**
    * url — `url`
    *
-   * url publique du media ex: https://www.youtube.com/watch?v=exTZ9vB6ZeE
+   * Youtube, Soundcloud, Mixcloud, Spotify, Tiktok, ...: https://www.youtube.com/watch?v=exTZ9vB6ZeE
    */
   url?: string;
 
   /**
-   * iframe — `url`
+   * iframe — `text`
    *
-   *
+   * Autre provider (instagram, ...)
    */
   iframe?: string;
 };
@@ -517,4 +572,45 @@ export type MediaUI = {
   item?: Array<SanityKeyed<Figure> | SanityKeyed<Embed>>;
 };
 
-export type Documents = Settings | Landing | Home | PageModulaire;
+export type ArticlesUI = {
+  _type: "articlesUI";
+  /**
+   * title — `localeString`
+   *
+   * Title
+   */
+  title?: LocaleString;
+
+  /**
+   * Items — `array`
+   *
+   *
+   */
+  items?: Array<SanityKeyedReference<Article>>;
+};
+
+export type SliderArticlesUI = {
+  _type: "sliderArticlesUI";
+  /**
+   * title — `localeString`
+   *
+   * Title
+   */
+  title?: LocaleString;
+
+  /**
+   * Items — `array`
+   *
+   *
+   */
+  items?: Array<SanityKeyedReference<Article>>;
+
+  /**
+   * Columns — `number`
+   *
+   * Number of itemss to display
+   */
+  cols?: number;
+};
+
+export type Documents = Settings | Landing | PageModulaire | Article;
