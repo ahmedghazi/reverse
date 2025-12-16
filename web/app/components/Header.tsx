@@ -12,17 +12,8 @@ type Props = {
 };
 
 const Header = ({ settings }: Props) => {
-  const { scrollY, scrollDirection, isBottom } = useScroll();
-  // const [headerClass, setHeaderClass] = useState<string>("");
-  // const pathname = usePathname();
-  // useEffect(() => {
-  //   setHeaderClass("");
+  const { scrollY } = useScroll();
 
-  //   if (scrollY > 10) {
-  //     setHeaderClass("is-below");
-  //   }
-  // }, [pathname, scrollY]);
-  console.log({ scrollDirection, scrollY });
   return (
     <header
       className={clsx(
