@@ -59,7 +59,7 @@ const ContentArticle = ({ input }: Props) => {
       {
         related && (
           <div className='related'>
-            <SliderArticles items={related} title='Reco' />
+            <SliderArticles items={related} title='Reco' layout='isSlider' />
           </div>
         )
         // <pre>{JSON.stringify(related, null, 2)}</pre>
