@@ -11,6 +11,7 @@ import localeBlockContent from './locale/localeBlockContent'
 import blockContent from './objects/blockContent'
 import linkExternal from './objects/linkExternal'
 import linkInternal from './objects/linkInternal'
+import linkAnchor from './objects/linkAnchor'
 import seo from './objects/seo'
 import keyVal from './objects/keyVal'
 import embed from './objects/embed'
@@ -37,6 +38,7 @@ export const schemaTypes = [
   blockContent,
   linkExternal,
   linkInternal,
+  linkAnchor,
   seo,
   keyVal,
   embed,

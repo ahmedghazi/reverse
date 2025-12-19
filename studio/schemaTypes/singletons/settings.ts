@@ -88,6 +88,9 @@ export default defineType({
         {
           type: 'linkExternal',
         },
+        {
+          type: 'linkAnchor',
+        },
       ],
       group: 'header',
     }),
