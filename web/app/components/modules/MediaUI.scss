@@ -8,5 +8,14 @@
   iframe {
     width: calc(var(--vw) * 100) !important;
     height: calc(var(--vh) * 100) !important;
+    height: 100dvh !important;
+  }
+  .video-wrapper {
+    height: 100dvh !important;
+  }
+  .slider-cursor-prev-next {
+    max-height: calc(100% - 40px);
+    width: 45% !important;
+    // background-color: red;
   }
 }

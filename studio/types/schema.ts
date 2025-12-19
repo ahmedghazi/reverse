@@ -66,6 +66,13 @@ export interface Settings extends SanityDocument {
   contact?: LinkExternal;
 
   /**
+   * Naviguation Primary — `array`
+   *
+   * Nav header
+   */
+  navPrimary?: Array<SanityKeyed<LinkInternal> | SanityKeyed<LinkExternal>>;
+
+  /**
    * Contacts — `array`
    *
    *
@@ -85,13 +92,6 @@ export interface Settings extends SanityDocument {
    * Visible en après le logo "Reverse is part of xxx"
    */
   textExtra?: string;
-
-  /**
-   * Naviguation Primary — `array`
-   *
-   *
-   */
-  navPrimary?: Array<SanityKeyed<LinkInternal> | SanityKeyed<LinkExternal>>;
 
   /**
    * Naviguation Secondary — `array`
@@ -594,9 +594,16 @@ export type SliderArticlesUI = {
   /**
    * title — `localeString`
    *
-   * Title
+   * Optionnel, si renseigné s'affiche
    */
   title?: LocaleString;
+
+  /**
+   * layout — `string`
+   *
+   * type d'affichage, slider ou mosaic grille
+   */
+  layout?: "isSlider" | "isGrid";
 
   /**
    * Items — `array`

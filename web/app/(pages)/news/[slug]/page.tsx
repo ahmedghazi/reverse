@@ -28,11 +28,8 @@ export async function generateMetadata({
 }
 
 const FilmsPage: NextPage<PageProps> = async ({ params }) => {
-  // const params = await props.params;
   const { slug } = await params;
   const { isEnabled } = await draftMode();
-  // const { isEnabled } = await draftMode();
-  console.log(slug);
   let data: Article;
   if (isEnabled) {
     data = await getClient({ token: process.env.SANITY_API_READ_TOKEN }).fetch(

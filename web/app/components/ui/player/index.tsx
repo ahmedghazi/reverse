@@ -185,7 +185,7 @@ const VideoWrapper: React.FC<InputProps> = ({
         modestbranding: 1,
         showinfo: 0,
         rel: 0,
-        controls: 0,
+        controls: 1,
         origin: website.url,
       },
     },
@@ -203,7 +203,7 @@ const VideoWrapper: React.FC<InputProps> = ({
           video.playing ? "is-playing" : "is-pause"
         )}
         ref={ref}>
-        {url && (
+        {url && ready && (
           <div
             onClick={_togglePlayPause}
             className='cursor-pointer pointer-events-auto '>

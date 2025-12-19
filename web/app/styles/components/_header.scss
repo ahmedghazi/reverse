@@ -27,6 +27,9 @@ header {
       -webkit-filter: var(--filterColor);
     }
   }
+  a {
+    font-weight: bold;
+  }
 
   @media all and (max-width: variables.$md) {
     padding: var(--space-md);

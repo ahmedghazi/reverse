@@ -9,13 +9,25 @@ export default defineField({
   icon: ImEmbed,
   initialValue: {
     cols: 3,
+    layout: 'isSlider',
   },
   fields: [
     defineField({
       name: 'title',
       type: 'localeString',
-      description: 'Title',
-      validation: (Rule) => Rule.required(),
+      description: "Optionnel, si renseigné s'affiche",
+      // validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'layout',
+      type: 'string',
+      description: "type d'affichage, slider ou mosaic grille",
+      options: {
+        list: [
+          {title: 'Slider', value: 'isSlider'},
+          {title: 'Grid', value: 'isGrid'},
+        ],
+      },
     }),
     defineField({
       name: 'items',

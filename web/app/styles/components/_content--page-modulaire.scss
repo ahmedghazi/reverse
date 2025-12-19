@@ -1,9 +1,10 @@
 .content--page-modulaire {
-  padding-top: var(--header-height);
+  // padding-top: var(--header-height);
   h1 {
     font-size: var(--text-xl);
-    margin-bottom: 1em;
+    // margin-bottom: 1em;
     font-weight: bold;
     text-align: center;
+    padding: var(--space-lg);
   }
 }

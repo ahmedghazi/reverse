@@ -10,6 +10,16 @@ import { articleCard, blockContent, modules, seo } from "./fragments";
 export const settingsQuery = groq`*[_type == "settings"][0]{
   ...,
 
+  navPrimary[]{
+    ...,
+    _type == 'linkInternal' => {
+      ...,
+      link->{
+        _type,
+        slug,
+      },
+    },
+  },
   navTertiary[]{
     ...,
     _type == 'linkInternal' => {

@@ -35,7 +35,7 @@ export default async function RootLayout({
         <div id='page'>
           <LocaleContextProvider>
             <PageContextProvider>
-              <Header settings={settings} />
+              {settings && <Header settings={settings} />}
               <main>{children}</main>
               <Footer settings={settings} />
               {isEnabled && (

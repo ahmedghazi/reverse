@@ -77,6 +77,21 @@ export default defineType({
       group: 'header',
     }),
     defineField({
+      name: 'navPrimary',
+      title: 'Naviguation Primary',
+      description: 'Nav header',
+      type: 'array',
+      of: [
+        {
+          type: 'linkInternal',
+        },
+        {
+          type: 'linkExternal',
+        },
+      ],
+      group: 'header',
+    }),
+    defineField({
       name: 'contacts',
       title: 'Contacts',
       type: 'array',
@@ -114,21 +129,6 @@ export default defineType({
       group: 'footer',
     }),
 
-    defineField({
-      name: 'navPrimary',
-      title: 'Naviguation Primary',
-      type: 'array',
-      of: [
-        {
-          type: 'linkInternal',
-        },
-        {
-          type: 'linkExternal',
-        },
-      ],
-      group: 'header',
-      hidden: true,
-    }),
     defineField({
       name: 'navSecondary',
       title: 'Naviguation Secondary',

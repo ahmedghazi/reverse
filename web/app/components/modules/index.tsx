@@ -39,7 +39,6 @@ const Modules = ({ input }: Props) => {
           | SanityKeyed<MediaUI>
           | SanityKeyed<SliderArticlesUI>
       ) => {
-        console.log("Module type:", module._type);
         switch (module._type) {
           case "textUI":
             return <ModuleTextUI key={module._key} input={module} />;
@@ -49,8 +48,7 @@ const Modules = ({ input }: Props) => {
             return <ModuleKeyPointsUI key={module._key} input={module} />;
           case "mediaUI":
             return <ModuleMediaUI key={module._key} input={module} />;
-          // case "articlesUI":
-          //   return <ModuleArticlesUI key={module._key} input={module} />;
+
           case "sliderArticlesUI":
             return <ModuleSliderArticlesUI key={module._key} input={module} />;
 

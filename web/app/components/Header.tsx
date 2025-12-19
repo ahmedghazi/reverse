@@ -3,17 +3,18 @@ import React, { useEffect, useState } from "react";
 import { Settings } from "../types/schema";
 import LogoReverse from "./ui/LogoReverse";
 import { useScroll } from "../hooks/useScroll";
-import { _localizeField } from "../sanity-api/utils";
+import { _linkResolver, _localizeField } from "../sanity-api/utils";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
-  settings?: Settings | null;
+  settings: Settings;
 };
 
 const Header = ({ settings }: Props) => {
   const { scrollY } = useScroll();
-
+  const { baseline, contact, navPrimary } = settings;
   return (
     <header
       className={clsx(
@@ -24,15 +25,27 @@ const Header = ({ settings }: Props) => {
       )}>
       <div className='flex justify-between'>
         <div className='site-name'>
-          <LogoReverse baseline={settings?.baseline || ""} />
+          <LogoReverse baseline={baseline || ""} />
         </div>
-        <div className='flex justify-end items-center '>
-          {settings?.contact && (
-            <a className='cta' href={`mailto:${settings.contact.link}`}>
-              {settings.contact.label}
-            </a>
+        <ul className='flex justify-end items-center gap-md'>
+          {navPrimary &&
+            navPrimary.map((item, i) => (
+              <li key={i}>
+                {item._type === "linkInternal" && (
+                  <Link href={_linkResolver(item.link)}>
+                    {_localizeField(item.label)}
+                  </Link>
+                )}
+              </li>
+            ))}
+          {contact && (
+            <li>
+              <a className='cta' href={`mailto:${contact.link}`}>
+                {contact.label}
+              </a>
+            </li>
           )}
-        </div>
+        </ul>
       </div>
     </header>
   );

@@ -51,9 +51,6 @@ const FilmsPage: NextPage<PageProps> = async ({ params }) => {
     <div
       className='template template--page-modulaire'
       data-template='page-modulaire'>
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      {/* <h1>{_localizeField(data.title)}</h1> */}
-      {/* {data.modules && <Modules input={data.modules} />} */}
       {data && <ContentPageModulaire input={data} />}
     </div>
   );
