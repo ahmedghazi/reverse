@@ -15,6 +15,7 @@ type Props = {
 const Header = ({ settings }: Props) => {
   const { scrollY } = useScroll();
   const { baseline, contact, navPrimary } = settings;
+  console.log(navPrimary);
   return (
     <header
       className={clsx(
@@ -33,6 +34,11 @@ const Header = ({ settings }: Props) => {
               <li key={i}>
                 {item._type === "linkInternal" && (
                   <Link href={_linkResolver(item.link)}>
+                    {_localizeField(item.label)}
+                  </Link>
+                )}
+                {item._type === "linkAnchor" && (
+                  <Link href={`/#${item.link}`}>
                     {_localizeField(item.label)}
                   </Link>
                 )}

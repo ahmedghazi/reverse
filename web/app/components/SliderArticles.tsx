@@ -8,9 +8,15 @@ type Props = {
   items: Article[];
   title: string;
   layout: "isSlider" | "isGrid" | undefined;
+  cols?: number;
 };
 
-const SliderArticles = ({ items, title, layout = "isSlider" }: Props) => {
+const SliderArticles = ({
+  items,
+  title,
+  layout = "isSlider",
+  cols = 3,
+}: Props) => {
   let sliderRef = useRef<any>(null);
   const next = () => {
     sliderRef.current?.slickNext();
@@ -20,7 +26,7 @@ const SliderArticles = ({ items, title, layout = "isSlider" }: Props) => {
   };
   const settings = {
     autoplay: false,
-    slidesToShow: 3,
+    slidesToShow: cols,
     slidesToScroll: 1,
     infinite: true,
     centerPadding: "15px",
@@ -36,7 +42,7 @@ const SliderArticles = ({ items, title, layout = "isSlider" }: Props) => {
     ],
   };
   return (
-    <div className='slider-articles snap'>
+    <div className='slider-articles snap' id='news'>
       {title && (
         <div className='header'>
           <div className='grid grid-cols-3 items-center'>

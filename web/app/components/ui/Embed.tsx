@@ -9,8 +9,12 @@ type Props = {
 };
 
 const Embed = ({ input }: Props) => {
+  const [mounted, setMounted] = useState<boolean>(false);
   const [play, setPlay] = useState<boolean>(false);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const _play = () => {
     setPlay(!play);
   };
@@ -24,14 +28,8 @@ const Embed = ({ input }: Props) => {
 
   return (
     <div className='embed'>
-      {input.url && (
-        <div
-          style={
-            {
-              // aspectRatio: "16 / 9",
-            }
-          }
-          className={clsx("player-container  ")}>
+      {input.url && mounted && (
+        <div className={clsx("player-container  ")}>
           <ReactPlayer
             url={input.url}
             // controls={true}

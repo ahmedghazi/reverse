@@ -16,6 +16,7 @@ const ModuleSliderArticlesUI = ({ input }: Props) => {
           items={(input.items as Article[]) || []}
           title={_localizeField(input.title) || ""}
           layout={input.layout}
+          cols={input.cols}
         />
       )}
     </section>

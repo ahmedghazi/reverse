@@ -70,7 +70,11 @@ export interface Settings extends SanityDocument {
    *
    * Nav header
    */
-  navPrimary?: Array<SanityKeyed<LinkInternal> | SanityKeyed<LinkExternal>>;
+  navPrimary?: Array<
+    | SanityKeyed<LinkInternal>
+    | SanityKeyed<LinkExternal>
+    | SanityKeyed<LinkAnchor>
+  >;
 
   /**
    * Contacts — `array`
@@ -353,6 +357,23 @@ export type LinkInternal = {
    *
    */
   link?: SanityReference<PageModulaire | Landing>;
+};
+
+export type LinkAnchor = {
+  _type: "linkAnchor";
+  /**
+   * Label — `localeString`
+   *
+   *
+   */
+  label?: LocaleString;
+
+  /**
+   * Ancre — `string`
+   *
+   * ID de l'élément à cibler (sans le #)
+   */
+  link?: string;
 };
 
 export type Seo = {
