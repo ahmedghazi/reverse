@@ -10,7 +10,7 @@ import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
 import {linkResolver} from './src/linkResolverPreview'
 
 const devOnlyPlugins = [getStartedPlugin()]
-const remoteURL = 'https://reverse.paris'
+const remoteURL = 'https://www.reverse.paris'
 const localURL = 'http://localhost:3000'
 const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
 
