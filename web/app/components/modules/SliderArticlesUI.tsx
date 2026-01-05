@@ -10,7 +10,9 @@ type Props = {
 
 const ModuleSliderArticlesUI = ({ input }: Props) => {
   return (
-    <section className='module module--slider-articles-ui snap'>
+    <section
+      className='module module--slider-articles-ui snap'
+      id='section-news'>
       {input.items && (
         <SliderArticles
           items={(input.items as Article[]) || []}
