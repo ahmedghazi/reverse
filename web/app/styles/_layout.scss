@@ -11,6 +11,9 @@ html {
 html,
 body {
   scroll-snap-type: y mandatory;
+  &:has(.template--article) {
+    scroll-snap-type: none;
+  }
 }
 body {
   background-color: var(--color-bg);
