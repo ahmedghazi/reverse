@@ -6,6 +6,7 @@ import { _localizeField } from "@/app/sanity-api/utils";
 import { Article } from "@/app/types/schema";
 import { Metadata, NextPage } from "next";
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import React from "react";
 
 type Params = Promise<{ slug: string }>;
@@ -40,7 +41,7 @@ const FilmsPage: NextPage<PageProps> = async ({ params }) => {
     data = (await getArticle(slug)) as Article;
   }
 
-  if (!data) return <div>please edit page</div>;
+  if (!data) return notFound();
   return (
     <div className='template template--article' data-template='article'>
       <ContentArticle input={data} />
