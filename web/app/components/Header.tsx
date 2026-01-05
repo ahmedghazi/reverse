@@ -15,7 +15,6 @@ type Props = {
 const Header = ({ settings }: Props) => {
   const { scrollY } = useScroll();
   const { baseline, contact, navPrimary } = settings;
-  console.log(navPrimary);
   return (
     <header
       className={clsx(
@@ -25,9 +24,11 @@ const Header = ({ settings }: Props) => {
         // isBottom ? "is-bottom" : ""
       )}>
       <div className='flex justify-between'>
-        <div className='site-name'>
-          <LogoReverse baseline={baseline || ""} />
-        </div>
+        <Link href='/'>
+          <div className='site-name'>
+            <LogoReverse baseline={baseline || ""} />
+          </div>
+        </Link>
         <ul className='flex justify-end items-center gap-md'>
           {navPrimary &&
             navPrimary.map((item, i) => (
