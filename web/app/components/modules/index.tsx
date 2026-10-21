@@ -8,6 +8,7 @@ import {
   KeyPointsUI,
   ArticlesUI,
   SliderArticlesUI,
+  ScrollerVideoUI,
 } from "../../types/schema";
 import ModuleTextUI from "./TextUI";
 import ModuleImagesUI from "./ImagesUI";
@@ -16,6 +17,7 @@ import ModuleMediaUI from "./MediaUI";
 // import ModuleArticlesUI from "./SliderArticlesUI";
 import "./index.scss";
 import ModuleSliderArticlesUI from "./SliderArticlesUI";
+import ModuleScrollerVideoUI from "./ScrollerVideoUI";
 
 type Props = {
   input: Array<
@@ -24,6 +26,7 @@ type Props = {
     | SanityKeyed<KeyPointsUI>
     | SanityKeyed<MediaUI>
     | SanityKeyed<SliderArticlesUI>
+    | SanityKeyed<ScrollerVideoUI>
   >;
 };
 
@@ -38,6 +41,7 @@ const Modules = ({ input }: Props) => {
           | SanityKeyed<KeyPointsUI>
           | SanityKeyed<MediaUI>
           | SanityKeyed<SliderArticlesUI>
+          | SanityKeyed<ScrollerVideoUI>,
       ) => {
         switch (module._type) {
           case "textUI":
@@ -51,11 +55,13 @@ const Modules = ({ input }: Props) => {
 
           case "sliderArticlesUI":
             return <ModuleSliderArticlesUI key={module._key} input={module} />;
+          case "scrollerVideoUI":
+            return <ModuleScrollerVideoUI key={module._key} input={module} />;
 
           default:
             return null;
         }
-      }
+      },
     );
     return _modules;
   };

@@ -17,7 +17,7 @@ const LottiePlayerAlt: FC<Props> = ({ file, direction }) => {
 
   useEffect(() => {
     const token = subscribe("DOC_READY", () => {
-      lottieRef.current.goToAndPlay(0);
+      lottieRef.current?.goToAndPlay(0);
     });
 
     return () => {

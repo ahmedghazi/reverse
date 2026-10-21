@@ -158,6 +158,7 @@ export interface Landing extends SanityDocument {
     | SanityKeyed<TextUI>
     | SanityKeyed<KeyPointsUI>
     | SanityKeyed<SliderArticlesUI>
+    | SanityKeyed<ScrollerVideoUI>
   >;
 }
 
@@ -207,6 +208,7 @@ export interface PageModulaire extends SanityDocument {
     | SanityKeyed<TextUI>
     | SanityKeyed<KeyPointsUI>
     | SanityKeyed<SliderArticlesUI>
+    | SanityKeyed<ScrollerVideoUI>
   >;
 }
 
@@ -641,4 +643,59 @@ export type SliderArticlesUI = {
   cols?: number;
 };
 
+export type ScrollerVideoItem = {
+  _type: "scrollerVideoItem";
+  /**
+   * Title — `string`
+   *
+   *
+   */
+  title?: string;
+
+  /**
+   * Subtitle — `string`
+   *
+   *
+   */
+  subTitle?: string;
+
+  /**
+   * Article — `reference`
+   *
+   *
+   */
+  article?: SanityReference<Article>;
+
+  /**
+   * Video — `mux.video`
+   *
+   *
+   */
+  video?: MuxVideo;
+};
+
+export type ScrollerVideoUI = {
+  _type: "scrollerVideoUI";
+  /**
+   * title — `localeString`
+   *
+   * Optionnel, si renseigné s'affiche
+   */
+  title?: LocaleString;
+
+  /**
+   * Items — `array`
+   *
+   *
+   */
+  items?: Array<SanityKeyed<ScrollerVideoItem>>;
+};
+
 export type Documents = Settings | Landing | PageModulaire | Article;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type MuxVideo = any;

@@ -4,9 +4,11 @@ header {
   position: fixed;
   width: 100%;
   top: 0;
-  padding: var(--space-lg);
+  padding: var(--spacing-lg);
   z-index: 50;
-  transition: transform 0.2s var(--cubic), opacity 0.2s var(--cubic);
+  transition:
+    transform 0.2s var(--cubic),
+    opacity 0.2s var(--cubic);
   &.is-below,
   &.is-up,
   &.is-bottom {
@@ -32,7 +34,7 @@ header {
   }
 
   @media all and (max-width: variables.$md) {
-    padding: var(--space-md);
+    padding: var(--spacing-md);
     // min-height: 100px;
   }
 }

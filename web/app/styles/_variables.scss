@@ -12,7 +12,8 @@
   --color-yellow: #fcec96;
   --color-orange: #fbbb81;
   --color-blue: #acecff;
-  --font-primary: "Nunito Sans", "Helvetica Neue", "HelveticaNeueRoman",
+  --font-primary:
+    var(--font-nunito-sans), "Nunito Sans", "Helvetica Neue", "HelveticaNeueRoman",
     "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
     "Helvetica", "Arial", sans-serif;
   // --font-primary-b: "Nunito", "Helvetica Neue", "HelveticaNeueRoman",
@@ -22,11 +23,11 @@
   //   "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
   //   "Helvetica", "Arial", sans-serif;
 
-  --space-sm: 0.469rem; //7.5
-  --space-md: 0.938rem; //15
-  --space-lg: 1.875rem; //30
-  --space-xl: 2.988rem; //60
-  --space-xxl: 6.25rem; //100
+  --spacing-sm: 0.469rem; //7.5
+  --spacing-md: 0.938rem; //15
+  --spacing-lg: 1.875rem; //30
+  --spacing-xl: 2.988rem; //60
+  --spacing-xxl: 6.25rem; //100
 
   --text-sm: 0.694rem; //11px
   --text-md: 1rem; //16px
@@ -58,7 +59,7 @@
   --border-radius: 7px;
 
   --gutter: 9px;
-  --padding-top: calc(var(--header-height) + var(--space-lg));
+  --padding-top: calc(var(--header-height) + var(--spacing-lg));
 
   --screen-sm: 768px;
   --screen-md: 1080px;

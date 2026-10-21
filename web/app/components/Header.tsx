@@ -13,12 +13,12 @@ type Props = {
 };
 
 const Header = ({ settings }: Props) => {
-  const { scrollY } = useScroll();
+  const { isBelowViewPort } = useScroll({ belowThreshold: 1 });
   const { baseline, contact, navPrimary } = settings;
   return (
     <header
       className={clsx(
-        scrollY > 10 && "is-below"
+        isBelowViewPort && "is-below",
         // headerClass
         // scrollY > 100 ? `is-${scrollDirection}` : "",
         // isBottom ? "is-bottom" : ""
@@ -29,6 +29,7 @@ const Header = ({ settings }: Props) => {
             <LogoReverse baseline={baseline || ""} />
           </div>
         </Link>
+        {/* {scrollY} */}
         <ul className='flex justify-end items-center gap-md'>
           {navPrimary &&
             navPrimary.map((item, i) => (

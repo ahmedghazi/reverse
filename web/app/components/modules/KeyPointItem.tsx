@@ -35,7 +35,7 @@ const KeyPointItem = ({ input }: KeyPointProps) => {
       document.documentElement.style.setProperty("--color", color || "");
       document.documentElement.style.setProperty(
         "--filterColor",
-        filterColor || ""
+        filterColor || "",
       );
     } else {
       document.documentElement.style.removeProperty("--filterColor");
@@ -48,7 +48,7 @@ const KeyPointItem = ({ input }: KeyPointProps) => {
     <div
       className={clsx("item keypoint snap", { "is-inview": inView })}
       style={style}>
-      <div className='inner' ref={ref}>
+      <div className='inner relative' ref={ref}>
         {image && image.image && image.imageMobile && (
           <Image
             src={
@@ -60,7 +60,7 @@ const KeyPointItem = ({ input }: KeyPointProps) => {
             sizes='100vw'
           />
         )}
-        <div className='body'>
+        <div className='body relative'>
           <div className='grid md:grid-cols-12 gap-md items-baseline '>
             <div className='col-span-3'></div>
             <div className='col-span-3'>

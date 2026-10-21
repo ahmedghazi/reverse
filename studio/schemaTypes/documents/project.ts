@@ -1,5 +1,5 @@
 import {defineField, defineArrayMember, defineType} from 'sanity'
-import {FolderIcon} from '@sanity/icons'
+import {FolderIcon} from '@sanity/icons/Folder'
 import modulesList from '../objects/modules/modulesList'
 import {baseLanguage} from '../locale/supportedLanguages'
 

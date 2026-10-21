@@ -1,6 +1,6 @@
 import {defineType, defineArrayMember} from 'sanity'
 // import { FiExternalLink, LinkIcon } from 'react-icons/fi'
-import {LinkIcon} from '@sanity/icons'
+import {LinkIcon} from '@sanity/icons/Link'
 import {FiExternalLink} from 'react-icons/fi'
 import linkInternalTypes from '../misc/linkInternalTypes'
 import {Card, Text} from '@sanity/ui'

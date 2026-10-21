@@ -1,7 +1,7 @@
 @use "../../styles/variables";
 
 .module--text-ui {
-  padding: var(--padding-top) var(--space-lg);
+  padding: var(--padding-top) var(--spacing-lg);
   min-height: calc(var(--vh) * 100);
   &.text-indentedAndAnimated {
     p {
@@ -27,7 +27,7 @@
       overflow: clip;
     }
     @media all and (max-width: variables.$md) {
-      padding: var(--header-height) var(--space-md);
+      padding: var(--header-height) var(--spacing-md);
 
       p {
         font-size: var(--text-lg--mobile);

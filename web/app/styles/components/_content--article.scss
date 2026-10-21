@@ -1,7 +1,7 @@
 @use "../variables";
 
 .content--article {
-  padding-top: var(--header-height);
+  // padding-top: var(--header-height);
 
   .back {
     font-weight: bold;
@@ -16,7 +16,7 @@
     }
   }
   .header {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--spacing-lg);
     font-weight: bold;
     font-size: var(--text-lg);
     h1 {
@@ -34,13 +34,13 @@
     }
   }
   .bodyCopy {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--spacing-lg);
     .text {
       font-size: var(--text-md);
       line-height: 1.6;
       grid-template-columns: repeat(8, minmax(0, 1fr));
       display: grid;
-      column-gap: var(--space-md);
+      column-gap: var(--spacing-md);
       p {
         grid-column: 2 / span 6;
       }

@@ -39,10 +39,10 @@ body {
   &.is-loading {
     &::before {
       opacity: 1;
+      // fade out without waiting for JS hydration (Speed Index)
+      animation: loader-out 0.5s ease-in-out 0.8s forwards;
     }
-    main {
-      opacity: 0;
-    }
+    // main stays painted under the overlay so LCP can be measured
     .spacer-hh {
       height: 2em;
     }
@@ -87,5 +87,11 @@ main {
   }
   .hidden-sm {
     display: none;
+  }
+}
+
+@keyframes loader-out {
+  to {
+    opacity: 0;
   }
 }

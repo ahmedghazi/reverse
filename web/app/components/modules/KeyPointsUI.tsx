@@ -13,7 +13,7 @@ const ModuleKeyPointsUI = ({ input }: Props) => {
   return (
     <section className='module module--keypoints'>
       <div className='item amorce'>
-        <div className='inner'>
+        <div className='inner relative'>
           <div className='body'>
             <div className='grid md:grid-cols-12 gap-md'>
               <div className='col-span-3'>

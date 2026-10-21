@@ -1,7 +1,6 @@
 @use "variables";
 
 // @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 //ABCDiatype-Regular
 body {
   color: black;
@@ -150,7 +149,7 @@ p,
     // text-indent: 1em;
     margin-bottom: 1em;
     line-height: 1.2;
-    @media all and (min-width: var(--screen-md)) {
+    @media all and (min-width: variables.$md) {
       line-height: 1.12;
     }
   }

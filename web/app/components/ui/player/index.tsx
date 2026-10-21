@@ -1,13 +1,18 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 // import PubSub, { publish, subscribe, unsubscribe } from "pubsub-js";
 import ReactPlayer from "react-player";
+import type { ReactPlayerProps } from "react-player/types";
 // import TimelineControls from "./TimelineControls";
 import { useInView } from "react-intersection-observer";
 import website from "@/app/config/website";
 import clsx from "clsx";
 // import screenfull from "screenfull"
-import { BaseReactPlayerProps } from "react-player/base";
-import { animate } from "framer-motion";
 import TimelineControls from "./TimelineControls";
 import "./index.scss";
 import Figure from "../Figure";
@@ -47,6 +52,25 @@ type VideoContextProps = {
   setVideo: Function;
 };
 
+// stable reference: a new object each render makes react-player re-apply config
+const config = {
+  youtube: {
+    // iv_load_policy: 3,
+    // cc_load_policy: 0,
+    // rel: 0,
+    origin: website.url,
+
+    iv_load_policy: 3,
+    cc_load_policy: 0,
+    // modestbranding: 1,
+    // showinfo: 0,
+    rel: 0,
+  },
+  vimeo: {
+    title: false,
+  },
+} satisfies ReactPlayerProps["config"];
+
 const VideoContext = createContext<VideoContextProps>({} as VideoContextProps);
 
 const VideoWrapper: React.FC<InputProps> = ({
@@ -55,17 +79,23 @@ const VideoWrapper: React.FC<InputProps> = ({
   thumbnail,
   aspectRatio = "16 / 9",
 }) => {
-  initialVideoState.playing = autoplay;
-  initialVideoState.volume = autoplay ? 0 : 1;
-  initialVideoState.muted = autoplay;
-
   const [ready, setReady] = useState<boolean>(false);
   const [started, setStarted] = useState<boolean>(false);
-  const [video, setVideo] = useState<VideoStateProps>(initialVideoState);
-  const [seek, setSeek] = useState<number>(0);
-  const playerRef = useRef<ReactPlayer>(null);
+  const [video, setVideo] = useState<VideoStateProps>(() => ({
+    ...initialVideoState,
+    playing: autoplay,
+    volume: autoplay ? 0 : 1,
+    muted: autoplay,
+  }));
+  // const [seek, setSeek] = useState<number>(0);
+  const playerRef = useRef<HTMLVideoElement>(null);
   const { ref, inView } = useInView({
     threshold: 0,
+  });
+  // only mount the (heavy) player iframe when close to the viewport
+  const { ref: nearRef, inView: isNear } = useInView({
+    triggerOnce: true,
+    rootMargin: "200px",
   });
 
   // console.log(autoplay, video);
@@ -74,9 +104,9 @@ const VideoWrapper: React.FC<InputProps> = ({
     setReady(true);
   }, []);
 
-  useEffect(() => {
-    playerRef.current?.seekTo(seek);
-  }, [seek]);
+  // useEffect(() => {
+  //   if (playerRef.current) playerRef.current.currentTime = seek;
+  // }, [seek]);
 
   useEffect(() => {
     // console.log(inView, autoplay);
@@ -100,134 +130,91 @@ const VideoWrapper: React.FC<InputProps> = ({
   // console.log(video)
 
   const _onStart = () => {
-    console.log("here start");
     setStarted(true);
   };
 
-  const _onDuration = (duration: number) => {
-    // console.log(duration)
-    setVideo((video) => ({
-      ...video,
-      duration: duration,
-    }));
-  };
-  const _onReady = (event: any) => {
+  // const _onDuration = (event: React.SyntheticEvent<HTMLVideoElement>) => {
+  //   const { duration } = event.currentTarget;
+  //   // console.log(duration)
+  //   setVideo((video) => ({
+  //     ...video,
+  //     duration: duration,
+  //   }));
+  // };
+  const _onReady = () => {
     // console.log(event)
 
-    setVideo({
+    setVideo((video) => ({
       ...video,
       progress: null,
       duration: null,
       ready: true,
-    });
+    }));
     // setReady(true);
   };
   // const _onStart = (event) => {};
   // const _onError = (event) => {};
-  const _onProgress = (progress: any) => {
-    // console.log(progress);
-    setVideo((video) => ({
-      ...video,
-      progress: progress,
-    }));
-  };
+  // const _onEnded = () => {
+  //   // publish("VIDEO_ENDED");
+  // };
 
-  const _onEnded = () => {
-    // publish("VIDEO_ENDED");
-  };
+  // const _togglePlayPause = () => {
+  //   setVideo({
+  //     ...video,
+  //     playing: !video.playing,
+  //   });
+  // };
 
-  const _togglePlayPause = () => {
-    setVideo({
-      ...video,
-      playing: !video.playing,
-    });
-  };
+  // const _toggleMuted = () => {
+  //   setVideo({
+  //     ...video,
+  //     muted: !video.muted,
+  //   });
+  // };
 
-  const _toggleMuted = () => {
-    setVideo({
-      ...video,
-      muted: !video.muted,
-    });
-  };
-
-  useEffect(() => {
-    if (!playerRef.current) return;
-    if (!video.ready) return;
-
-    if (video.muted) {
-      animate(1, 0, {
-        duration: 0.5,
-        onUpdate: (latest) => {
-          setVideo({
-            ...video,
-            volume: latest,
-          });
-        },
-      });
-    } else {
-      animate(0, 1, {
-        duration: 0.5,
-        onUpdate: (latest) => {
-          setVideo({
-            ...video,
-            volume: latest,
-          });
-        },
-      });
-    }
-  }, [video.muted]);
-
-  const config = {
-    youtube: {
-      playerVars: {
-        iv_load_policy: 2,
-        cc_load_policy: 0,
-        modestbranding: 1,
-        showinfo: 0,
-        rel: 0,
-        controls: 1,
-        origin: website.url,
-      },
-    },
-    vimeo: {
-      title: "false",
-    },
-  };
   // console.log(showControls);
+  const contextValue = useMemo(() => ({ video, setVideo }), [video]);
+
   return (
-    <VideoContext.Provider value={{ video, setVideo }}>
+    <VideoContext.Provider value={contextValue}>
       <div
         className={clsx(
           "video-wrapper bg-black h-full ",
           autoplay && "is-autoplay",
-          video.playing ? "is-playing" : "is-pause"
+          video.playing ? "is-playing" : "is-pause",
         )}
-        ref={ref}>
-        {url && ready && (
+        ref={(node) => {
+          ref(node);
+          nearRef(node);
+        }}>
+        {url && !(ready && isNear) && <div style={{ aspectRatio }} />}
+        {url && ready && isNear && (
           <div
-            onClick={_togglePlayPause}
+            // onClick={_togglePlayPause}
             className='cursor-pointer pointer-events-auto '>
             <ReactPlayer
               ref={playerRef}
               className={clsx(
-                "react-player"
+                "react-player",
                 // autoplay ? "pointer-events-none" : ""
               )}
-              url={url}
+              src={url}
               width='100%'
               height='100%'
+              // react-player only calls play() on re-render, which happens before the
+              // embed is loaded: autoPlay makes the element start itself once ready
+              autoPlay={autoplay}
               playing={video.playing}
-              controls={true}
+              controls={!autoplay}
               // loop={false}
-              playsinline
+              playsInline
               config={config}
               muted={autoplay}
               // volume={video.volume}
-              onPlay={_onStart}
-              onDuration={_onDuration}
+              // onPlay={_onStart}
+              // onDurationChange={_onDuration}
               onReady={_onReady}
-              onProgress={_onProgress}
-              onEnded={_onEnded}
+              // onEnded={_onEnded}
               style={{
                 aspectRatio: aspectRatio,
               }}

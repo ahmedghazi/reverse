@@ -4,7 +4,7 @@
   section.module {
     // scroll-snap-align: start;
     // &--text-ui {
-    //   padding: var(--padding-top) var(--space-lg);
+    //   padding: var(--padding-top) var(--spacing-lg);
     //   min-height: calc(var(--vh) * 100);
     //   &.text-indentedAndAnimated {
     //     p {
@@ -25,7 +25,7 @@
     //       overflow: clip;
     //     }
     //     @media all and (max-width: var(--screen-md)) {
-    //       padding: var(--header-height) var(--space-md);
+    //       padding: var(--header-height) var(--spacing-md);
     //       p {
     //         font-size: var(--text-lg--mobile);
     //         text-align: left;

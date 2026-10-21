@@ -1,6 +1,4 @@
 "use client";
-import { usePageContext } from "@/app/context/PageContext";
-import { i } from "framer-motion/client";
 import React, { useEffect } from "react";
 
 type Props = {

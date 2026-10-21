@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Article, LocaleString } from "../types/schema";
 import CardArticle from "./CardArticle";
 import ReactSlick from "react-slick";
@@ -18,6 +18,17 @@ const SliderArticles = ({
   cols = 3,
 }: Props) => {
   let sliderRef = useRef<any>(null);
+  // react-slick 0.31 `responsive` only reacts to resize, not the initial width
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+
   const next = () => {
     sliderRef.current?.slickNext();
   };
@@ -26,20 +37,11 @@ const SliderArticles = ({
   };
   const settings = {
     autoplay: false,
-    slidesToShow: cols,
+    slidesToShow: isMobile ? 1 : cols,
     slidesToScroll: 1,
     infinite: true,
     centerPadding: "15px",
-    centerMode: true,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          centerMode: false,
-        },
-      },
-    ],
+    centerMode: !isMobile,
   };
   return (
     <div className='slider-articles snap' id='news'>

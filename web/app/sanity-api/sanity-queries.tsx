@@ -1,4 +1,4 @@
-import { groq } from "next-sanity";
+import { defineQuery, groq } from "next-sanity";
 import { sanityFetch } from "./sanity.client";
 import { Article, Landing, PageModulaire, Settings } from "../types/schema";
 import { articleCard, blockContent, modules, seo } from "./fragments";
@@ -47,7 +47,7 @@ export async function getSettings(): Promise<Settings> {
 //  * landing
 //  */
 
-export const LANDING_QUERY = groq`*[_type == "landing"][0]{
+export const LANDING_QUERY = defineQuery(`*[_type == "landing"][0]{
   ...,
   seo{
     ${seo}
@@ -55,7 +55,7 @@ export const LANDING_QUERY = groq`*[_type == "landing"][0]{
   modules[]{
     ${modules}
   }
-}`;
+}`);
 
 export async function getLanding(): Promise<Landing> {
   return sanityFetch({
@@ -64,29 +64,11 @@ export async function getLanding(): Promise<Landing> {
   });
 }
 
-// /*****************************************************************************************************
-//  * Home
-//  */
-
-// export const homeQuery = groq`*[_type == "home"][0]{
-//   ...,
-//   seo{
-//     ${seo}
-//   },
-
-// }`;
-
-// export async function getHome(): Promise<Home> {
-//   return sanityFetch({
-//     query: homeQuery,
-//     tags: ["home"],
-//   });
-// }
-
 /*****************************************************************************************************
  * PAGE MODULAIRE
  */
-export const PAGE_MODULAIRE_QUERY = groq`*[_type == "pageModulaire" && slug.current == $slug][0]{
+export const PAGE_MODULAIRE_QUERY =
+  defineQuery(`*[_type == "pageModulaire" && slug.current == $slug][0]{
   ...,
   seo{
     ${seo}
@@ -94,10 +76,9 @@ export const PAGE_MODULAIRE_QUERY = groq`*[_type == "pageModulaire" && slug.curr
   modules[]{
     ${modules}
   }
-}`;
+}`);
 
 export async function getPageModulaire(slug: string): Promise<PageModulaire> {
-  console.log("----------- getPageModulaire slug", slug);
   return sanityFetch({
     query: PAGE_MODULAIRE_QUERY,
     tags: ["pageModulaire"],
@@ -108,7 +89,8 @@ export async function getPageModulaire(slug: string): Promise<PageModulaire> {
 /*****************************************************************************************************
  * NEWS
  */
-export const ARTICLE_QUERY = groq`*[_type == "article" && slug.current == $slug][0]{
+export const ARTICLE_QUERY =
+  defineQuery(`*[_type == "article" && slug.current == $slug][0]{
   ...,
   seo{
     ${seo}
@@ -122,7 +104,7 @@ export const ARTICLE_QUERY = groq`*[_type == "article" && slug.current == $slug]
   related[]->{
     ${articleCard}
   }
-}`;
+}`);
 
 export async function getArticle(slug: string): Promise<Article> {
   return sanityFetch({
@@ -132,46 +114,36 @@ export async function getArticle(slug: string): Promise<Article> {
   });
 }
 
-// /*****************************************************************************************************
-//  * LOCATION
-//  */
-// export const locationQuery = groq`*[_type == "location" && slug.current == $slug][0]{
-//   ...,
-//   seo{
-//     ${seo}
-//   },
-//   modules[]{
-//     ${modules}
-//   }
-// }`;
+/*****************************************************************************************************
+ * ALL_PAGES_QUERY
+ *
+ */
+export const ALL_PAGES_QUERY = defineQuery(`
+  *[_type == "pageModulaire"]{
+    ...
+  }
+`);
 
-// export async function getlocation(slug: string): Promise<Location> {
-//   return sanityFetch({
-//     query: locationQuery,
-//     tags: ["location"],
-//     qParams: { slug: slug },
-//   });
-//   // return cachedClient(pageModulaireQuery, { slug: slug });
-// }
+export async function getAllPages(): Promise<PageModulaire[]> {
+  return sanityFetch({
+    query: ALL_PAGES_QUERY,
+    tags: ["all-pages"],
+  });
+}
 
-// /*****************************************************************************************************
-//  * EVENT
-//  */
-// export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0]{
-//   ...,
-//   seo{
-//     ${seo}
-//   },
-//   modules[]{
-//     ${modules}
-//   }
-// }`;
+/*****************************************************************************************************
+ * ALL_PAGES_QUERY
+ *
+ */
+export const ALL_ARTICLE_QUERY = defineQuery(`
+  *[_type == "article"]{
+    ...
+  }
+`);
 
-// export async function getSingleEvent(slug: string): Promise<Event> {
-//   return sanityFetch({
-//     query: eventQuery,
-//     tags: ["event"],
-//     qParams: { slug: slug },
-//   });
-//   // return cachedClient(pageModulaireQuery, { slug: slug });
-// }
+export async function getAllArticles(): Promise<Article[]> {
+  return sanityFetch({
+    query: ALL_ARTICLE_QUERY,
+    tags: ["all-articles"],
+  });
+}

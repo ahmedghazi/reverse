@@ -1,10 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import LottiePlayer from "./LottiePlayer";
+import dynamic from "next/dynamic";
+import { useInView } from "react-intersection-observer";
 import { useScroll } from "../../../hooks/useScroll";
-import animationDataBlack from "./reverse-lottie-black.json";
-import animationDataYellow from "./reverse-lottie-yellow.json";
 // import { usePreloadLottie } from "./usePreloadLottie";
+
+// lottie-web + animations are heavy (frame-by-frame webp), keep them out of the main bundle
+const LottiePlayer = dynamic(() => import("./LottiePlayer"), { ssr: false });
+
+const LOTTIE_BLACK = "/lottie/reverse-lottie-black.json";
+const LOTTIE_YELLOW = "/lottie/reverse-lottie-yellow.json";
 
 interface LogoReverseProps {
   baseline?: string;
@@ -16,7 +21,27 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
   isYellow = false,
 }) => {
   const [direction, setDirection] = useState<number>(1);
+  const [animationData, setAnimationData] = useState<any>(null);
   const { scrollDirection, isBottom } = useScroll();
+  // footer logo: only load when close to the viewport
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: "400px",
+    skip: !isYellow,
+  });
+  const shouldLoad = !isYellow || inView;
+
+  useEffect(() => {
+    if (!shouldLoad || animationData) return;
+    const controller = new AbortController();
+    fetch(isYellow ? LOTTIE_YELLOW : LOTTIE_BLACK, {
+      signal: controller.signal,
+    })
+      .then((res) => res.json())
+      .then(setAnimationData)
+      .catch(() => {});
+    return () => controller.abort();
+  }, [shouldLoad, isYellow, animationData]);
 
   // Gestion de la direction du défilement
   useEffect(() => {
@@ -34,11 +59,12 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
   }, [scrollDirection, isBottom]);
 
   return (
-    <div className='logo logo-reverse'>
-      <LottiePlayer
-        file={isYellow ? animationDataYellow : animationDataBlack}
-        direction={direction}
-      />
+    <div className='logo logo-reverse' ref={ref}>
+      {animationData ? (
+        <LottiePlayer file={animationData} direction={direction} />
+      ) : (
+        <div className='lottie-player' />
+      )}
       {baseline && <div className='baseline md:text-md'>{baseline}</div>}
     </div>
   );

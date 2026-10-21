@@ -149,11 +149,29 @@ export const sliderArticlesUI = `
   }
 `;
 
+export const scrollerVideoUI = `
+  _type == 'scrollerVideoUI' => {
+    ...,
+    title,
+    items[]{
+			...,
+			article->{
+				_type,
+				slug
+			},
+      video{
+        asset->
+      }
+    }
+  }
+`;
+
 export const modules = `
 	...,
 	${textUI},
 	${imagesUI},
 	${keyPointsUI},
 	${mediaUI},
-	${sliderArticlesUI}
+	${sliderArticlesUI},
+	${scrollerVideoUI}
 `;

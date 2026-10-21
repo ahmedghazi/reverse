@@ -5,7 +5,7 @@ import {defineField, defineArrayMember, defineType} from 'sanity'
 // import {FiServer} from 'react-icons/fi'
 import modulesList from '../objects/modules/modulesList'
 // import {validateSlug} from '../../utils/validateSlug'
-import {StackIcon} from '@sanity/icons'
+import {StackIcon} from '@sanity/icons/Stack'
 import {baseLanguage} from '../locale/supportedLanguages'
 
 export default defineType({

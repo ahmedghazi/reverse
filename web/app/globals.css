@@ -1,26 +1,107 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+[data-theme="theme-reverse"] {
+  --app-height: 100vh;
+  --header-height: 43.5px;
+  --color-bg: #fff;
+  --color-primary: #000;
+  --color-secondary: #aaaaaa;
+  --color-hover: #333;
+  --color-accent: #6a2f72;
+  --color-red: red;
+  --color-yellow: #fcec96;
+  --color-orange: #fbbb81;
+  --color-blue: #acecff;
+  --font-primary:
+    "Nunito Sans", "Helvetica Neue", "HelveticaNeueRoman",
+    "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
+    "Helvetica", "Arial", sans-serif;
 
-/* @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --spacing-sm: 0.469rem; /*7.5*/
+  --spacing-md: 0.938rem; /*15*/
+  --spacing-lg: 1.875rem; /*30*/
+  --spacing-xl: 2.988rem; /*60*/
+  --spacing-xxl: 6.25rem; /*100*/
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  --text-sm: 0.694rem; /*11px*/
+  --text-md: 1rem; /*16px*/
+  --text-md-alt: 1.25rem; /*20px*/
+  --text-lg: 1.725rem; /* 27.6px*/
+  --text-xl: 2.88rem; /* 46.1px*/
+  --text-xl: 2.876vw; /* 41.4px*/
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+  --text-md--mobile: 1rem; /* 27.6px*/
+  --text-lg--mobile: 1.4rem; /* 27.6px*/
+
+  /*
+  xs: 8pt 10px
+  md: 12pt 16px
+  lg: 18pt 24px
+  xl: 30pt 40px
+  */
+
+  --cubic: cubic-bezier(0.775, 0, 0.17, 1.005);
+
+  --border-width: 2px;
+  --border: var(--border-width) solid;
+  --border-width-lg: 2px;
+  --border-lg: var(--border-width-lg) solid;
+  --border-radius: 7px;
+
+  --gutter: 9px;
+  --padding-top: calc(var(--header-height) + var(--spacing-lg));
+
+  --screen-sm: 768px;
+  --screen-md: 1080px;
+  --screen-lg: 1441px;
+}
+/*
+  Values live in app/styles/_variables.scss (:root).
+  "initial" clears Tailwind's defaults so only these tokens exist (same as the v3 config).
+*/
+@theme inline {
+  --app-height: var(--app-height);
+  --header-height: var(--header-height);
+
+  --color-bg: var(--color-bg);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-hover: var(--color-hover);
+  --color-accent: var(--color-accent);
+  --color-red: var(--color-red);
+  --color-yellow: var(--color-yellow);
+  --color-orange: var(--color-orange);
+  --color-blue: var(--color-blue);
+
+  --font-primary: var(--font-primary);
+
+  --spacing-sm: var(--spacing-sm);
+  --spacing-md: var(--spacing-md);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xl: var(--spacing-xl);
+  --spacing-xxl: var(--spacing-xxl);
+
+  --text-sm: var(--text-sm);
+  --text-md: var(--text-md);
+  --text-md-alt: var(--text-md-alt);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-xl: var(--text-xl);
+  --text-md--mobile: var(--text-md--mobile);
+  --text-lg--mobile: var(--text-lg--mobile);
+
+  --cubic: var(--cubic);
+
+  --border-width: var(--border-width);
+  --border: var(--border);
+  --border-width-lg: var(--border-width-lg);
+  --border-lg: var(--border-lg);
+  --border-radius: var(--border-radius);
+
+  --gutter: var(--gutter);
+
+  --padding-top: var(--padding-top);
+  --screen-sm: var(--screen-sm);
+  --screen-md: var(--screen-md);
+  --screen-lg: var(--screen-lg);
+}

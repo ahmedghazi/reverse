@@ -4,7 +4,7 @@ footer {
   background-color: var(--color-primary);
   color: var(--color-yellow);
   .inner {
-    padding: var(--space-lg);
+    padding: var(--spacing-lg);
     min-height: calc(var(--vh) * 100);
 
     display: flex;
@@ -42,7 +42,7 @@ footer {
   }
   #nav-tertiary {
     border-bottom: var(--border);
-    border-width: 1px;
+    border-bottom-width: 1px;
     padding-bottom: 5px;
     margin-bottom: 5px;
     ul {
@@ -54,7 +54,7 @@ footer {
     display: flex;
     justify-content: space-between;
     border-bottom: var(--border);
-    border-width: 1px;
+    border-bottom-width: 1px;
     padding-bottom: 5px;
     font-size: var(--text-sm);
     margin-bottom: 8.8%;
@@ -62,7 +62,7 @@ footer {
 
   @media all and (max-width: variables.$md) {
     .inner {
-      padding: var(--space-lg) var(--space-md);
+      padding: var(--spacing-lg) var(--spacing-md);
       .logo {
         // background-color: var(--color-yellow);
         .lottie-player {

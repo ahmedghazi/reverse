@@ -1,4 +1,4 @@
-import {CogIcon} from '@sanity/icons'
+import {CogIcon} from '@sanity/icons/Cog'
 import {defineType, defineField} from 'sanity'
 
 export default defineType({

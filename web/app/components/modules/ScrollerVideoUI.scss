@@ -1,0 +1,50 @@
+.module--scroller-video-ui {
+  position: relative;
+  .timeline {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    // width: ;
+    z-index: 2;
+    background-color: blue;
+
+    .inner {
+      background-color: red;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+    }
+  }
+}
+.scroller-video-item {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  scroll-snap-align: start;
+  color: #fcec96;
+  .overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    &-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 0.5rem;
+      h2,
+      p {
+        line-height: 1;
+      }
+    }
+    .cta {
+      position: absolute;
+      bottom: var(--spacing-md);
+      right: var(--spacing-md);
+    }
+  }
+}

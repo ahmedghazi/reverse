@@ -24,6 +24,8 @@ import keyPoint from './objects/modules/keyPoint'
 import mediaUI from './objects/modules/mediaUI'
 import articlesUI from './objects/modules/articlesUI'
 import sliderArticlesUI from './objects/modules/sliderArticlesUI'
+import scrollerVideoUI from './objects/modules/scrollerVideoUI'
+import scrollerVideoItem from './objects/modules/scrollerVideoItem'
 
 export const schemaTypes = [
   settings,
@@ -51,5 +53,7 @@ export const schemaTypes = [
   mediaUI,
   articlesUI,
   sliderArticlesUI,
+  scrollerVideoItem,
+  scrollerVideoUI,
 ]
 export default schemaTypes

@@ -6,10 +6,10 @@ import {media} from 'sanity-plugin-media'
 import {presentationTool} from 'sanity/presentation'
 import {structure} from './src/deskStructure'
 import {resolveProductionUrl} from './src/actions/resolveProductionUrl'
-import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
+// import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
 import {linkResolver} from './src/linkResolverPreview'
-
-const devOnlyPlugins = [getStartedPlugin()]
+import {muxInput} from 'sanity-plugin-mux-input'
+// const devOnlyPlugins = [getStartedPlugin()]
 const remoteURL = 'https://www.reverse.paris'
 const localURL = 'http://localhost:3000'
 const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
@@ -21,11 +21,10 @@ export default defineConfig({
   projectId: 'gk4akhok',
   dataset: 'production',
 
-  // plugins: [structureTool({structure}), visionTool(), ...(isDev ? devOnlyPlugins : []), media()],
   plugins: [
     structureTool({structure}),
     visionTool(),
-    ...(isDev ? devOnlyPlugins : []),
+    muxInput(),
     media(),
     presentationTool({
       resolve: linkResolver,

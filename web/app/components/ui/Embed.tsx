@@ -31,8 +31,8 @@ const Embed = ({ input }: Props) => {
       {input.url && mounted && (
         <div className={clsx("player-container  ")}>
           <ReactPlayer
-            url={input.url}
-            // controls={true}
+            src={input.url}
+            controls={true}
             width='100%'
             height='100%'
             style={{

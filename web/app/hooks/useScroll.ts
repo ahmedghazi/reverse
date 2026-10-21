@@ -1,69 +1,54 @@
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
-export function useScroll() {
-  // const [lastScrollTop, setLastScrollTop] = useState(0)
-  const EmptySSRRect = {
-    bottom: 0,
-    height: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-    width: 0,
-    x: 0,
-    y: 0,
-  };
-
-  const [bodyOffset, setBodyOffset] = useState<any>(EmptySSRRect);
-  const [scrollY, setScrollY] = useState<number>(bodyOffset.top);
-  const [scrollX, setScrollX] = useState<number>(bodyOffset.left);
+// only discrete values live in state so consumers don't re-render every scroll frame
+export function useScroll({ belowThreshold = 50 } = {}) {
   const [isBelowViewPort, setIsBelowViewPort] = useState<boolean>(false);
   const [scrollDirection, setScrollDirection] = useState<string>("");
   const [isBottom, setIsBottom] = useState<boolean>(false);
   const bottomThreshold: number = 100;
-  // let _prevScrollTop = 0
   const lastScrollTopRef = useRef<number>(0);
-  const lastScrollTop: number = lastScrollTopRef.current;
   const pathname = usePathname();
 
-  const listener = (e: Event) => {
-    setBodyOffset(
-      typeof window === "undefined" || !window.document
-        ? EmptySSRRect
-        : document.body.getBoundingClientRect()
-    );
-    setScrollY(-bodyOffset.top);
-    setScrollX(bodyOffset.left);
-    setScrollDirection(lastScrollTop > -bodyOffset.top ? "down" : "up");
-    // lastScrollTopRef.current = -bodyOffset.top
-    // console.log(window.scrollY, window.innerHeight)
-    setIsBelowViewPort(window.scrollY > 50);
-    const distanceToBottom =
-      document.body.scrollHeight - (window.innerHeight + window.scrollY);
-    setIsBottom(distanceToBottom <= bottomThreshold);
-    // _prevScrollTop = window.pageYOffset
-    lastScrollTopRef.current = -bodyOffset.top;
-  };
-
   useEffect(() => {
-    window.addEventListener("scroll", listener);
+    let frame = 0;
+    // read live values (scroll-snap fires few events, stale state = wrong final value)
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      if (y !== lastScrollTopRef.current) {
+        setScrollDirection(y > lastScrollTopRef.current ? "down" : "up");
+      }
+      setIsBelowViewPort(y > belowThreshold);
+      const distanceToBottom =
+        document.documentElement.scrollHeight - (window.innerHeight + y);
+      setIsBottom(distanceToBottom <= bottomThreshold);
+      lastScrollTopRef.current = y;
+    };
+    const listener = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", listener, { passive: true });
+    // final position once snapping has settled
+    window.addEventListener("scrollend", update);
     return () => {
       window.removeEventListener("scroll", listener);
+      window.removeEventListener("scrollend", update);
+      cancelAnimationFrame(frame);
     };
-  });
+  }, [belowThreshold]);
 
   useEffect(() => {
-    console.log("pathname", pathname);
     setTimeout(() => {
       setIsBottom(false);
       setScrollDirection("down");
-      setScrollY(0);
+      setIsBelowViewPort(window.scrollY > belowThreshold);
+      lastScrollTopRef.current = window.scrollY;
     }, 500);
   }, [pathname]);
 
   return {
-    scrollY,
-    scrollX,
     scrollDirection,
     isBottom,
     isBelowViewPort,

@@ -27,7 +27,7 @@ const Slider = ({ children, settingsOverride }) => {
   }, []);
 
   useEffect(() => {
-    PubSub.publish("SLIDER_CHANGE", index + 1);
+    PubSub.publish("SLIDER_CHANGE", index);
   }, [index]);
 
   const settingsDefault = {

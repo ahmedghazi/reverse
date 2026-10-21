@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import clsx from "clsx";
 import { MediaUI } from "@/app/types/schema";
 import Figure from "../ui/Figure";
 import { VideoWrapper } from "../ui/player";
 import Slider from "../ui/slick-slider/index.jsx";
-import "./MediaUI.scss";
 import useDeviceDetect from "@/app/hooks/useDeviceDetect";
+import "./MediaUI.scss";
 
 interface Props {
   input: MediaUI;
@@ -13,11 +13,24 @@ interface Props {
 
 const ModuleMediaUI = ({ input }: Props) => {
   const items = input.item || [];
+  const [index, setIndex] = useState(0);
 
   type MediaItem = (typeof items)[number];
   const { isMobile } = useDeviceDetect();
 
-  const renderMedia = (media: MediaItem) => {
+  useEffect(() => {
+    // console.log(index);
+    const token = PubSub.subscribe("SLIDER_CHANGE", (e, d) => {
+      setIndex(d);
+    });
+
+    return () => {
+      PubSub.unsubscribe(token);
+    };
+  }, []);
+
+  const renderMedia = (media: MediaItem, _index: number) => {
+    console.log(_index, index);
     switch (media?._type) {
       case "figure":
         return (
@@ -29,7 +42,7 @@ const ModuleMediaUI = ({ input }: Props) => {
         );
       case "embed":
         return media.url ? (
-          <VideoWrapper url={media.url as string} autoplay />
+          <VideoWrapper url={media.url as string} autoplay={_index === index} />
         ) : media.iframe ? (
           <div dangerouslySetInnerHTML={{ __html: media.iframe }} />
         ) : null;
@@ -45,7 +58,7 @@ const ModuleMediaUI = ({ input }: Props) => {
         <Slider settingsOverride={{ autoplay: false }}>
           {items.map((media, i: number) => (
             <div className='media-item' key={i}>
-              {renderMedia(media)}
+              {renderMedia(media, i)}
             </div>
           ))}
         </Slider>
@@ -56,7 +69,7 @@ const ModuleMediaUI = ({ input }: Props) => {
   const media = items[0];
   return (
     <section className='module module--mediaUI snap'>
-      {media ? renderMedia(media) : null}
+      {media ? renderMedia(media, 0) : null}
     </section>
   );
 };

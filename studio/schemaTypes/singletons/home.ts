@@ -1,5 +1,5 @@
 import {defineType, defineField} from 'sanity'
-import {HomeIcon} from '@sanity/icons'
+import {HomeIcon} from '@sanity/icons/Home'
 import modulesList from '../objects/modules/modulesList'
 import {baseLanguage} from '../locale/supportedLanguages'
 // console.log(modulesList)
