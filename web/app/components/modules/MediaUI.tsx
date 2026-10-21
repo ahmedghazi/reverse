@@ -12,6 +12,7 @@ interface Props {
 }
 
 const ModuleMediaUI = ({ input }: Props) => {
+  console.log(input);
   const items = input.item || [];
   const [index, setIndex] = useState(0);
 
@@ -30,7 +31,7 @@ const ModuleMediaUI = ({ input }: Props) => {
   }, []);
 
   const renderMedia = (media: MediaItem, _index: number) => {
-    console.log(_index, index);
+    // console.log(_index, index);
     switch (media?._type) {
       case "figure":
         return (

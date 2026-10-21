@@ -14,7 +14,8 @@ const config: ClientConfig = {
   apiVersion,
   // set CDN to live API in development mode
   useCdn: process.env.NODE_ENV === "development" ? true : false,
-  // perspective: draftMode().isEnabled ? "previewDrafts" : "published",
+  // only published documents on the public site (the token would otherwise return drafts too)
+  perspective: "published",
   token,
   // stega: {
   //   enabled: draftMode().isEnabled,
