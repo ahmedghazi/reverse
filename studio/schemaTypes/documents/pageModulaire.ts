@@ -46,6 +46,13 @@ export default defineType({
     }),
 
     defineField({
+      name: 'layoutDark',
+      type: 'boolean',
+      title: 'Layout dark',
+      group: 'editorial',
+      description: "Passer l'UI en blanc",
+    }),
+    defineField({
       name: 'title',
       type: 'localeString',
       title: 'Titre',

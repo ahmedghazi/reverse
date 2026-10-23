@@ -7,6 +7,9 @@ import { _linkResolver, _localizeField } from "../sanity-api/utils";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Burger from "./ui/Burger";
+import NavSocial from "./ui/NavSocial";
+import { subscribe, unsubscribe } from "pubsub-js";
 
 type Props = {
   settings: Settings;
@@ -15,6 +18,18 @@ type Props = {
 const Header = ({ settings }: Props) => {
   const { isBelowViewPort } = useScroll({ belowThreshold: 1 });
   const { baseline, contact, navPrimary } = settings;
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const token = subscribe("LAYOUT_DARK", (e, data) => {
+      console.log("LAYOUT_DARK", data);
+      setIsDark(data);
+    });
+    return () => {
+      unsubscribe(token);
+    };
+  }, []);
+
   return (
     <header
       className={clsx(
@@ -23,37 +38,44 @@ const Header = ({ settings }: Props) => {
         // scrollY > 100 ? `is-${scrollDirection}` : "",
         // isBottom ? "is-bottom" : ""
       )}>
-      <div className='flex justify-between'>
+      <div className='flex justify-between items-center'>
         <Link href='/'>
           <div className='site-name'>
-            <LogoReverse baseline={baseline || ""} />
+            <LogoReverse
+              baseline={baseline || ""}
+              color={isDark ? "white" : "black"}
+            />
           </div>
         </Link>
+        <Burger />
         {/* {scrollY} */}
-        <ul className='flex justify-end items-center gap-md'>
-          {navPrimary &&
-            navPrimary.map((item, i) => (
-              <li key={i}>
-                {item._type === "linkInternal" && (
-                  <Link href={_linkResolver(item.link)}>
-                    {_localizeField(item.label)}
-                  </Link>
-                )}
-                {item._type === "linkAnchor" && (
-                  <Link href={`/#${item.link}`}>
-                    {_localizeField(item.label)}
-                  </Link>
-                )}
+        <nav>
+          <ul className='menu'>
+            {navPrimary &&
+              navPrimary.map((item, i) => (
+                <li key={i}>
+                  {item._type === "linkInternal" && (
+                    <Link href={_linkResolver(item.link)}>
+                      {_localizeField(item.label)}
+                    </Link>
+                  )}
+                  {item._type === "linkAnchor" && (
+                    <Link href={`/#${item.link}`}>
+                      {_localizeField(item.label)}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            {contact && (
+              <li>
+                <a className='' href={`mailto:${contact.link}`}>
+                  {contact.label}
+                </a>
               </li>
-            ))}
-          {contact && (
-            <li>
-              <a className='cta' href={`mailto:${contact.link}`}>
-                {contact.label}
-              </a>
-            </li>
-          )}
-        </ul>
+            )}
+          </ul>
+          <NavSocial />
+        </nav>
       </div>
     </header>
   );

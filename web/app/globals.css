@@ -17,6 +17,9 @@
     "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
     "Helvetica", "Arial", sans-serif;
 
+  --font-secondary: var(--font-tt-norms-condensed), "Helvetica", "Arial", sans-serif;
+  --font-mono: var(--font-tt-norms-mono), monospace;
+
   --spacing-sm: 0.469rem; /*7.5*/
   --spacing-md: 0.938rem; /*15*/
   --spacing-lg: 1.875rem; /*30*/
@@ -27,7 +30,8 @@
   --text-md: 1rem; /*16px*/
   --text-md-alt: 1.25rem; /*20px*/
   --text-lg: 1.725rem; /* 27.6px*/
-  --text-xl: 2.88rem; /* 46.1px*/
+  --text-lg-alt: 2rem; /* 32px*/
+  /*--text-xl: 2.88rem;*/ /* 46.1px*/
   --text-xl: 2.876vw; /* 41.4px*/
 
   --text-md--mobile: 1rem; /* 27.6px*/

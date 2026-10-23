@@ -35,7 +35,7 @@ const Burger = (props: Props) => {
 
   return (
     <div
-      className={clsx("burger-wrapper sm-only ", active ? "is-active" : "")}
+      className={clsx("burger-wrapper", active ? "is-active" : "")}
       onClick={_onClick}
       // onKeyDown={_onClick}
       role='button'

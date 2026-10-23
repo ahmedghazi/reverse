@@ -56,13 +56,22 @@
   @return $list;
 }
 
-$inputs-list: 'input[type="email"]', 'input[type="number"]',
-  'input[type="password"]', 'input[type="search"]', 'input[type="tel"]',
-  'input[type="text"]', 'input[type="url"]',
+$inputs-list:
+  'input[type="email"]',
+  'input[type="number"]',
+  'input[type="password"]',
+  'input[type="search"]',
+  'input[type="tel"]',
+  'input[type="text"]',
+  'input[type="url"]',
   /* Webkit & Gecko may change the display of these in the future */
-    'input[type="color"]',
-  'input[type="date"]', 'input[type="datetime"]', 'input[type="datetime-local"]',
-  'input[type="month"]', 'input[type="time"]', 'input[type="week"]';
+  'input[type="color"]',
+  'input[type="date"]',
+  'input[type="datetime"]',
+  'input[type="datetime-local"]',
+  'input[type="month"]',
+  'input[type="time"]',
+  'input[type="week"]';
 
 /* Bare inputs */
 $all-text-inputs: assign-inputs($inputs-list);
@@ -216,9 +225,11 @@ $sass-burger-add-vendor-prefixes: true !default;
   pointer-events: none;
   // cursor: pointer;
   // 1. Fixes jagged edges in Firefox, see issue #10.
+
   &,
   &::before,
-  &::after {
+  &::after,
+  i {
     display: block;
     width: $width;
     height: $height;
@@ -230,9 +241,15 @@ $sass-burger-add-vendor-prefixes: true !default;
     }
 
     @if $sass-burger-add-vendor-prefixes {
-      -webkit-transition-property: background-color, -webkit-transform;
-      -moz-transition-property: background-color, -moz-transform;
-      -o-transition-property: background-color, -o-transform;
+      -webkit-transition-property:
+        background-color,
+        -webkit-transform;
+      -moz-transition-property:
+        background-color,
+        -moz-transform;
+      -o-transition-property:
+        background-color,
+        -o-transform;
     }
 
     transition-property: background-color, transform;
@@ -245,19 +262,26 @@ $sass-burger-add-vendor-prefixes: true !default;
 
     transition-duration: $transition-duration;
   }
+  width: $width;
+  height: calc($height * 3 + $gutter * 2);
+  background-color: transparent;
 
   &::before,
-  &::after {
+  &::after,
+  i {
     position: absolute;
     content: "";
   }
 
   &::before {
-    top: -($height + $gutter);
+    // top: -($height + $gutter);
+    top: 0;
   }
-
-  &::after {
+  i {
     top: $height + $gutter;
+  }
+  &::after {
+    top: calc(($height + $gutter) * 2);
   }
 }
 
@@ -289,7 +313,7 @@ $sass-burger-add-vendor-prefixes: true !default;
 }
 
 // Burger animations
-@mixin burger-to-cross($color: auto) {
+@mixin burger-to-cross($color: auto, $height: 5px, $gutter: 3px) {
   & {
     background-color: transparent;
     //transform: rotate(360deg); opacity: 0;
@@ -301,33 +325,17 @@ $sass-burger-add-vendor-prefixes: true !default;
       background-color: $color;
     }
   }
-  $burger-gutter: 4px;
-  $burger-height: 2px;
+  $burger-gutter: $gutter;
+  $burger-height: $height;
   &::before {
-    @if $sass-burger-add-vendor-prefixes {
-      -webkit-transform: translateY($burger-gutter + $burger-height)
-        rotate(45deg);
-      -moz-transform: translateY($burger-gutter + $burger-height) rotate(45deg);
-      -ms-transform: translateY($burger-gutter + $burger-height) rotate(45deg);
-      -o-transform: translateY($burger-gutter + $burger-height) rotate(45deg);
-    }
-
     transform: translateY($burger-gutter + $burger-height) rotate(45deg);
   }
 
   &::after {
-    @if $sass-burger-add-vendor-prefixes {
-      -webkit-transform: translateY(-($burger-gutter + $burger-height))
-        rotate(-45deg);
-      -moz-transform: translateY(-($burger-gutter + $burger-height))
-        rotate(-45deg);
-      -ms-transform: translateY(-($burger-gutter + $burger-height))
-        rotate(-45deg);
-      -o-transform: translateY(-($burger-gutter + $burger-height))
-        rotate(-45deg);
-    }
-
     transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
+  }
+  i {
+    opacity: 0;
   }
 }
 
@@ -408,14 +416,16 @@ $sass-burger-add-vendor-prefixes: true !default;
   $dynamic-top-crop: max(
       ($top-crop + ($line-height - $crop-line-height) * ($crop-font-size / 2)),
       0
-    ) / $crop-font-size;
+    ) /
+    $crop-font-size;
   $dynamic-bottom-crop: max(
       (
         $bottom-crop + ($line-height - $crop-line-height) *
           ($crop-font-size / 2)
       ),
       0
-    ) / $crop-font-size;
+    ) /
+    $crop-font-size;
 
   // Mixin output
   line-height: $line-height;
@@ -481,14 +491,16 @@ $sass-burger-add-vendor-prefixes: true !default;
   $dynamic-top-crop: max(
       ($top-crop + ($line-height - $crop-line-height) * ($crop-font-size / 2)),
       0
-    ) / $crop-font-size;
+    ) /
+    $crop-font-size;
   $dynamic-bottom-crop: max(
       (
         $bottom-crop + ($line-height - $crop-line-height) *
           ($crop-font-size / 2)
       ),
       0
-    ) / $crop-font-size;
+    ) /
+    $crop-font-size;
 
   // Mixin output
   line-height: $line-height;

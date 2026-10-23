@@ -58,7 +58,7 @@ const Footer = ({ settings }: Props) => {
         tl.revert();
       };
     },
-    { scope: container }
+    { scope: container },
   );
   return (
     <footer className='snap'>
@@ -83,10 +83,9 @@ const Footer = ({ settings }: Props) => {
         <div className='bloc-bottom signature text-sm'>
           <div className='md:grid md:grid-cols-2 gap-md items-baseline-'>
             <div className=''>
-              <LogoReverse isYellow={true} />
+              <LogoReverse color={"yellow"} />
             </div>
             <div className=' flex flex-col justify-end '>
-              {/* <pre>{JSON.stringify(navTertiary, null, 2)}</pre> */}
               {navTertiary && (
                 <nav id='nav-tertiary'>
                   <ul className=''>

@@ -8,6 +8,7 @@ import {
 import { getClient } from "@/app/sanity-api/sanity.client";
 import { _localizeField } from "@/app/sanity-api/utils";
 import { PageModulaire } from "@/app/types/schema";
+import clsx from "clsx";
 import { Metadata, NextPage } from "next";
 import { draftMode } from "next/headers";
 import React from "react";
@@ -40,7 +41,7 @@ const FilmsPage: NextPage<PageProps> = async ({ params }) => {
   if (isEnabled) {
     data = await getClient({ token: process.env.SANITY_API_READ_TOKEN }).fetch(
       PAGE_MODULAIRE_QUERY,
-      { slug: slug }
+      { slug: slug },
     );
   } else {
     data = (await getPageModulaire(slug)) as PageModulaire;
@@ -49,7 +50,9 @@ const FilmsPage: NextPage<PageProps> = async ({ params }) => {
   if (!data) return <div>please edit page</div>;
   return (
     <div
-      className='template template--page-modulaire'
+      className={clsx("template", "template--page-modulaire", {
+        "is-dark": data.layoutDark,
+      })}
       data-template='page-modulaire'>
       {data && <ContentPageModulaire input={data} />}
     </div>

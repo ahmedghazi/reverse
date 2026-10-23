@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ModuleMediaUI = ({ input }: Props) => {
-  console.log(input);
+  // console.log(input);
   const items = input.item || [];
   const [index, setIndex] = useState(0);
 

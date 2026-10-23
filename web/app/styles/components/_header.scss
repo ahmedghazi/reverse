@@ -4,7 +4,7 @@ header {
   position: fixed;
   width: 100%;
   top: 0;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
   z-index: 50;
   transition:
     transform 0.2s var(--cubic),
@@ -33,8 +33,51 @@ header {
     font-weight: bold;
   }
 
+  .burger-wrapper {
+    position: relative;
+  }
+
+  nav {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: black;
+    color: white;
+    padding: var(--spacing-lg);
+    transition: transform 0.3s var(--cubic);
+    transform: translateX(100%);
+    // width: minmax(100%, 354.612060546875px);
+    width: min(354.612060546875px, 100%);
+    ul.menu {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--spacing-xl);
+      font-size: var(--text-xl);
+    }
+    .nav-social {
+      position: absolute;
+      bottom: var(--spacing-lg);
+      right: var(--spacing-xl);
+      display: flex;
+      align-items: center;
+      gap: calc(var(--spacing-md) * 1.5);
+    }
+  }
+
   @media all and (max-width: variables.$md) {
     padding: var(--spacing-md);
     // min-height: 100px;
+    nav {
+      width: 100%;
+      ul.menu {
+        font-size: var(--text-lg-alt);
+      }
+      .nav-social {
+        right: var(--spacing-md);
+      }
+    }
   }
 }

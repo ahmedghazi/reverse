@@ -7,9 +7,9 @@ import { articleCard, blockContent, modules, seo } from "./fragments";
 /*****************************************************************************************************
  * SETTINGS
  */
-export const settingsQuery = groq`*[_type == "settings"][0]{
+export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   ...,
-
+  isDark,
   navPrimary[]{
     ...,
     _type == 'linkInternal' => {
@@ -31,7 +31,7 @@ export const settingsQuery = groq`*[_type == "settings"][0]{
     },
   }
 
-}`;
+}`);
 
 export async function getSettings(): Promise<Settings> {
   return sanityFetch({

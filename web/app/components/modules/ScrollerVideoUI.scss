@@ -1,50 +1,225 @@
+@use "../../styles/variables";
+
 .module--scroller-video-ui {
-  position: relative;
-  .timeline {
+  // position: relative;
+  // overflow: hidden;
+  clip-path: inset(0 0 0 0);
+  // background-color: #000;
+  .controls {
     position: fixed;
     right: 0;
     top: 0;
     bottom: 0;
     // width: ;
     z-index: 2;
-    background-color: blue;
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .inner {
-      background-color: red;
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%) rotate(90deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+    svg {
+      width: 27px;
+      height: 13px;
+      cursor: pointer;
+      opacity: 0.7;
+      &.disabled {
+        opacity: 0;
+        cursor: none;
+        pointer-events: none;
+      }
+      &:hover:not(.disabled) {
+        opacity: 1;
+      }
+      path {
+        fill: #fff;
+      }
+    }
+    .timeline {
+      width: var(--border-width);
+      height: 38.4vh;
+      background-color: rgba(255, 255, 255, 0.4);
+      position: relative;
+      .progress {
+        position: absolute;
+        top: 0;
+        left: calc(var(--border-width) / -2);
+        width: calc(var(--border-width) * 2);
+        height: 3em;
+        background-color: var(--color-orange);
+      }
     }
   }
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    .nav-social {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--spacing-md) * 1.5);
+    }
+  }
+}
+.item {
+  // position: sticky;
+  // top: 0;
 }
 .scroller-video-item {
   position: relative;
   height: 100vh;
   width: 100%;
-  overflow: hidden;
-  scroll-snap-align: start;
-  color: #fcec96;
+  scroll-snap-stop: always;
+  font-family: var(--font-secondary);
+
   .overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
+    display: grid;
+    align-items: center;
+
     &-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%;
+      // height: 100%;
+      width: auto;
       gap: 0.5rem;
+      .overlay-text {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+      }
+
+      .reverse-text {
+        display: inline-block;
+        white-space: nowrap;
+        perspective: 400px;
+      }
+
+      .reverse-text .char {
+        display: inline-block;
+        width: 0.72em; // fixed slots, like a real board
+        text-align: center;
+        white-space: pre;
+        backface-visibility: hidden;
+        will-change: transform;
+
+        &::before {
+          content: attr(data-char);
+        }
+      }
+
+      // stackRoll: 1em mask over a column of identical layers
+      .reverse-text .char--stacked {
+        width: auto;
+        height: 1em;
+        overflow: hidden;
+        vertical-align: top;
+        backface-visibility: visible;
+        will-change: auto;
+
+        &::before {
+          content: none;
+        }
+        .char-stack {
+          display: block;
+          will-change: transform;
+        }
+        .char-layer {
+          display: block;
+          height: 1em;
+
+          // 2nd layer is the mirrored glyph, seen mid-roll
+          &:nth-child(2) {
+            transform: scaleX(-1);
+          }
+        }
+      }
+
+      // stackRoll3d: each char is a drum turning on its X axis, like the
+      // footer logo; the back face holds the reversed word turned 180°
+      .reverse-text .char--flip {
+        width: auto;
+        height: 1em;
+        vertical-align: top;
+        perspective: 4em;
+        backface-visibility: visible;
+        will-change: auto;
+
+        &::before {
+          content: none;
+        }
+        .char-flip {
+          display: block;
+          position: relative;
+          transform-style: preserve-3d;
+          will-change: transform;
+        }
+        .char-face {
+          display: block;
+          height: 1em;
+          line-height: 1;
+          white-space: pre;
+          backface-visibility: hidden;
+        }
+        .char-face--back {
+          position: absolute;
+          inset: 0;
+          text-align: center;
+          // far side of the drum; once turned it shows the word rotated 180°,
+          // as in the logo
+          transform: translateZ(-1em) rotateX(180deg) rotateZ(180deg);
+        }
+      }
       h2,
       p {
         line-height: 1;
+      }
+      h2 {
+        font-size: var(--text-xl);
+        font-weight: 800;
+      }
+      p {
+        font-size: var(--text-lg-alt);
       }
     }
     .cta {
       position: absolute;
       bottom: var(--spacing-md);
       right: var(--spacing-md);
+    }
+  }
+}
+
+@media all and (max-width: variables.$md) {
+  .module--scroller-video-ui {
+    .controls {
+      visibility: hidden;
+      // padding: var(--spacing-md);
+    }
+    .scroller-video-item {
+      h2,
+      p {
+        font-size: var(--text-lg-alt);
+      }
     }
   }
 }

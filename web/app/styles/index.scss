@@ -11,6 +11,7 @@
 @use "layout";
 
 @use "components/header";
+@use "components/ui/burger";
 @use "components/logo";
 @use "components/footer";
 @use "components/content--page-modulaire";
@@ -20,4 +21,5 @@
 @use "components/ui/react-slick";
 
 @use "templates/home";
-@use "templates/project";
+// @use "templates/project";
+@use "templates/page-modulaire";

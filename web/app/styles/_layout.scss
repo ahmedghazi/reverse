@@ -37,11 +37,11 @@ body {
   }
 
   &.is-loading {
-    &::before {
-      opacity: 1;
-      // fade out without waiting for JS hydration (Speed Index)
-      animation: loader-out 0.5s ease-in-out 0.8s forwards;
-    }
+    // &::before {
+    //   opacity: 1;
+    //   // fade out without waiting for JS hydration (Speed Index)
+    //   animation: loader-out 0.5s ease-in-out 0.8s forwards;
+    // }
     // main stays painted under the overlay so LCP can be measured
     .spacer-hh {
       height: 2em;
@@ -61,7 +61,9 @@ body {
   // @include mixins.debugFiletY(69px);
 }
 main {
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  transition:
+    opacity 0.5s ease-in-out,
+    transform 0.5s ease-in-out;
 
   min-height: var(--app-height, 100vh);
   position: relative;

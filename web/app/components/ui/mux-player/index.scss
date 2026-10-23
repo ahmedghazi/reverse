@@ -27,7 +27,7 @@
     // aspect-ratio: 16 / 9;
     height: 100%;
     vertical-align: top;
-    object-fit: cover;
+    object-fit: var(--media-object-fit);
   }
   // .controls {
   //   position: absolute;

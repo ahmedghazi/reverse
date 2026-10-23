@@ -10,38 +10,50 @@ const LottiePlayer = dynamic(() => import("./LottiePlayer"), { ssr: false });
 
 const LOTTIE_BLACK = "/lottie/reverse-lottie-black.json";
 const LOTTIE_YELLOW = "/lottie/reverse-lottie-yellow.json";
+const LOTTIE_WHITE = "/lottie/reverse-lottie-white.json";
 
 interface LogoReverseProps {
   baseline?: string;
-  isYellow?: boolean;
+  // isYellow?: boolean;
+  color?: "black" | "yellow" | "white";
 }
 
 const LogoReverse: React.FC<LogoReverseProps> = ({
   baseline,
-  isYellow = false,
+  // isYellow = false,
+  color = "black",
 }) => {
   const [direction, setDirection] = useState<number>(1);
   const [animationData, setAnimationData] = useState<any>(null);
   const { scrollDirection, isBottom } = useScroll();
   // footer logo: only load when close to the viewport
+  const isYellow = color === "yellow";
   const { ref, inView } = useInView({
     triggerOnce: true,
     rootMargin: "400px",
     skip: !isYellow,
   });
   const shouldLoad = !isYellow || inView;
+  let LOTTIE_SOURCE = LOTTIE_BLACK;
+  if (color === "yellow") {
+    LOTTIE_SOURCE = LOTTIE_YELLOW;
+  }
+  if (color === "white") {
+    LOTTIE_SOURCE = LOTTIE_WHITE;
+  }
 
   useEffect(() => {
     if (!shouldLoad || animationData) return;
     const controller = new AbortController();
-    fetch(isYellow ? LOTTIE_YELLOW : LOTTIE_BLACK, {
+    console.log(LOTTIE_SOURCE);
+    fetch(LOTTIE_SOURCE, {
       signal: controller.signal,
     })
       .then((res) => res.json())
       .then(setAnimationData)
       .catch(() => {});
     return () => controller.abort();
-  }, [shouldLoad, isYellow, animationData]);
+  }, [shouldLoad, animationData, color]);
 
   // Gestion de la direction du défilement
   useEffect(() => {

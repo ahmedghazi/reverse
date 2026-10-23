@@ -187,6 +187,13 @@ export interface PageModulaire extends SanityDocument {
   seo?: Seo;
 
   /**
+   * Layout dark — `boolean`
+   *
+   * Passer l'UI en blanc
+   */
+  layoutDark?: boolean;
+
+  /**
    * Titre — `localeString`
    *
    * Le nom de la page

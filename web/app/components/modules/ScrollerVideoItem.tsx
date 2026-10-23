@@ -1,45 +1,82 @@
 import { ScrollerVideoItem } from "@/app/types/schema";
-import MuxPlayerComponent from "../ui/mux-player";
 import { _linkResolver } from "@/app/sanity-api/utils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
+import OverlayContent from "./ScrollerVideoItemOverlay/OverlayContent";
+// import OverlayContent from "./ScrollerVideoItemOverlay/OverlayContent";
 
 type ScrollerVideoItemProps = {
   input: ScrollerVideoItem;
+  initialInView?: boolean;
 };
 
-const ScrollerVideoItemComponent = ({ input }: ScrollerVideoItemProps) => {
-  const [canPlay, setCanPlay] = useState(false);
+const THRESHOLD = 0.4;
+
+const ScrollerVideoItemComponent = ({
+  input,
+  initialInView = false,
+}: ScrollerVideoItemProps) => {
+  const [isInView, setIsInView] = useState(initialInView);
+  const nodeRef = useRef<HTMLDivElement | null>(null);
+  const [hover, setHover] = useState<boolean>(false);
   const { ref, inView } = useInView({
     // > 0.5 so only one full-screen item counts as in view at a time
-    threshold: 0.5,
+    threshold: THRESHOLD,
+    initialInView,
   });
 
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      nodeRef.current = node;
+      ref(node);
+    },
+    [ref],
+  );
+
   useEffect(() => {
-    setCanPlay(inView);
+    setIsInView(inView);
   }, [inView]);
+
+  // detect on page load (incl. restored scroll position) without waiting for the observer
+  useEffect(() => {
+    const node = nodeRef.current;
+    if (!node) return;
+    const { top, bottom, height } = node.getBoundingClientRect();
+    const visible = Math.min(bottom, window.innerHeight) - Math.max(top, 0);
+    if (height > 0 && visible / height >= THRESHOLD) setIsInView(true);
+  }, []);
 
   return (
     <div
-      ref={ref}
-      className={clsx("scroller-video-item", { "can-play": canPlay })}>
-      <MuxPlayerComponent
-        playbackId={input.video.asset.playbackId}
-        canPlay={canPlay}
-      />
+      ref={setRefs}
+      className={clsx("scroller-video-item snap bg-red", {
+        "can-play": isInView,
+        reveal: isInView,
+      })}>
+      {/* {input.video && input.video.asset && (
+        <MuxPlayerComponent
+          playbackId={input.video?.asset?.playbackId}
+          canPlay={isInView}
+        />
+      )} */}
       <div className='overlay'>
-        <div className='overlay-content'>
-          <h2 className='text-lg'>{input.title}</h2>
-          {input.subTitle && <p>{input.subTitle}</p>}
-        </div>
-        {input.article && (
+        {input.title && (
+          <OverlayContent
+            title={input.title}
+            subtitle={input.subTitle || ""}
+            inView={isInView}
+            animation='stackRoll'
+            // animation='stackRoll3d'
+          />
+        )}
+        {/* {input.article && (
           <a
             className='btn btn-primary cta'
             href={_linkResolver(input.article)}>
             En savoir plus
           </a>
-        )}
+        )} */}
       </div>
     </div>
   );
