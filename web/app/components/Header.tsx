@@ -5,7 +5,6 @@ import LogoReverse from "./ui/LogoReverse";
 import { useScroll } from "../hooks/useScroll";
 import { _linkResolver, _localizeField } from "../sanity-api/utils";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Burger from "./ui/Burger";
 import NavSocial from "./ui/NavSocial";
@@ -20,10 +19,11 @@ const Header = ({ settings }: Props) => {
   const { baseline, contact, navPrimary } = settings;
   const [isDark, setIsDark] = useState(false);
 
+  // subscribe once: re-subscribing on route change left a gap where the new
+  // page's LAYOUT_DARK publish found no subscriber and was dropped
   useEffect(() => {
-    const token = subscribe("LAYOUT_DARK", (e, data) => {
-      console.log("LAYOUT_DARK", data);
-      setIsDark(data);
+    const token = subscribe("LAYOUT_DARK", (_e, data) => {
+      setIsDark(Boolean(data));
     });
     return () => {
       unsubscribe(token);

@@ -11,6 +11,14 @@ const LottiePlayer = dynamic(() => import("./LottiePlayer"), { ssr: false });
 const LOTTIE_BLACK = "/lottie/reverse-lottie-black.json";
 const LOTTIE_YELLOW = "/lottie/reverse-lottie-yellow.json";
 const LOTTIE_WHITE = "/lottie/reverse-lottie-white.json";
+const LOTTIE_SOURCES = {
+  black: LOTTIE_BLACK,
+  yellow: LOTTIE_YELLOW,
+  white: LOTTIE_WHITE,
+};
+
+// fetched animations, shared across instances and colour switches
+const lottieCache = new Map<string, any>();
 
 interface LogoReverseProps {
   baseline?: string;
@@ -24,7 +32,11 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
   color = "black",
 }) => {
   const [direction, setDirection] = useState<number>(1);
-  const [animationData, setAnimationData] = useState<any>(null);
+  // keeps the current animation on screen until the next colour has loaded
+  const [loaded, setLoaded] = useState<{ src: string; data: any } | null>(
+    null,
+  );
+  const animationData = loaded?.data;
   const { scrollDirection, isBottom } = useScroll();
   // footer logo: only load when close to the viewport
   const isYellow = color === "yellow";
@@ -34,26 +46,30 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
     skip: !isYellow,
   });
   const shouldLoad = !isYellow || inView;
-  let LOTTIE_SOURCE = LOTTIE_BLACK;
-  if (color === "yellow") {
-    LOTTIE_SOURCE = LOTTIE_YELLOW;
-  }
-  if (color === "white") {
-    LOTTIE_SOURCE = LOTTIE_WHITE;
-  }
 
+  // (re)load whenever the colour changes, not just the first time
   useEffect(() => {
-    if (!shouldLoad || animationData) return;
+    const src = LOTTIE_SOURCES[color];
+    if (!shouldLoad || loaded?.src === src) return;
+
+    const cached = lottieCache.get(src);
+    if (cached) {
+      setLoaded({ src, data: cached });
+      return;
+    }
+
     const controller = new AbortController();
-    console.log(LOTTIE_SOURCE);
-    fetch(LOTTIE_SOURCE, {
+    fetch(src, {
       signal: controller.signal,
     })
       .then((res) => res.json())
-      .then(setAnimationData)
+      .then((data) => {
+        lottieCache.set(src, data);
+        setLoaded({ src, data });
+      })
       .catch(() => {});
     return () => controller.abort();
-  }, [shouldLoad, animationData, color]);
+  }, [shouldLoad, loaded, color]);
 
   // Gestion de la direction du défilement
   useEffect(() => {

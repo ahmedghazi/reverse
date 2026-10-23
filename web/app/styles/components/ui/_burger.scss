@@ -1,24 +1,16 @@
 @use "../../mixins" as *;
 .burger-wrapper {
-  // position: fixed;
-  // right: 1em;
-  // top: 1em;
-  //height: $headerHeight;
-  // padding: 11px 5px;
   z-index: 250;
-  // border: $border;
-  // background: white;
+  cursor: pointer;
   &.is-active {
     .burger {
       @include burger-to-cross(white, 3px, 5px);
     }
     & + nav {
-      // display: block;
       transform: translateX(0);
     }
   }
   .burger {
-    //transform: translateY(1px);
     @include burger(32px, 3px, 5px);
   }
 }
