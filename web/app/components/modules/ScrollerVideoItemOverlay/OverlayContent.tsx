@@ -24,9 +24,9 @@ export default function OverlayContent({
   subtitle,
   inView,
   animation = "stackRoll",
-  duration = 0.5,
+  duration = 0.3,
   stagger = 0.05,
-  delay = 0.5, // after the clip-path wipe
+  delay = 0, // after the clip-path wipe
 }: Props) {
   const text = useRef<HTMLDivElement>(null);
   const anim = useRef<gsap.core.Timeline | null>(null);

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
 import OverlayContent from "./ScrollerVideoItemOverlay/OverlayContent";
+import MuxPlayerComponent from "../ui/mux-player";
 // import OverlayContent from "./ScrollerVideoItemOverlay/OverlayContent";
 
 type ScrollerVideoItemProps = {
@@ -54,12 +55,12 @@ const ScrollerVideoItemComponent = ({
         "can-play": isInView,
         reveal: isInView,
       })}>
-      {/* {input.video && input.video.asset && (
+      {input.video && input.video.asset && (
         <MuxPlayerComponent
           playbackId={input.video?.asset?.playbackId}
           canPlay={isInView}
         />
-      )} */}
+      )}
       <div className='overlay'>
         {input.title && (
           <OverlayContent
