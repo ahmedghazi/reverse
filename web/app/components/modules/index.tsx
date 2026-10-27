@@ -15,9 +15,9 @@ import ModuleImagesUI from "./ImagesUI";
 import ModuleKeyPointsUI from "./KeyPointsUI";
 import ModuleMediaUI from "./MediaUI";
 // import ModuleArticlesUI from "./SliderArticlesUI";
-import "./index.scss";
 import ModuleSliderArticlesUI from "./SliderArticlesUI";
 import ModuleScrollerVideoUI from "./ScrollerVideoUI";
+// import "./index.scss";
 
 type Props = {
   input: Array<
