@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
+import { SanityLive } from "./sanity-api/sanity.live";
 import FaviconLetter from "./components/ui/FaviconLetter";
 import { ViewTransition } from "react";
 import { Nunito_Sans } from "next/font/google";
@@ -82,11 +83,8 @@ export default async function RootLayout({
                 <main>{children}</main>
               </ViewTransition>
               <Footer settings={settings} />
-              {isEnabled && (
-                <VisualEditing
-                  zIndex={1000} // Optional
-                />
-              )}
+              <SanityLive />
+              {isEnabled && <VisualEditing zIndex={1000} />}
               <FaviconLetter letter='R' />
             </PageContextProvider>
           </LocaleContextProvider>

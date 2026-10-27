@@ -1,67 +1,17 @@
-// import "server-only";
-import {
-  createClient,
-  SanityClient,
-  type ClientConfig,
-  type QueryParams,
-} from "@sanity/client";
-import { projectId, dataset, apiVersion, token, studioUrl } from "./sanity.api";
-// import { draftMode } from "next/headers";
+import { createClient } from "next-sanity";
+import { projectId, dataset, apiVersion, studioUrl } from "./sanity.api";
 
-const config: ClientConfig = {
+export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  // set CDN to live API in development mode
-  useCdn: process.env.NODE_ENV === "development" ? true : false,
-  // only published documents on the public site (the token would otherwise return drafts too)
+  useCdn: true,
   perspective: "published",
-  token,
-  // stega: {
-  //   enabled: draftMode().isEnabled,
-  //   studioUrl: "https://backoffice--combo-factory.sanity.studio/",
-  // },
-};
+  // only active when draftMode is enabled (see sanity.live.ts)
+  stega: { studioUrl },
+});
 
 export const sanityConfig = {
   projectId: projectId,
   dataset: dataset,
 };
-
-const client = createClient(config);
-
-export function getClient(preview?: { token?: string }): SanityClient {
-  // import { draftMode } from "next/headers";
-  if (preview) {
-    if (!preview.token) {
-      throw new Error("You must provide a token to preview drafts");
-    }
-    return client.withConfig({
-      token: preview.token,
-      useCdn: false,
-      ignoreBrowserTokenWarning: true,
-      perspective: "previewDrafts",
-      stega: {
-        enabled: true,
-        studioUrl: studioUrl,
-      },
-    });
-  }
-  return client;
-}
-
-export async function sanityFetch<QueryResponse>({
-  query,
-  qParams = {},
-  tags,
-}: {
-  query: string;
-  qParams?: QueryParams;
-  tags: string[];
-}): Promise<QueryResponse> {
-  return client.fetch<QueryResponse>(query, qParams, {
-    // cache: process.env.NODE_ENV === "development" ? "no-store" : "force-cache",
-    cache: "no-store",
-    next: { tags },
-  });
-}

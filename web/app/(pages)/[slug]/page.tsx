@@ -1,16 +1,8 @@
 import ContentPageModulaire from "@/app/components/ContentPageModulaire";
-import Modules from "@/app/components/modules";
 import website from "@/app/config/website";
-import {
-  getPageModulaire,
-  PAGE_MODULAIRE_QUERY,
-} from "@/app/sanity-api/sanity-queries";
-import { getClient } from "@/app/sanity-api/sanity.client";
-import { _localizeField } from "@/app/sanity-api/utils";
-import { PageModulaire } from "@/app/types/schema";
+import { getPageModulaire } from "@/app/sanity-api/sanity-queries";
 import clsx from "clsx";
 import { Metadata, NextPage } from "next";
-import { draftMode } from "next/headers";
 import React from "react";
 
 type Params = Promise<{ slug: string }>;
@@ -22,7 +14,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const data = await getPageModulaire(slug);
+  const data = await getPageModulaire(slug, false);
   return {
     title: `${data?.seo?.metaTitle || data?.title?.fr || ""}`,
     description: data?.seo?.metaDescription,
@@ -33,19 +25,8 @@ export async function generateMetadata({
 }
 
 const FilmsPage: NextPage<PageProps> = async ({ params }) => {
-  // const params = await props.params;
   const { slug } = await params;
-  const { isEnabled } = await draftMode();
-  // const { isEnabled } = await draftMode();
-  let data: PageModulaire;
-  if (isEnabled) {
-    data = await getClient({ token: process.env.SANITY_API_READ_TOKEN }).fetch(
-      PAGE_MODULAIRE_QUERY,
-      { slug: slug },
-    );
-  } else {
-    data = (await getPageModulaire(slug)) as PageModulaire;
-  }
+  const data = await getPageModulaire(slug);
 
   if (!data) return <div>please edit page</div>;
   return (

@@ -1,5 +1,5 @@
 import { defineQuery, groq } from "next-sanity";
-import { sanityFetch } from "./sanity.client";
+import { sanityFetch } from "./sanity.live";
 import { Article, Landing, PageModulaire, Settings } from "../types/schema";
 import { articleCard, blockContent, modules, seo } from "./fragments";
 // import { revalidatePath } from "next/cache";
@@ -34,13 +34,8 @@ export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
 }`);
 
 export async function getSettings(): Promise<Settings> {
-  return sanityFetch({
-    query: settingsQuery,
-    tags: ["settings"],
-  });
-  // return client.fetch(
-
-  // );
+  const { data } = await sanityFetch({ query: settingsQuery });
+  return data as Settings;
 }
 
 // /*****************************************************************************************************
@@ -57,11 +52,10 @@ export const LANDING_QUERY = defineQuery(`*[_type == "landing"][0]{
   }
 }`);
 
-export async function getLanding(): Promise<Landing> {
-  return sanityFetch({
-    query: LANDING_QUERY,
-    tags: ["landing"],
-  });
+// stega: false for strings that end up outside the DOM (metadata, <title>…)
+export async function getLanding(stega?: boolean): Promise<Landing> {
+  const { data } = await sanityFetch({ query: LANDING_QUERY, stega });
+  return data as Landing;
 }
 
 /*****************************************************************************************************
@@ -78,12 +72,16 @@ export const PAGE_MODULAIRE_QUERY =
   }
 }`);
 
-export async function getPageModulaire(slug: string): Promise<PageModulaire> {
-  return sanityFetch({
+export async function getPageModulaire(
+  slug: string,
+  stega?: boolean,
+): Promise<PageModulaire> {
+  const { data } = await sanityFetch({
     query: PAGE_MODULAIRE_QUERY,
-    tags: ["pageModulaire"],
-    qParams: { slug: slug },
+    params: { slug: slug },
+    stega,
   });
+  return data as PageModulaire;
 }
 
 /*****************************************************************************************************
@@ -106,12 +104,16 @@ export const ARTICLE_QUERY =
   }
 }`);
 
-export async function getArticle(slug: string): Promise<Article> {
-  return sanityFetch({
+export async function getArticle(
+  slug: string,
+  stega?: boolean,
+): Promise<Article> {
+  const { data } = await sanityFetch({
     query: ARTICLE_QUERY,
-    tags: ["article"],
-    qParams: { slug: slug },
+    params: { slug: slug },
+    stega,
   });
+  return data as Article;
 }
 
 /*****************************************************************************************************
@@ -125,10 +127,12 @@ export const ALL_PAGES_QUERY = defineQuery(`
 `);
 
 export async function getAllPages(): Promise<PageModulaire[]> {
-  return sanityFetch({
+  const { data } = await sanityFetch({
     query: ALL_PAGES_QUERY,
-    tags: ["all-pages"],
+    perspective: "published",
+    stega: false,
   });
+  return data as PageModulaire[];
 }
 
 /*****************************************************************************************************
@@ -142,8 +146,10 @@ export const ALL_ARTICLE_QUERY = defineQuery(`
 `);
 
 export async function getAllArticles(): Promise<Article[]> {
-  return sanityFetch({
+  const { data } = await sanityFetch({
     query: ALL_ARTICLE_QUERY,
-    tags: ["all-articles"],
+    perspective: "published",
+    stega: false,
   });
+  return data as Article[];
 }

@@ -1,11 +1,7 @@
 import ContentArticle from "@/app/components/ContentArticle";
 import website from "@/app/config/website";
-import { ARTICLE_QUERY, getArticle } from "@/app/sanity-api/sanity-queries";
-import { getClient } from "@/app/sanity-api/sanity.client";
-import { _localizeField } from "@/app/sanity-api/utils";
-import { Article } from "@/app/types/schema";
+import { getArticle } from "@/app/sanity-api/sanity-queries";
 import { Metadata, NextPage } from "next";
-import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -18,7 +14,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const data = await getArticle(slug);
+  const data = await getArticle(slug, false);
   return {
     title: `${data?.seo?.metaTitle || data?.title?.fr || ""}`,
     description: data?.seo?.metaDescription,
@@ -30,16 +26,7 @@ export async function generateMetadata({
 
 const FilmsPage: NextPage<PageProps> = async ({ params }) => {
   const { slug } = await params;
-  const { isEnabled } = await draftMode();
-  let data: Article;
-  if (isEnabled) {
-    data = await getClient({ token: process.env.SANITY_API_READ_TOKEN }).fetch(
-      ARTICLE_QUERY,
-      { slug: slug }
-    );
-  } else {
-    data = (await getArticle(slug)) as Article;
-  }
+  const data = await getArticle(slug);
 
   if (!data) return notFound();
   return (
