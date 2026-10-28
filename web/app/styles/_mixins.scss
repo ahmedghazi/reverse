@@ -198,7 +198,7 @@ $all-text-inputs-focus: assign-inputs($inputs-list, focus);
 
 // Vendor prefixes
 $sass-burger-add-vendor-prefixes: true !default;
-
+$burger-gutter: null;
 // Burger
 @mixin burger(
   $width: 30px,

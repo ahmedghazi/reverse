@@ -82,6 +82,12 @@ const GESTURE_MIN_AGE = 250;
 const GESTURE_JUMP = 1.8;
 /** Distance (px) min d'un swipe pour changer de section en mode snap */
 const SWIPE_MIN = 50;
+/** Vitesse (px/ms) min d'un flick pour changer de section en mode snap */
+const FLICK_MIN = 0.2;
+/** Distance (px) min parcourue pour qu'un flick compte (évite les taps) */
+const FLICK_MIN_DIST = 12;
+/** Dépassement (fraction d'écran) en dessous duquel une section n'est pas « haute » */
+const TALL_TOLERANCE = 0.15;
 
 const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
   function ScrollerVirtual(
@@ -135,6 +141,8 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
       index: -1,
       tops: [] as number[],
       heights: [] as number[],
+      /** doigt posé : la position suit le doigt sans lerp */
+      dragging: false,
     });
 
     // --- Helpers partagés (effet + ref) ----------------------------------
@@ -155,9 +163,15 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
       return i;
     };
 
-    /** Bas d'une section (pour les sections plus hautes que l'écran) */
+    /**
+     * Bas d'une section (pour les sections plus hautes que l'écran).
+     * Un léger dépassement (ex. section en 100vh dans un conteneur en 100dvh
+     * sur mobile, barre d'URL affichée) n'en fait pas une section « haute ».
+     */
     const sectionEnd = (i: number) => {
       const { tops, heights, vh, max } = s.current;
+      const top = clamp(tops[i], 0, max);
+      if (heights[i] - vh < vh * TALL_TOLERANCE) return top;
       return clamp(tops[i] + heights[i] - vh, 0, max);
     };
 
@@ -234,9 +248,18 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
         }
         st.max = Math.max(0, acc - st.vh);
         // en snap, on reste calé sur la section courante après un resize
+        // (mobile : la barre d'URL change la hauteur en plein geste). On ne
+        // coupe pas une animation ou un drag en cours, on corrige la cible.
         if (opts.current.snap && st.index >= 0) {
           const i = Math.min(st.index, st.tops.length - 1);
-          st.target = st.current = clamp(st.tops[i], 0, st.max);
+          const settled = !st.dragging && Math.abs(st.target - st.current) < 1;
+          // section haute : on garde la position à l'intérieur
+          st.target = clamp(
+            st.target,
+            clamp(st.tops[i], 0, st.max),
+            sectionEnd(i),
+          );
+          if (settled) st.current = st.target;
         }
         st.target = clamp(st.target, 0, st.max);
         st.current = clamp(st.current, 0, st.max);
@@ -269,11 +292,8 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
         return st.vh ? d / st.vh : 0;
       };
 
-      // sens du scroll (1 = descend, -1 = remonte), gardé quand le mouvement s'arrête
-      let dir = 1;
       const render = () => {
         const { current, target, vh, tops, heights } = st;
-        if (target !== current) dir = target > current ? 1 : -1;
         const {
           skew: k,
           parallax: px,
@@ -284,8 +304,8 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
         let sk = 0;
         if (k) {
           sk = snapMode
-            ? // Buzzman : 0 calé → max à mi-chemin, signe selon le sens du scroll
-              -dir * clamp(snapDistance() / 0.5, 0, 1) * k
+            ? // Buzzman : 0 calé → max à mi-chemin, toujours négatif
+              -clamp(snapDistance() / 0.5, 0, 1) * k
             : // scroll libre : selon la vitesse (écart cible / courant)
               -clamp((target - current) / (vh * 0.25), -1, 1) * k;
         }
@@ -313,10 +333,14 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
         const dt = Math.min(now - last, 64);
         last = now;
         // lerp indépendant du framerate (60 / 120 Hz)
-        const f = reduce
-          ? 1
-          : 1 -
-            Math.pow(1 - clamp(opts.current.lerp, 0.001, 1), dt / (1000 / 60));
+        const f =
+          reduce || st.dragging
+            ? 1
+            : 1 -
+              Math.pow(
+                1 - clamp(opts.current.lerp, 0.001, 1),
+                dt / (1000 / 60),
+              );
         st.current += (st.target - st.current) * f;
         if (Math.abs(st.target - st.current) < 0.05) st.current = st.target;
 
@@ -387,9 +411,11 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
         if (animating()) return false;
         const snapMode = opts.current.snap;
         if (dy > 0)
-          return (
-            (!snapMode || st.index >= total() - 1) && st.target >= st.max - 0.5
-          );
+          return snapMode
+            ? // fin de la dernière section (tolérance TALL_TOLERANCE comprise)
+              st.index >= total() - 1 &&
+                st.target >= sectionEnd(total() - 1) - 0.5
+            : st.target >= st.max - 0.5;
         return (!snapMode || st.index <= 0) && st.target <= 0.5;
       };
 
@@ -436,46 +462,90 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
       };
 
       // --- Touch ----------------------------------------------------------
+      let startX = 0;
+      let startY = 0;
       let ty = 0;
       let tt = 0;
-      let tv = 0;
-      let startY = 0;
+      let tv = 0; // vitesse lissée, px/ms (> 0 = doigt qui monte)
       let startTarget = 0;
       let startIndex = 0;
       let inside = false;
-      let touchNative: boolean | null = null;
+      /**
+       * Décidé au premier mouvement significatif, pour tout le geste :
+       * null = pas encore décidé · "self" = le scroller · "page" = scroll
+       * natif (footer…) · "ignore" = geste horizontal ou multi-doigts
+       */
+      let touchMode: null | "self" | "page" | "ignore" = null;
+
       const onTouchStart = (e: TouchEvent) => {
-        touchNative = null;
+        if (e.touches.length > 1) {
+          // pinch / 2 doigts : on lâche
+          touchMode = "ignore";
+          st.dragging = false;
+          return;
+        }
+        touchMode = null;
+        startX = e.touches[0].clientX;
         ty = startY = e.touches[0].clientY;
         tt = performance.now();
         tv = 0;
-        startTarget = st.target;
-        startIndex = st.index < 0 ? indexAt(st.target) : st.index;
         inside = false;
       };
       const onTouchMove = (e: TouchEvent) => {
-        const y = e.touches[0].clientY;
-        const now = performance.now();
-        const dy = (ty - y) * opts.current.speed;
-        // décidé au premier move qui bouge : tout le geste va à la page ou au scroller
-        if (touchNative === null && dy) touchNative = release(dy);
-        if (touchNative) return; // pan-y natif
+        const t = e.touches[0];
+        if (touchMode === null) {
+          const ddx = Math.abs(t.clientX - startX);
+          const ddy = Math.abs(t.clientY - startY);
+          if (ddx < 4 && ddy < 4) return; // seuil de décision pas atteint
+          if (ddx > ddy) touchMode = "ignore";
+          else if (release(startY - t.clientY)) touchMode = "page";
+          else {
+            touchMode = "self";
+            // le doigt « attrape » le scroller là où il est, même en pleine animation
+            st.dragging = true;
+            st.target = st.current;
+            startTarget = st.target;
+            startIndex = st.index < 0 ? indexAt(st.target) : st.index;
+            // ty / tt restent ceux du touchstart : le déplacement déjà fait compte
+          }
+        }
+        if (touchMode !== "self") return; // natif (pan-y) ou ignoré
         e.preventDefault();
-        if (!dy) return;
-        tv = dy / Math.max(now - tt, 1); // px/ms
-        ty = y;
+
+        const now = performance.now();
+        const raw = ty - t.clientY;
+        if (!raw) return;
+        const v = raw / Math.max(now - tt, 1);
+        tv = tv * 0.2 + v * 0.8;
+        ty = t.clientY;
         tt = now;
-        if (opts.current.snap && scrollInside(dy)) {
+        const dy = raw * opts.current.speed;
+
+        if (!opts.current.snap) return add(dy);
+        if (scrollInside(dy)) {
           inside = true;
           return;
         }
-        add(dy); // suit le doigt
+        // drag borné aux sections voisines : on ne saute pas 2 sections au doigt
+        const n = total();
+        const lo = startIndex > 0 ? sectionEnd(startIndex - 1) : 0;
+        const hi =
+          startIndex < n - 1
+            ? clamp(st.tops[startIndex + 1], 0, st.max)
+            : st.max;
+        add(dy, Math.min(lo, st.target), Math.max(hi, st.target));
       };
-      const onTouchEnd = () => {
-        if (touchNative) return;
+      const onTouchEnd = (e: TouchEvent) => {
+        if (e.touches.length) return; // il reste un doigt posé
+        const mode = touchMode;
+        touchMode = null;
+        st.dragging = false;
+        if (mode !== "self") return;
+        // vitesse au lâcher (0 si le doigt s'est arrêté avant de lâcher)
         const fresh = performance.now() - tt < 100;
+        const v = fresh ? tv : 0;
         if (!opts.current.snap) {
-          if (fresh) add(tv * 250);
+          add(v * opts.current.speed * 250); // inertie
           return;
         }
         if (
@@ -484,22 +554,25 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
           Math.abs(st.target - st.tops[startIndex]) < st.heights[startIndex]
         ) {
           // on a scrollé à l'intérieur d'une section haute : inertie bornée à la section
-          if (fresh)
-            add(
-              tv * 250,
-              clamp(st.tops[startIndex], 0, st.max),
-              sectionEnd(startIndex),
-            );
+          add(
+            v * opts.current.speed * 250,
+            clamp(st.tops[startIndex], 0, st.max),
+            sectionEnd(startIndex),
+          );
           return;
         }
-        const dist = startY - ty;
-        const flick = fresh && Math.abs(tv) > 0.4;
-        if (Math.abs(dist) > SWIPE_MIN || flick) {
-          st.index = startIndex;
-          step(dist > 0 ? 1 : -1);
-        } else {
-          goTo(startIndex); // retour élastique
-        }
+        // direction : celle du flick s'il y en a un (intention au lâcher),
+        // sinon celle de la distance parcourue
+        const dist = st.target - startTarget;
+        const dir =
+          Math.abs(v) > FLICK_MIN && Math.abs(dist) > FLICK_MIN_DIST
+            ? Math.sign(v)
+            : Math.abs(dist) > SWIPE_MIN
+              ? Math.sign(dist)
+              : 0;
+        st.index = startIndex;
+        if (dir) step(dir > 0 ? 1 : -1);
+        else goTo(startIndex); // retour élastique
       };
 
       // --- Clavier --------------------------------------------------------
@@ -550,6 +623,7 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
       root.addEventListener("touchstart", onTouchStart, { passive: true });
       root.addEventListener("touchmove", onTouchMove, { passive: false });
       root.addEventListener("touchend", onTouchEnd);
+      root.addEventListener("touchcancel", onTouchEnd);
       root.addEventListener("scroll", onNativeScroll);
       window.addEventListener("keydown", onKey);
 
@@ -564,6 +638,7 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
         root.removeEventListener("touchstart", onTouchStart);
         root.removeEventListener("touchmove", onTouchMove);
         root.removeEventListener("touchend", onTouchEnd);
+        root.removeEventListener("touchcancel", onTouchEnd);
         root.removeEventListener("scroll", onNativeScroll);
         window.removeEventListener("keydown", onKey);
       };
