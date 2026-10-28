@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
 import OverlayContent from "./ScrollerVideoItemOverlay/OverlayContent";
 import MuxPlayerComponent from "../ui/mux-player";
+import Link from "next/link";
 // import OverlayContent from "./ScrollerVideoItemOverlay/OverlayContent";
 
 type ScrollerVideoItemProps = {
@@ -20,7 +21,7 @@ const ScrollerVideoItemComponent = ({
 }: ScrollerVideoItemProps) => {
   const [isInView, setIsInView] = useState(initialInView);
   const nodeRef = useRef<HTMLDivElement | null>(null);
-  const [hover, setHover] = useState<boolean>(false);
+  // const [hover, setHover] = useState<boolean>(false);
   const { ref, inView } = useInView({
     // > 0.5 so only one full-screen item counts as in view at a time
     threshold: THRESHOLD,
@@ -51,7 +52,7 @@ const ScrollerVideoItemComponent = ({
   return (
     <div
       ref={setRefs}
-      className={clsx("scroller-video-item snap bg-red", {
+      className={clsx("scroller-video-item snap bg-black", {
         "can-play": isInView,
         reveal: isInView,
       })}>
@@ -62,15 +63,17 @@ const ScrollerVideoItemComponent = ({
         />
       )}
       <div className='overlay'>
-        {input.title && (
-          <OverlayContent
-            title={input.title}
-            subtitle={input.subTitle || ""}
-            inView={isInView}
-            animation='stackRoll'
-            // animation='stackRoll3d'
-          />
-        )}
+        <Link href={_linkResolver(input.article)}>
+          {input.title && (
+            <OverlayContent
+              title={input.title}
+              subtitle={input.subTitle || ""}
+              inView={isInView}
+              animation='stackRoll'
+              // animation='stackRoll3d'
+            />
+          )}
+        </Link>
         {/* {input.article && (
           <a
             className='btn btn-primary cta'

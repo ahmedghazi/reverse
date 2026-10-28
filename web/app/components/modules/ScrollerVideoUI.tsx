@@ -1,9 +1,10 @@
 import { ScrollerVideoUI } from "@/app/types/schema";
 import ScrollerVideoItemComponent from "./ScrollerVideoItem";
 import "./ScrollerVideoUI.scss";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import website from "@/app/config/website";
 import NavSocial from "../ui/NavSocial";
+import ScrollerVirtual, { ScrollerVirtualHandle } from "../ui/ScrollerVirtual";
 
 type Props = {
   input: ScrollerVideoUI;
@@ -11,63 +12,44 @@ type Props = {
 
 const ModuleScrollerVideoUI = ({ input }: Props) => {
   const { title, items } = input;
+  // single source of truth: the scroller position (0–1).
+  // index is derived from it, so slide, index and timeline always agree
+  // (items are all one screen high: progress = index / (total - 1))
   const [progress, setProgress] = useState<number>(0);
-  const [index, setIndex] = useState<number>(0);
-  const timelineRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<ScrollerVirtualHandle>(null);
+  const total = items?.length ?? 0;
+  const index = total > 1 ? Math.round(progress * (total - 1)) : 0;
 
-  useEffect(() => {
-    window.addEventListener("scroll", _onScroll);
-    return () => {
-      window.removeEventListener("scroll", _onScroll);
-    };
-  }, []);
-
-  const _onScroll = () => {
-    const scrollY = window.scrollY;
-    const windowProgressPercent =
-      scrollY / (document.body.scrollHeight - window.innerHeight * 2);
-    const timelineRect = timelineRef.current?.getBoundingClientRect();
-    if (!timelineRect) return;
-
-    const timelineSize = timelineRect.height - 48;
-    const progress = windowProgressPercent * timelineSize;
-    if (progress > timelineSize) {
-      setProgress(timelineSize);
-    } else {
-      setProgress(progress);
-    }
-  };
-
+  // virtual scroll (translate3d): no native scroll, so drive it through its ref.
+  // keyboard is already handled by ScrollerVirtual
   const _onPrev = () => {
-    if (index > 0) setIndex(index - 1);
+    scrollerRef.current?.goTo(index - 1);
   };
 
   const _onNext = () => {
-    if (items && index < items.length - 1) setIndex(index + 1);
+    scrollerRef.current?.goTo(index + 1);
   };
 
-  const _goTo = () => {
-    // const item = items[index];
-    // if (!item) return;
-    const element = document.querySelector(`[data-scroller-index="${index}"]`);
-    if (!element) return;
-    element.scrollIntoView({ behavior: "smooth" });
-  };
-  useEffect(() => {
-    _goTo();
-  }, [index]);
   if (!items) return null;
 
   return (
     <section className='module module--scroller-video-ui'>
-      {items?.map((item, i) => (
-        <div className='item' key={i} data-scroller-index={i}>
-          <ScrollerVideoItemComponent input={item} initialInView={i === 0} />
-        </div>
-      ))}
+      <ScrollerVirtual
+        ref={scrollerRef}
+        className=''
+        speed={1.4}
+        skew={6}
+        onScroll={(_y, p) => setProgress(p)}>
+        {items?.map((item, i) => (
+          <div className='item' key={i} data-scroller-index={i}>
+            <ScrollerVideoItemComponent input={item} initialInView={i === 0} />
+          </div>
+        ))}
+      </ScrollerVirtual>
 
       <div className='controls'>
         <div className='inner'>
+          {index}
           <svg
             className={index > 0 ? "" : "disabled"}
             aria-label='previous slide'
@@ -77,11 +59,11 @@ const ModuleScrollerVideoUI = ({ input }: Props) => {
             onClick={_onPrev}>
             <path d='M13.459 0.005 C13.181 0.029 12.917 0.141 12.706 0.325 L0.488 10.891 C0.351 11.003 0.237 11.142 0.154 11.298 C0.071 11.455 0.02 11.627 0.005 11.803 C-0.01 11.98 0.01 12.158 0.065 12.326 C0.12 12.495 0.208 12.65 0.325 12.784 C0.441 12.918 0.583 13.027 0.743 13.104 C0.902 13.182 1.075 13.227 1.252 13.236 C1.429 13.245 1.606 13.219 1.773 13.158 C1.94 13.097 2.092 13.004 2.222 12.883 L13.573 3.07 L24.924 12.883 C25.054 13.004 25.206 13.097 25.373 13.158 C25.539 13.219 25.716 13.245 25.893 13.236 C26.07 13.227 26.244 13.182 26.403 13.104 C26.562 13.027 26.705 12.918 26.821 12.784 C26.937 12.65 27.026 12.495 27.08 12.326 C27.135 12.158 27.156 11.98 27.141 11.803 C27.125 11.627 27.075 11.455 26.992 11.298 C26.909 11.142 26.795 11.003 26.658 10.891 L14.44 0.325 C14.306 0.208 14.15 0.12 13.982 0.065 C13.814 0.01 13.636 -0.01 13.459 0.005 Z' />
           </svg>
-          <div className='timeline' ref={timelineRef}>
+          <div className='timeline'>
             <div
               className='progress'
               style={{
-                transform: `translateY(${progress}px)`,
+                top: `calc(${progress} * (100% - 3em))`,
               }}></div>
           </div>
 

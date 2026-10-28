@@ -75,18 +75,24 @@
     }
   }
 }
-.item {
-  // position: sticky;
-  // top: 0;
-}
+
 .scroller-video-item {
   position: relative;
   height: 100vh;
   width: 100%;
   scroll-snap-stop: always;
   font-family: var(--font-secondary);
-  &.reveal .overlay .overlay-content {
-    transform: skew(0deg, 0deg) rotate(0deg);
+  .mux-player {
+    // transition: all 1s var(--cubic);
+    // transform: skewY(3deg);
+  }
+  &.reveal {
+    .mux-player {
+      // transform: skewY(0deg);
+    }
+    .overlay .overlay-content {
+      transform: skew(0deg, 0deg) rotate(0deg);
+    }
   }
   .overlay {
     position: absolute;
@@ -229,4 +235,9 @@
       }
     }
   }
+}
+
+html:has(.module--scroller-video-ui),
+body:has(.module--scroller-video-ui) {
+  scroll-snap-type: unset;
 }
