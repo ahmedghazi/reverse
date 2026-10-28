@@ -2,7 +2,7 @@
 
 [data-theme="theme-reverse"] {
   --app-height: 100vh;
-  --header-height: 43.5px;
+  /* --header-height: ; */
   --color-bg: #fff;
   --color-primary: #000;
   --color-secondary: #aaaaaa;
@@ -17,7 +17,8 @@
     "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
     "Helvetica", "Arial", sans-serif;
 
-  --font-secondary: var(--font-tt-norms-condensed), "Helvetica", "Arial", sans-serif;
+  --font-secondary:
+    var(--font-tt-norms-condensed), "Helvetica", "Arial", sans-serif;
   --font-mono: var(--font-tt-norms-mono), monospace;
 
   --spacing-sm: 0.469rem; /*7.5*/

@@ -5,13 +5,13 @@ body:has(.template--page-modulaire.is-dark) {
   --color-bg: #000;
   --color-primary: #fff;
 
-  header .burger {
-    &:before,
-    i,
-    &:after {
-      background-color: var(--color-primary);
-    }
-  }
+  // header .burger {
+  //   &:before,
+  //   i,
+  //   &:after {
+  //     background-color: var(--color-primary);
+  //   }
+  // }
   .content--page-modulaire {
     scroll-snap-align: unset;
   }

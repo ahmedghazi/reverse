@@ -1,0 +1,43 @@
+@use "../../styles/variables";
+
+.module--slider-articles-ui {
+  padding-top: var(--header-height);
+  .header {
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    padding: 0 var(--spacing-lg);
+    h2 {
+      font-weight: bold;
+      font-size: var(--text-xl);
+      text-align: center;
+    }
+    .slider-controls {
+      display: flex;
+      gap: 1em;
+      justify-content: flex-end;
+    }
+  }
+
+  .slider-articles {
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    padding: var(--spacing-xl) 0;
+
+    .slick-slider {
+      .slick-arrow {
+        display: none !important;
+      }
+      .slick-slide {
+        padding: 0 15px;
+        // box-sizing: content-box;
+      }
+    }
+    @media all and (max-width: variables.$md) {
+      .header {
+        h2 {
+          font-size: var(--text-lg);
+        }
+      }
+    }
+  }
+}

@@ -3,15 +3,18 @@ import { Article, SliderArticlesUI } from "@/app/types/schema";
 import React from "react";
 import SliderArticles from "../SliderArticles";
 import { _localizeField } from "@/app/sanity-api/utils";
+import "./SliderArticlesUI.scss";
+import clsx from "clsx";
 
 type Props = {
   input: SliderArticlesUI;
 };
 
 const ModuleSliderArticlesUI = ({ input }: Props) => {
+  const { layout } = input;
   return (
     <section
-      className='module module--slider-articles-ui snap'
+      className={clsx("module module--slider-articles-ui snap", layout)}
       id='section-news'>
       {input.items && (
         <SliderArticles

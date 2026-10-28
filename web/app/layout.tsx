@@ -68,6 +68,7 @@ export default async function RootLayout({
   return (
     <html
       lang='fr'
+      data-path=''
       data-scroll-behavior='smooth'
       className={clsx(
         nunitoSans.variable,

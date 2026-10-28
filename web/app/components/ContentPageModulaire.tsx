@@ -11,7 +11,7 @@ type Props = {
 
 const ContentPageModulaire = ({ input }: Props) => {
   const { layoutDark, modules } = input;
-
+  console.log(input);
   useEffect(() => {
     publish("LAYOUT_DARK", layoutDark ? true : false);
   }, [layoutDark]);

@@ -1,9 +1,10 @@
 @use "../../styles/variables";
 
 .module--text-ui {
-  padding: var(--padding-top) var(--spacing-lg);
+  padding: var(--padding-top) var(--spacing-xl);
   min-height: calc(var(--vh) * 100);
   &.text-indentedAndAnimated {
+    padding-top: var(--header-height);
     p {
       font-size: var(--text-xl);
       line-height: 1.1;

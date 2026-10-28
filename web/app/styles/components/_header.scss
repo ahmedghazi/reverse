@@ -6,16 +6,23 @@ header {
   top: 0;
   padding: var(--spacing-lg) var(--spacing-xl);
   z-index: 50;
+  color: var(--color);
   transition:
     transform 0.2s var(--cubic),
     opacity 0.2s var(--cubic);
-  &.is-below,
-  &.is-up,
+  // &.is-below,
+  // &.is-up,
   &.is-bottom {
     transform: translateY(-100%);
     opacity: 0;
   }
-  color: var(--color);
+  &.is-dark .burger {
+    &:before,
+    i,
+    &:after {
+      background-color: var(--color-primary);
+    }
+  }
   .lottie-player svg {
     image {
       will-change: transform;
@@ -25,8 +32,8 @@ header {
       -webkit-transform: translate3d(0, 0, 0);
       -moz-transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0);
-      filter: var(--filterColor);
-      -webkit-filter: var(--filterColor);
+      // filter: var(--filterColor);
+      // -webkit-filter: var(--filterColor);
     }
   }
   a {

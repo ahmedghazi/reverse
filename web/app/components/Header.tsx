@@ -9,20 +9,22 @@ import Link from "next/link";
 import Burger from "./ui/Burger";
 import NavSocial from "./ui/NavSocial";
 import { subscribe, unsubscribe } from "pubsub-js";
+import { usePathname } from "next/navigation";
 
 type Props = {
   settings: Settings;
 };
 
 const Header = ({ settings }: Props) => {
-  const { isBelowViewPort } = useScroll({ belowThreshold: 1 });
+  const { isBelowViewPort, isBottom } = useScroll({ belowThreshold: 1 });
   const { baseline, contact, navPrimary } = settings;
   const [isDark, setIsDark] = useState(false);
-
+  const pathname = usePathname();
   // subscribe once: re-subscribing on route change left a gap where the new
   // page's LAYOUT_DARK publish found no subscriber and was dropped
   useEffect(() => {
     const token = subscribe("LAYOUT_DARK", (_e, data) => {
+      console.log("LAYOUT_DARK", data);
       setIsDark(Boolean(data));
     });
     return () => {
@@ -30,10 +32,16 @@ const Header = ({ settings }: Props) => {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.dataset.path = pathname;
+  }, [pathname]);
+
   return (
     <header
       className={clsx(
         isBelowViewPort && "is-below",
+        isBottom && "is-bottom",
+        isDark && "is-dark",
         // headerClass
         // scrollY > 100 ? `is-${scrollDirection}` : "",
         // isBottom ? "is-bottom" : ""
@@ -68,9 +76,12 @@ const Header = ({ settings }: Props) => {
               ))}
             {contact && (
               <li>
-                <a className='' href={`mailto:${contact.link}`}>
+                <Link
+                  className=''
+                  // href={`mailto:${contact.link}`}
+                  href='#reverse-footer'>
                   {contact.label}
-                </a>
+                </Link>
               </li>
             )}
           </ul>

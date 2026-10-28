@@ -61,7 +61,7 @@ const Footer = ({ settings }: Props) => {
     { scope: container },
   );
   return (
-    <footer className='snap'>
+    <footer className='snap' id='reverse-footer'>
       <div className='inner' ref={container}>
         <div className='bloc-top baseline md:text-lg strong'>{baseline}</div>
         <nav id='nav-secondary' className='bloc-center'>

@@ -67,6 +67,7 @@ export const PAGE_MODULAIRE_QUERY =
   seo{
     ${seo}
   },
+  layoutDark,
   modules[]{
     ${modules}
   }

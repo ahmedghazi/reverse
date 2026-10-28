@@ -10,6 +10,7 @@ import Image from "next/image";
 import { getCssFilterByHex } from "@/app/lib/utils";
 import portableTextComponents from "@/app/sanity-api/portableTextComponents";
 import useDeviceDetect from "@/app/hooks/useDeviceDetect";
+import { stegaClean } from "next-sanity";
 
 type KeyPointProps = {
   input: KeyPoint;
@@ -69,7 +70,7 @@ const KeyPointItem = ({ input }: KeyPointProps) => {
             <div className='col-span-6'>
               <div className='text'>
                 <PortableText
-                  value={_localizeField(description)}
+                  value={stegaClean(_localizeField(description))}
                   components={portableTextComponents}
                 />
               </div>

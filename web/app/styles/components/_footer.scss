@@ -4,7 +4,7 @@ footer {
   background-color: black;
   color: var(--color-yellow);
   .inner {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-xl);
     min-height: calc(var(--vh) * 100);
 
     display: flex;

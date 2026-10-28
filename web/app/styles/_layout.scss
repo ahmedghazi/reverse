@@ -47,6 +47,8 @@ body {
       height: 2em;
     }
   }
+  &[data-path="/a-propos"] {
+  }
 
   // .module:not(.module--keypoints),
   // .module--keypoints .item {

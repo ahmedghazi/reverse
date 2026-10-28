@@ -3,6 +3,8 @@ import { Article, LocaleString } from "../types/schema";
 import CardArticle from "./CardArticle";
 import ReactSlick from "react-slick";
 import { _localizeField } from "../sanity-api/utils";
+import { stegaClean } from "next-sanity";
+import clsx from "clsx";
 
 type Props = {
   items: Article[];
@@ -44,13 +46,13 @@ const SliderArticles = ({
     centerMode: !isMobile,
   };
   return (
-    <div className='slider-articles snap' id='news'>
+    <div className={clsx("snap", `${layout}-articles}`)} id='news'>
       {title && (
         <div className='header'>
           <div className='grid grid-cols-3 items-center'>
             <div className=''></div>
 
-            <h2>{title}</h2>
+            <h2>{stegaClean(title)}</h2>
             {layout === "isSlider" && (
               <div className='slider-controls'>
                 <button className='button' onClick={previous}>
@@ -97,7 +99,7 @@ const SliderArticles = ({
           </ReactSlick>
         )}
         {items && layout === "isGrid" && (
-          <div className='grid md:grid-cols-3 gap-md px-lg gap-y-xl'>
+          <div className='grid md:grid-cols-3 gap-md px-md md:px-xl gap-y-xl'>
             {items.map((item) => (
               <CardArticle key={item._createdAt} input={item} />
             ))}
