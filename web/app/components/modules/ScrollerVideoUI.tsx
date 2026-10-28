@@ -49,7 +49,6 @@ const ModuleScrollerVideoUI = ({ input }: Props) => {
 
       <div className='controls'>
         <div className='inner'>
-          {index}
           <svg
             className={index > 0 ? "" : "disabled"}
             aria-label='previous slide'
