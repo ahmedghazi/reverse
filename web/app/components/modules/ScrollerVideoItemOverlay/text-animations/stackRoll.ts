@@ -2,8 +2,8 @@ import gsap from "gsap";
 import type { TextAnimation, Timing } from "./types";
 
 const STEP = 100 / 3; // one layer, as a % of the 3-layer column
-const DURATION = 0.22; // seconds per layer
-const STAGGER = 0.03; // delay between letters
+const DURATION = 0.12; // seconds per layer
+const STAGGER = 0.002; // delay between letters
 const SKEW = 12; // deg, peaks mid-roll
 
 const columns = (root: HTMLElement) =>
@@ -45,19 +45,24 @@ function roll(
   // whole block skews 0 → SKEW → 0 in one motion spanning the char roll,
   // leaning with the roll direction
   const total = tl.duration() * 0.7;
-  if (!reduce && total > 0) {
-    tl.fromTo(
-      root,
-      { skewY: 0 },
-      {
-        skewY: dir * (SKEW / 2),
-        duration: total,
-        ease: (p: number) => Math.sin(Math.PI * p), // 0 → 1 → 0
-        // ease: "power2.inOut",
-      },
-      0,
-    );
-  }
+  (root.parentNode as HTMLElement).style.setProperty(
+    "--total-duration",
+    total.toString() + "s",
+  );
+  (root.parentNode as HTMLElement).style.setProperty("--dir", dir.toString());
+  // if (!reduce && total > 0) {
+  //   tl.fromTo(
+  //     root,
+  //     { skewY: 0 },
+  //     {
+  //       skewY: dir * (SKEW / 2),
+  //       duration: total,
+  //       ease: (p: number) => Math.sin(Math.PI * p), // 0 → 1 → 0
+  //       // ease: "power2.inOut",
+  //     },
+  //     0,
+  //   );
+  // }
   return tl;
 }
 

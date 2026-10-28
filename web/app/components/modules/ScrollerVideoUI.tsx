@@ -57,6 +57,7 @@ const ModuleScrollerVideoUI = ({ input }: Props) => {
     _goTo();
   }, [index]);
   if (!items) return null;
+
   return (
     <section className='module module--scroller-video-ui'>
       {items?.map((item, i) => (

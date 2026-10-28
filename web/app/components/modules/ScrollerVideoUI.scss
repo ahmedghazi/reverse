@@ -85,7 +85,9 @@
   width: 100%;
   scroll-snap-stop: always;
   font-family: var(--font-secondary);
-
+  &.reveal .overlay .overlay-content {
+    transform: skew(0deg, 0deg) rotate(0deg);
+  }
   .overlay {
     position: absolute;
     inset: 0;
@@ -101,7 +103,11 @@
       // height: 100%;
       width: auto;
       gap: 0.5rem;
-      .overlay-text {
+      transition: transform 1s var(--cubic);
+      transition-duration: var(--total-duration);
+      // transform: skew(0deg, -8deg);
+      transform: skew(-12deg) rotate(calc(var(--dir) * 12deg));
+      & .overlay-text {
         display: inline-flex;
         flex-direction: column;
         align-items: center;

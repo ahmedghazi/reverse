@@ -24,7 +24,7 @@ export async function generateMetadata({
   };
 }
 
-const FilmsPage: NextPage<PageProps> = async ({ params }) => {
+const TemplatePage: NextPage<PageProps> = async ({ params }) => {
   const { slug } = await params;
   const data = await getPageModulaire(slug);
 
@@ -40,4 +40,4 @@ const FilmsPage: NextPage<PageProps> = async ({ params }) => {
   );
 };
 
-export default FilmsPage;
+export default TemplatePage;
