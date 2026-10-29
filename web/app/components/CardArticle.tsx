@@ -18,7 +18,11 @@ const CardArticle = ({ input }: Props) => {
         <div className='inner'>
           <div className='card-media'>
             {imageCover && imageCover.asset && (
-              <Figure asset={imageCover.asset} />
+              <Figure
+                asset={imageCover.asset}
+                // 1 card on mobile, 3 per row on desktop (SliderArticles)
+                sizes='(max-width: 1023px) 90vw, 33vw'
+              />
             )}
           </div>
           <div className='card-content'>

@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
     // Enables the styled-components SWC transform
     // styledComponents: true,
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/llms.txt",
+  //       destination: "/api/llms.txt",
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;

@@ -29,24 +29,29 @@ const nunitoSans = Nunito_Sans({
 const TTNormsProCondensed = localFont({
   src: [
     {
-      path: "./fonts/TTNormsProCondensed-ExtraBold.woff",
+      path: "./fonts/TTNormsProCondensed-ExtraBold.woff2",
       weight: "800",
       style: "normal",
     },
     {
-      path: "./fonts/TTNormsProCondensed-Regular.woff",
+      path: "./fonts/TTNormsProCondensed-Regular.woff2",
       weight: "400",
       style: "normal",
     },
   ],
   variable: "--font-tt-norms-condensed",
+  display: "swap",
+  // only used by .serif / ScrollerVideo: keep it off the critical path (LCP)
+  preload: false,
 });
 
 const TTNormsProMonoRegular = localFont({
-  src: "./fonts/TTNormsProMono-Regular.woff",
+  src: "./fonts/TTNormsProMono-Regular.woff2",
   variable: "--font-tt-norms-mono",
   style: "normal",
   weight: "400",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata = {

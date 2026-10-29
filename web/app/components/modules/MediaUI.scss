@@ -19,6 +19,12 @@
     align-items: center;
     justify-content: center;
   }
+  // fade mode: slides are stacked with their own left offset, but the server render of
+  // react-slick gives the track left:-100% (first slide off screen until hydration =
+  // late LCP + the whole track shifting 100vw = CLS)
+  .slick-track {
+    left: 0 !important;
+  }
   .slider-cursor-prev-next {
     max-height: calc(100% - 40px);
     width: 45% !important;

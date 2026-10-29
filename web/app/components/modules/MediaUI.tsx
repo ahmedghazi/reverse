@@ -4,20 +4,20 @@ import { MediaUI } from "@/app/types/schema";
 import Figure from "../ui/Figure";
 import { VideoWrapper } from "../ui/player";
 import Slider from "../ui/slick-slider/index.jsx";
-import useDeviceDetect from "@/app/hooks/useDeviceDetect";
 import "./MediaUI.scss";
 
 interface Props {
   input: MediaUI;
+  // first module of the page: its first slide is the LCP
+  priority?: boolean;
 }
 
-const ModuleMediaUI = ({ input }: Props) => {
+const ModuleMediaUI = ({ input, priority = false }: Props) => {
   // console.log(input);
   const items = input.item || [];
   const [index, setIndex] = useState(0);
 
   type MediaItem = (typeof items)[number];
-  const { isMobile } = useDeviceDetect();
 
   useEffect(() => {
     // console.log(index);
@@ -36,9 +36,12 @@ const ModuleMediaUI = ({ input }: Props) => {
       case "figure":
         return (
           <Figure
-            asset={isMobile ? media.imageMobile?.asset : media.image?.asset}
-            width={isMobile ? 1000 : 2000}
+            asset={media.image?.asset}
+            assetMobile={media.imageMobile?.asset}
+            width={2000}
+            widthMobile={1000}
             alt={media.image?.alt || ""}
+            priority={priority && _index === 0}
           />
         );
       case "embed":

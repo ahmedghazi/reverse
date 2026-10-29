@@ -7,6 +7,10 @@ import { subscribe, unsubscribe } from "pubsub-js";
 // stable references: react-lottie-player destroys and recreates the animation
 // whenever rendererSettings changes (a new object each render = blank flash)
 const RENDERER_SETTINGS = { preserveAspectRatio: "xMidYMid slice" };
+// canvas, not svg: a canvas is never an LCP candidate, whereas the svg <image> frames
+// are reported far larger than they are and replace the poster as a late LCP.
+// The canvas renderer also waits for the embedded images before DOMLoaded
+const RENDERER = "canvas";
 const STYLE = { width: "100%", height: "100%" };
 
 type Props = {
@@ -52,7 +56,11 @@ const LottiePlayerAlt: FC<Props> = ({ file, visible, onReady }) => {
     } else {
       anim.addEventListener("loaded_images", _done);
     }
-    if (visibleRef.current) anim?.goToAndPlay(0, true);
+    // header: DOC_READY may already have fired (the lottie is loaded after the page)
+    const docReady = !document.body.classList.contains("is-loading");
+    if (visibleRef.current || (visibleRef.current === undefined && docReady)) {
+      anim?.goToAndPlay(0, true);
+    }
   }, []);
 
   return (
@@ -63,6 +71,7 @@ const LottiePlayerAlt: FC<Props> = ({ file, visible, onReady }) => {
         loop={false}
         play={false}
         speed={1.5}
+        renderer={RENDERER}
         rendererSettings={RENDERER_SETTINGS}
         style={STYLE}
         onLoad={_onLoad}

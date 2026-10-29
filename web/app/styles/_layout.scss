@@ -15,6 +15,12 @@ body {
     scroll-snap-type: none;
   }
 }
+// no snapping while loading: .is-loading .spacer-hh shifts the first snap area, the
+// browser re-snaps (smooth) right after the first paint and a scroll ends the LCP measure
+html:has(body.is-loading),
+body.is-loading {
+  scroll-snap-type: none;
+}
 body {
   background-color: var(--color-bg);
   color: var(--color-primary);
@@ -41,8 +47,6 @@ body {
     .spacer-hh {
       height: 2em;
     }
-  }
-  &[data-path="/a-propos"] {
   }
 
   // .module:not(.module--keypoints),

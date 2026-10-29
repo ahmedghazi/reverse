@@ -54,12 +54,35 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
     rootMargin: "400px",
     skip: !isYellow,
   });
-  const shouldLoad = !isYellow || inView;
+  // the lottie (json + chunk) waits for the page load and an idle moment: anything
+  // requested before the LCP is counted in it, the poster covers the wait
+  const [pageLoaded, setPageLoaded] = useState<boolean>(false);
+  const shouldLoad = pageLoaded && (!isYellow || inView);
   // footer logo: plays each time it scrolls into view
   const { ref: visibleRef, inView: isVisible } = useInView({
     threshold: 0.5,
     skip: !isYellow,
   });
+
+  useEffect(() => {
+    let idle: number | undefined;
+    const _onLoad = () => {
+      idle = window.requestIdleCallback
+        ? window.requestIdleCallback(() => setPageLoaded(true), {
+            timeout: 2000,
+          })
+        : window.setTimeout(() => setPageLoaded(true), 200);
+    };
+    if (document.readyState === "complete") _onLoad();
+    else window.addEventListener("load", _onLoad, { once: true });
+
+    return () => {
+      window.removeEventListener("load", _onLoad);
+      if (idle === undefined) return;
+      if (window.cancelIdleCallback) window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
+    };
+  }, []);
 
   // a new colour mounts a new animation: show the poster again until it is painted
   useEffect(() => {

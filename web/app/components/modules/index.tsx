@@ -42,6 +42,7 @@ const Modules = ({ input }: Props) => {
           | SanityKeyed<MediaUI>
           | SanityKeyed<SliderArticlesUI>
           | SanityKeyed<ScrollerVideoUI>,
+        i: number,
       ) => {
         switch (module._type) {
           case "textUI":
@@ -51,7 +52,13 @@ const Modules = ({ input }: Props) => {
           case "keyPointsUI":
             return <ModuleKeyPointsUI key={module._key} input={module} />;
           case "mediaUI":
-            return <ModuleMediaUI key={module._key} input={module} />;
+            return (
+              <ModuleMediaUI
+                key={module._key}
+                input={module}
+                priority={i === 0}
+              />
+            );
 
           case "sliderArticlesUI":
             return <ModuleSliderArticlesUI key={module._key} input={module} />;
