@@ -36,6 +36,8 @@ const MuxPlayerComponent = ({
         loop={true}
         // covers the case where the lazy player mounts while already in view
         autoPlay={canPlay ? "muted" : false}
+        // hls: never fetch a rendition larger than the player
+        capRenditionToPlayerSize
         style={{ objectFit: "cover" }}
       />
     </div>

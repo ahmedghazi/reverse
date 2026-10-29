@@ -11,3 +11,24 @@ export function getCssFilterByHex(hex: string) {
       return "";
   }
 }
+
+// runs `cb` once the page has loaded and the main thread is idle: keeps heavy,
+// non critical work (lottie, video streams) out of the LCP / TBT window.
+// returns a cleanup that cancels it
+export function onPageIdle(cb: () => void, timeout = 2000): () => void {
+  let idle: number | undefined;
+  const _schedule = () => {
+    idle = window.requestIdleCallback
+      ? window.requestIdleCallback(cb, { timeout })
+      : window.setTimeout(cb, 200);
+  };
+  if (document.readyState === "complete") _schedule();
+  else window.addEventListener("load", _schedule, { once: true });
+
+  return () => {
+    window.removeEventListener("load", _schedule);
+    if (idle === undefined) return;
+    if (window.cancelIdleCallback) window.cancelIdleCallback(idle);
+    else window.clearTimeout(idle);
+  };
+}

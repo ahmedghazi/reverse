@@ -1,6 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
+import { onPageIdle } from "@/app/lib/utils";
 import dynamic from "next/dynamic";
 import { useInView } from "react-intersection-observer";
 // import { usePreloadLottie } from "./usePreloadLottie";
@@ -64,25 +65,7 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
     skip: !isYellow,
   });
 
-  useEffect(() => {
-    let idle: number | undefined;
-    const _onLoad = () => {
-      idle = window.requestIdleCallback
-        ? window.requestIdleCallback(() => setPageLoaded(true), {
-            timeout: 2000,
-          })
-        : window.setTimeout(() => setPageLoaded(true), 200);
-    };
-    if (document.readyState === "complete") _onLoad();
-    else window.addEventListener("load", _onLoad, { once: true });
-
-    return () => {
-      window.removeEventListener("load", _onLoad);
-      if (idle === undefined) return;
-      if (window.cancelIdleCallback) window.cancelIdleCallback(idle);
-      else window.clearTimeout(idle);
-    };
-  }, []);
+  useEffect(() => onPageIdle(() => setPageLoaded(true)), []);
 
   // a new colour mounts a new animation: show the poster again until it is painted
   useEffect(() => {
