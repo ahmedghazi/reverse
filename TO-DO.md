@@ -1,4 +1,7 @@
-#- add env var NEXT_PUBLIC_SANITY_STUDIO_URL
-#- home video avec controls
-#- pb preview
-#- nav news scroll vers la section news
+# CMS
+
+https://backoffice--reverse.sanity.studio/structure
+
+# PREPROD
+
+https://reverse-git-preprod-reverseparis.vercel.app/

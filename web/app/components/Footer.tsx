@@ -68,7 +68,7 @@ const Footer = ({ settings }: Props) => {
           <ul className='grid grid-cols-2  md:grid-cols-4 gap-md'>
             {contacts?.map((item) => (
               <li key={item._key}>
-                <h5 className='label'>{item.key}</h5>
+                <h4 className='label'>{item.key}</h4>
                 <hr />
                 <div className='value '>
                   <PortableText

@@ -1,12 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { useInView } from "react-intersection-observer";
-import { useScroll } from "../../../hooks/useScroll";
 // import { usePreloadLottie } from "./usePreloadLottie";
 
 // lottie-web + animations are heavy (frame-by-frame webp), keep them out of the main bundle
-const LottiePlayer = dynamic(() => import("./LottiePlayer"), { ssr: false });
+// keep the box while the chunk loads, otherwise the header collapses and jumps
+const LottiePlayer = dynamic(() => import("./LottiePlayer"), {
+  ssr: false,
+  loading: () => <div className='lottie-player' />,
+});
 
 const LOTTIE_BLACK = "/lottie/reverse-lottie-black.json";
 const LOTTIE_YELLOW = "/lottie/reverse-lottie-yellow.json";
@@ -15,6 +19,12 @@ const LOTTIE_SOURCES = {
   black: LOTTIE_BLACK,
   yellow: LOTTIE_YELLOW,
   white: LOTTIE_WHITE,
+};
+// static frame rendered server side: it is the LCP element, the lottie replaces it once loaded
+const POSTER_SOURCES = {
+  black: "/lottie/poster-black.svg",
+  yellow: "/lottie/poster-yellow.svg",
+  white: "/lottie/poster-white.svg",
 };
 
 // fetched animations, shared across instances and colour switches
@@ -31,13 +41,12 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
   // isYellow = false,
   color = "black",
 }) => {
-  const [direction, setDirection] = useState<number>(1);
   // keeps the current animation on screen until the next colour has loaded
-  const [loaded, setLoaded] = useState<{ src: string; data: any } | null>(
-    null,
-  );
+  const [loaded, setLoaded] = useState<{ src: string; data: any } | null>(null);
   const animationData = loaded?.data;
-  const { scrollDirection, isBottom } = useScroll();
+  // poster stays on top of the lottie until it has rendered, then fades out (no gap)
+  const [lottieReady, setLottieReady] = useState<boolean>(false);
+  const _onLottieReady = useCallback(() => setLottieReady(true), []);
   // footer logo: only load when close to the viewport
   const isYellow = color === "yellow";
   const { ref, inView } = useInView({
@@ -46,6 +55,16 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
     skip: !isYellow,
   });
   const shouldLoad = !isYellow || inView;
+  // footer logo: plays each time it scrolls into view
+  const { ref: visibleRef, inView: isVisible } = useInView({
+    threshold: 0.5,
+    skip: !isYellow,
+  });
+
+  // a new colour mounts a new animation: show the poster again until it is painted
+  useEffect(() => {
+    setLottieReady(false);
+  }, [loaded?.src]);
 
   // (re)load whenever the colour changes, not just the first time
   useEffect(() => {
@@ -71,28 +90,36 @@ const LogoReverse: React.FC<LogoReverseProps> = ({
     return () => controller.abort();
   }, [shouldLoad, loaded, color]);
 
-  // Gestion de la direction du défilement
-  useEffect(() => {
-    if (!isYellow) return;
-    if (isBottom) {
-      setDirection(1);
-    } else {
-      setDirection(-1);
-    }
-    // if (scrollDirection === "down" || isBottom) {
-    //   setDirection(1);
-    // } else if (scrollDirection === "up") {
-    //   setDirection(-1);
-    // }
-  }, [scrollDirection, isBottom]);
-
   return (
-    <div className='logo logo-reverse' ref={ref}>
-      {animationData ? (
-        <LottiePlayer file={animationData} direction={direction} />
-      ) : (
-        <div className='lottie-player' />
-      )}
+    <div
+      className='logo logo-reverse'
+      ref={(node) => {
+        ref(node);
+        visibleRef(node);
+      }}>
+      <div className='logo-reverse__media'>
+        {animationData ? (
+          <LottiePlayer
+            key={loaded?.src}
+            file={animationData}
+            visible={isYellow ? isVisible : undefined}
+            onReady={_onLottieReady}
+          />
+        ) : (
+          <div className='lottie-player' />
+        )}
+        <img
+          className={clsx("lottie-poster", lottieReady && "is-hidden")}
+          src={POSTER_SOURCES[color]}
+          alt='Reverse'
+          width={1080}
+          height={608}
+          fetchPriority={isYellow ? "auto" : "high"}
+          loading={isYellow ? "lazy" : "eager"}
+          decoding={isYellow ? "async" : "sync"}
+          aria-hidden={lottieReady}
+        />
+      </div>
       {baseline && <div className='baseline md:text-md'>{baseline}</div>}
     </div>
   );

@@ -12,7 +12,9 @@
     }
   }
   .baseline {
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition:
+      opacity 0.5s ease-in-out,
+      transform 0.5s ease-in-out;
 
     // font-size: 2.988rem;
     font-size: 2.588rem;
@@ -28,6 +30,28 @@
   .lottie-player {
     width: 150px !important;
     height: calc(150px * 0.35) !important;
+  }
+  .logo-reverse__media {
+    position: relative;
+  }
+  // overlays the lottie (sized by .lottie-player, desktop and mobile)
+  .lottie-poster {
+    position: absolute;
+    // same geometry as the lottie frame image (1080x608, xMidYMid slice in a 1 / 0.35 box):
+    // the crossfade doesn't jump, and the lottie paint is never larger than the poster
+    // (otherwise it becomes a new, later LCP candidate)
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1080 / 608;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+    // transform: translate(3px, -3px);
+    &.is-hidden {
+      opacity: 0;
+    }
   }
   div[aria-label="animation"],
   svg {

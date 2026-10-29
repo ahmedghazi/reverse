@@ -46,7 +46,7 @@ const SliderArticles = ({
     centerMode: !isMobile,
   };
   return (
-    <div className={clsx("snap", `${layout}-articles}`)} id='news'>
+    <div className={clsx("snap", `${layout}-articles`)} id='news'>
       {title && (
         <div className='header'>
           <div className='grid grid-cols-3 items-center'>
@@ -55,7 +55,10 @@ const SliderArticles = ({
             <h2>{stegaClean(title)}</h2>
             {layout === "isSlider" && (
               <div className='slider-controls'>
-                <button className='button' onClick={previous}>
+                <button
+                  className='button'
+                  aria-label='Précedent'
+                  onClick={previous}>
                   <svg
                     width='13'
                     height='22'
@@ -70,7 +73,7 @@ const SliderArticles = ({
                     />
                   </svg>
                 </button>
-                <button className='button' onClick={next}>
+                <button className='button' aria-label='Suivant' onClick={next}>
                   <svg
                     width='13'
                     height='22'

@@ -71,6 +71,17 @@ const config = {
   },
 } satisfies ReactPlayerProps["config"];
 
+// youtube id from watch / youtu.be / embed / shorts urls
+const _getYoutubeId = (url: string): string | null => {
+  const match = url.match(
+    /(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  return match ? match[1] : null;
+};
+
+// delay before an autoplay embed is mounted without any user interaction
+const AUTOPLAY_FALLBACK_DELAY = 4000;
+
 const VideoContext = createContext<VideoContextProps>({} as VideoContextProps);
 
 const VideoWrapper: React.FC<InputProps> = ({
@@ -81,6 +92,15 @@ const VideoWrapper: React.FC<InputProps> = ({
 }) => {
   const [ready, setReady] = useState<boolean>(false);
   const [started, setStarted] = useState<boolean>(false);
+  // facade: the embed (~1MB of third party js) is only mounted on click, or for
+  // autoplay after the first interaction / once the page has loaded
+  const [activated, setActivated] = useState<boolean>(false);
+  const [clicked, setClicked] = useState<boolean>(false);
+  const youtubeId = useMemo(() => (url ? _getYoutubeId(url) : null), [url]);
+  // youtube-video-element embeds from youtube-nocookie.com when the src contains "-nocookie"
+  const src = youtubeId
+    ? `https://www.youtube-nocookie.com/embed/${youtubeId}`
+    : url;
   const [video, setVideo] = useState<VideoStateProps>(() => ({
     ...initialVideoState,
     playing: autoplay,
@@ -103,6 +123,33 @@ const VideoWrapper: React.FC<InputProps> = ({
   useEffect(() => {
     setReady(true);
   }, []);
+
+  useEffect(() => {
+    if (!autoplay || activated) return;
+    let timer: number | undefined;
+    const events = ["scroll", "pointerdown", "pointermove", "touchstart", "keydown"];
+    const _activate = () => setActivated(true);
+    const _onLoad = () => {
+      timer = window.setTimeout(_activate, AUTOPLAY_FALLBACK_DELAY);
+    };
+    events.forEach((e) =>
+      window.addEventListener(e, _activate, { once: true, passive: true }),
+    );
+    if (document.readyState === "complete") _onLoad();
+    else window.addEventListener("load", _onLoad, { once: true });
+
+    return () => {
+      window.clearTimeout(timer);
+      events.forEach((e) => window.removeEventListener(e, _activate));
+      window.removeEventListener("load", _onLoad);
+    };
+  }, [autoplay, activated]);
+
+  const _onFacadeClick = () => {
+    setClicked(true);
+    setActivated(true);
+    setVideo((video) => ({ ...video, playing: true }));
+  };
 
   // useEffect(() => {
   //   if (playerRef.current) playerRef.current.currentTime = seek;
@@ -187,8 +234,39 @@ const VideoWrapper: React.FC<InputProps> = ({
           ref(node);
           nearRef(node);
         }}>
-        {url && !(ready && isNear) && <div style={{ aspectRatio }} />}
-        {url && ready && isNear && (
+        {url && !(ready && isNear && activated) && (
+          <button
+            type='button'
+            className='video-facade'
+            style={{ aspectRatio }}
+            onClick={_onFacadeClick}
+            aria-label='Lire la vidéo'>
+            {youtubeId && (
+              <img
+                src={`https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`}
+                alt=''
+                loading='lazy'
+                decoding='async'
+              />
+            )}
+            {!autoplay && (
+              <span className='video-facade__play' aria-hidden='true'>
+                <svg
+                  width='42'
+                  height='48'
+                  viewBox='0 0 42 48'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    d='M41 22.268C42.3333 23.0378 42.3333 24.9623 41 25.7321L3.5 47.3827C2.16667 48.1525 0.499998 47.1902 0.499998 45.6506L0.5 2.34936C0.5 0.809758 2.16667 -0.152488 3.5 0.617312L41 22.268Z'
+                    fill='white'
+                  />
+                </svg>
+              </span>
+            )}
+          </button>
+        )}
+        {url && ready && isNear && activated && (
           <div
             // onClick={_togglePlayPause}
             className='cursor-pointer pointer-events-auto '>
@@ -198,12 +276,12 @@ const VideoWrapper: React.FC<InputProps> = ({
                 "react-player",
                 // autoplay ? "pointer-events-none" : ""
               )}
-              src={url}
+              src={src}
               width='100%'
               height='100%'
               // react-player only calls play() on re-render, which happens before the
               // embed is loaded: autoPlay makes the element start itself once ready
-              autoPlay={autoplay}
+              autoPlay={autoplay || clicked}
               playing={video.playing}
               controls={!autoplay}
               // loop={false}

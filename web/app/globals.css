@@ -16,7 +16,10 @@
     "Nunito Sans", "Helvetica Neue", "HelveticaNeueRoman",
     "HelveticaNeue-Roman", "Helvetica Neue Roman", "TeXGyreHerosRegular",
     "Helvetica", "Arial", sans-serif;
-
+  --font-primary-p:
+    "Helvetica Neue", "HelveticaNeueRoman", "HelveticaNeue-Roman",
+    "Helvetica Neue Roman", "TeXGyreHerosRegular", "Helvetica", "Arial",
+    sans-serif;
   --font-secondary:
     var(--font-tt-norms-condensed), "Helvetica", "Arial", sans-serif;
   --font-mono: var(--font-tt-norms-mono), monospace;

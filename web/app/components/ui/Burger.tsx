@@ -35,6 +35,7 @@ const Burger = (props: Props) => {
 
   return (
     <div
+      aria-label='Burger Menu'
       className={clsx("burger-wrapper", active ? "is-active" : "")}
       onClick={_onClick}
       // onKeyDown={_onClick}

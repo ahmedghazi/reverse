@@ -18,12 +18,13 @@
     }
   }
 
-  .slider-articles {
+  .isSlider-articles {
     background-color: var(--color-primary);
     color: var(--color-bg);
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-xl) calc(var(--spacing-xl) - 30px);
 
     .slick-slider {
+      // background-color: red;
       .slick-arrow {
         display: none !important;
       }

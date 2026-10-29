@@ -5,6 +5,7 @@ const NavSocial = () => {
         <a
           href='https://www.instagram.com/reverseagency/'
           target='_blank'
+          aria-label='Instagram'
           rel='noopener noreferrer'>
           <svg
             width='17'
@@ -23,6 +24,7 @@ const NavSocial = () => {
         <a
           href='https://www.youtube.com/@Reverse-b8r'
           target='_blank'
+          aria-label='YouTube'
           rel='noopener noreferrer'>
           <svg
             width='23'

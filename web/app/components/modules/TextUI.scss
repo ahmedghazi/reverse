@@ -6,6 +6,7 @@
   &.text-indentedAndAnimated {
     padding-top: var(--header-height);
     p {
+      font-family: var(--font-primary-p);
       font-size: var(--text-xl);
       line-height: 1.1;
       font-weight: bold;

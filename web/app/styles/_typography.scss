@@ -107,7 +107,7 @@ a[aria-current="page"] {
 /* Text elements */
 p,
 .text p {
-  font-family: var(--font-secondary);
+  font-family: var(--font-primary);
 
   margin-bottom: 1em;
   &:last-child {
@@ -159,7 +159,10 @@ p,
 }
 
 .tabnum {
-  font-feature-settings: "tnum" on, "lnum" on, "case" on;
+  font-feature-settings:
+    "tnum" on,
+    "lnum" on,
+    "case" on;
 }
 
 .strong,

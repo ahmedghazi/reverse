@@ -47,7 +47,7 @@ const Header = ({ settings }: Props) => {
         // isBottom ? "is-bottom" : ""
       )}>
       <div className='flex justify-between items-center'>
-        <Link href='/'>
+        <Link href='/' aria-label='Logo reverse > Accueil'>
           <div className='site-name'>
             <LogoReverse
               baseline={baseline || ""}
