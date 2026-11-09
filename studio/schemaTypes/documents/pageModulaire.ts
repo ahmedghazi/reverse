@@ -64,6 +64,7 @@ export default defineType({
       type: 'localeString',
       title: 'Soustitre',
       group: 'editorial',
+      hidden: true,
     }),
     defineField({
       name: 'slug',

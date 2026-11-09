@@ -31,6 +31,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
     // 'project',
     'settings',
     'infos',
+    'mux.videoAsset',
   ].includes(id)
 }
 
@@ -70,4 +71,5 @@ export const structure = (S) =>
 
       // We also need to remove the new singletons from the main list
       ...S.documentTypeListItems().filter(hiddenDocTypes),
+      S.divider(),
     ])
