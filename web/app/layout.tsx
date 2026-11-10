@@ -17,6 +17,7 @@ import { ViewTransition } from "react";
 import { Nunito_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import clsx from "clsx";
+import ScriptGA from "./components/ScriptGA";
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
@@ -91,6 +92,7 @@ export default async function RootLayout({
               <Footer settings={settings} />
               <SanityLive />
               {isEnabled && <VisualEditing zIndex={1000} />}
+              <ScriptGA />
               <FaviconLetter letter='R' />
             </PageContextProvider>
           </LocaleContextProvider>
