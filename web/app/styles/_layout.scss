@@ -58,6 +58,9 @@ body {
   }
 }
 
+html:has(.is-dark) {
+  background-color: #000;
+}
 body:has(.is-dark) {
   --color-bg: #000;
   --color-primary: #fff;

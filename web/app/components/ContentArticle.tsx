@@ -22,7 +22,7 @@ const ContentArticle = ({ input }: Props) => {
       <div className='hero'>
         {imageCover && imageCover.asset && <Figure asset={imageCover.asset} />}
       </div>
-      <div className='px-md py-lg'>
+      <div className='px-md md:px-xl py-lg'>
         <div className='grid md:grid-cols-12 gap-md'>
           <div className='back col-span-2'>
             <Link href='/'>Back</Link>
