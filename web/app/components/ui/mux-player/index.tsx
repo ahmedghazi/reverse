@@ -31,6 +31,8 @@ const MuxPlayerComponent = ({
       <MuxPlayer
         ref={playerRef}
         playbackId={playbackId}
+        // first frame shown by the lazy placeholder while the player js loads
+        placeholder={`https://image.mux.com/${playbackId}/thumbnail.webp?time=0&width=1280`}
         muted={true}
         playsInline={true}
         loop={true}

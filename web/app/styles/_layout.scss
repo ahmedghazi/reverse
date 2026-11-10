@@ -15,8 +15,8 @@ body {
     scroll-snap-type: none;
   }
 }
-// no snapping while loading: .is-loading .spacer-hh shifts the first snap area, the
-// browser re-snaps (smooth) right after the first paint and a scroll ends the LCP measure
+// no snapping while loading: the browser re-snaps (smooth) right after the first
+// paint and a scroll ends the LCP measure
 html:has(body.is-loading),
 body.is-loading {
   scroll-snap-type: none;
@@ -40,13 +40,6 @@ body {
     color: white;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
-  }
-
-  &.is-loading {
-    // main stays painted under the overlay so LCP can be measured
-    .spacer-hh {
-      height: 2em;
-    }
   }
 
   // .module:not(.module--keypoints),

@@ -17,7 +17,7 @@ const ContentLanding = ({ input }: Props) => {
 
   return (
     <div className='content content--landing'>
-      <div className='spacer-hh' />
+      {/* <div className='spacer-hh' /> */}
       <div className='content__inner'>
         {modules && <Modules input={modules} />}
       </div>
