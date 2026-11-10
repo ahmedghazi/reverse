@@ -314,7 +314,13 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
           const visible = y < vh && y + heights[i] > 0;
           const el = sections[i];
           el.style.visibility = visible ? "" : "hidden";
-          if (!visible) continue;
+          if (!visible) {
+            // garder la vraie position : visibility n'affecte pas les
+            // IntersectionObserver, une section restée en 0 serait « dans
+            // l'écran » (=> toutes les vidéos chargées et lues en même temps)
+            el.style.transform = `translate3d(0,${y}px,0)`;
+            continue;
+          }
           el.style.transform = `translate3d(0,${y}px,0)${sk ? ` skewY(${sk.toFixed(3)}deg)` : ""}`;
           // parallaxe interne : p = 0 quand la section est calée, ±1 une section plus loin
           if ((px || pk) && parallaxEls[i]?.length) {
@@ -628,6 +634,8 @@ const ScrollerVirtual = forwardRef<ScrollerVirtualHandle, ScrollerVirtualProps>(
       window.addEventListener("keydown", onKey);
 
       measure();
+      // placer les sections tout de suite, avant les premiers IntersectionObserver
+      render();
       setIndex(opts.current.snap ? Math.max(st.index, 0) : indexAt(st.current));
       raf = requestAnimationFrame(tick);
 

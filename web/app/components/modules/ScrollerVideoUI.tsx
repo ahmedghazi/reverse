@@ -42,7 +42,12 @@ const ModuleScrollerVideoUI = ({ input }: Props) => {
         onScroll={(_y, p) => setProgress(p)}>
         {items?.map((item, i) => (
           <div className='item' key={i} data-scroller-index={i}>
-            <ScrollerVideoItemComponent input={item} initialInView={i === 0} />
+            <ScrollerVideoItemComponent
+              input={item}
+              initialInView={i === 0}
+              // only the current slide and its neighbours keep a player (hls buffer)
+              mounted={Math.abs(i - index) <= 1}
+            />
           </div>
         ))}
       </ScrollerVirtual>

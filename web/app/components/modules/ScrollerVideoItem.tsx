@@ -11,6 +11,7 @@ import Link from "next/link";
 type ScrollerVideoItemProps = {
   input: ScrollerVideoItem;
   initialInView?: boolean;
+  mounted?: boolean;
 };
 
 const THRESHOLD = 0.4;
@@ -18,6 +19,7 @@ const THRESHOLD = 0.4;
 const ScrollerVideoItemComponent = ({
   input,
   initialInView = false,
+  mounted = true,
 }: ScrollerVideoItemProps) => {
   const [isInView, setIsInView] = useState(initialInView);
   const nodeRef = useRef<HTMLDivElement | null>(null);
@@ -56,7 +58,7 @@ const ScrollerVideoItemComponent = ({
         "can-play": isInView,
         reveal: isInView,
       })}>
-      {input.video && input.video.asset && (
+      {mounted && input.video && input.video.asset && (
         <MuxPlayerComponent
           playbackId={input.video?.asset?.playbackId}
           canPlay={isInView}
