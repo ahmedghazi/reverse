@@ -58,6 +58,18 @@ body {
   }
 }
 
+body:has(.is-dark) {
+  --color-bg: #000;
+  --color-primary: #fff;
+
+  .content--page-modulaire {
+    scroll-snap-align: unset;
+  }
+  .nav-social svg path {
+    fill: var(--color-primary);
+  }
+}
+
 #page {
   // @include mixins.debugFiletY(69px);
 }
